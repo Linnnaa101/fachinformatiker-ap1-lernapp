@@ -2,6 +2,8 @@
 
 Eine statische, responsive Lernseite zur Vorbereitung auf die AP1-Prüfung für Fachinformatikerinnen und Fachinformatiker der Fachrichtung Anwendungsentwicklung. Die App läuft ohne Frameworks, ohne npm und ohne Build-System direkt im Browser.
 
+**Live-Demo:** https://linnnaa101.github.io/fachinformatiker-ap1-lernapp/
+
 ## Funktionen
 
 - Lernkapitel zu wichtigen AP1-Themen wie Netzwerke, SQL, OOP, UML, Projektmanagement und DSGVO
