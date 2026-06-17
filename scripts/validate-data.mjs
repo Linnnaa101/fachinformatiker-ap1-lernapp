@@ -1,8 +1,32 @@
 const errors = [];
 const fail = (message) => errors.push(message);
 
+// Datenimporte: lädt die getrennten Datenquellen in derselben Reihenfolge wie index.html.
 global.window = {};
+
+await import(new URL("../data/chapters.js", import.meta.url));
+await import(new URL("../data/quiz-categories.js", import.meta.url));
+await import(new URL("../data/quiz/hardware-os.js", import.meta.url));
+await import(new URL("../data/quiz/netzwerke.js", import.meta.url));
+await import(new URL("../data/quiz/it-sicherheit.js", import.meta.url));
+await import(new URL("../data/quiz/datenbanken-sql.js", import.meta.url));
+await import(new URL("../data/quiz/softwareentwicklung.js", import.meta.url));
+await import(new URL("../data/quiz/oop-uml.js", import.meta.url));
+await import(new URL("../data/quiz/projektmanagement.js", import.meta.url));
+await import(new URL("../data/quiz/datenschutz-dsgvo.js", import.meta.url));
+await import(new URL("../data/flashcards.js", import.meta.url));
 await import(new URL("../data/lerninhalte.js", import.meta.url));
+
+const TOPICS_BY_CATEGORY = {
+  "hardware-os": new Set(["eva-prinzip", "cpu-ram-cache", "speicherarten", "mainboard-schnittstellen", "betriebssystemprozesse", "dateisysteme-rechte", "virtualisierung", "hardware-fehleranalyse"]),
+  netzwerke: new Set(["osi-tcp-ip", "ipv4-subnetting", "ports-protokolle", "dns-dhcp", "switch-router-vlan", "wlan", "netzwerkdiagnose", "netzwerksicherheit"]),
+  "it-sicherheit": new Set(["cia-triade", "authentifizierung-autorisierung", "hashing-verschluesselung", "backup-wiederherstellung", "malware-phishing", "patching-hardening", "firewall-vpn", "logging-monitoring", "least-privilege-passwoerter"]),
+  "datenbanken-sql": new Set(["select-where-order", "insert-update-delete", "ddl-dml-dcl-tcl", "joins-beziehungen", "schluessel-er-modell", "normalisierung", "transaktionen-acid", "indizes-sql-injection"]),
+  softwareentwicklung: new Set(["anforderungen-user-stories", "git-versionierung", "tests-qualitaet", "clean-code-refactoring", "algorithmen-datenstrukturen", "web-api-json", "ci-code-review", "deployment-dokumentation"]),
+  "oop-uml": new Set(["klassen-objekte", "kapselung-vererbung-polymorphie", "interfaces-abstraktion", "solid-grundlagen", "uml-klassendiagramm", "uml-use-case", "uml-aktivitaetsdiagramm", "uml-sequenzdiagramm"]),
+  projektmanagement: new Set(["smart-ziele", "scrum", "kanban", "projektphasen", "risiken-massnahmen", "aufwand-zeitplanung", "stakeholder-kommunikation", "qualitaet-projektabschluss"]),
+  "datenschutz-dsgvo": new Set(["personenbezogene-daten", "rechtsgrundlagen", "betroffenenrechte", "datenminimierung-zweckbindung", "technische-organisatorische-massnahmen", "verantwortlicher-auftragsverarbeiter", "datenschutzverletzung", "privacy-by-design-default"])
+};
 
 const data = global.window.AP1_DATA;
 
@@ -18,6 +42,7 @@ if (!data || typeof data !== "object") {
   if (Array.isArray(data.quiz)) validateQuiz(data.quiz);
   if (Array.isArray(data.quizCategories)) validateQuizCategories(data.quizCategories);
   if (Array.isArray(data.quiz) && Array.isArray(data.quizCategories)) validateQuizCategoryLinks(data.quiz, data.quizCategories);
+  if (Array.isArray(data.quiz)) validateQuizTopics(data.quiz);
   if (Array.isArray(data.flashcards)) validateFlashcards(data.flashcards);
 }
 
@@ -61,17 +86,16 @@ function validateQuizCategories(categories) {
   if (!ids.has("alle")) fail('window.AP1_DATA.quizCategories muss die Kategorie "alle" enthalten.');
 }
 
-// Quizvalidierung: prüft Umfang, Pflichtfelder und die neue Antwortstruktur.
+// Quizvalidierung: prüft Umfang, Pflichtfelder, Topics und die Antwortstruktur.
 function validateQuiz(quiz) {
   if (quiz.length !== 800) fail(`window.AP1_DATA.quiz muss genau 800 Fragen enthalten, aktuell: ${quiz.length}.`);
   const ids = new Set();
   const questionTexts = new Set();
   const difficulties = new Set(["leicht", "mittel", "schwer"]);
-  const requiredFields = ["id", "category", "difficulty", "question", "correctAnswer", "wrongAnswers", "explanation"];
+  const requiredFields = ["id", "category", "topic", "difficulty", "question", "correctAnswer", "wrongAnswers", "explanation"];
   const difficultyCounts = new Map();
   quiz.forEach((question, index) => {
     const label = `quiz[${index}]`;
-    // Frageobjektprüfung: Die Daten speichern keine Antwortposition; options und correctIndex entstehen erst temporär beim Quizstart.
     const fields = Object.keys(question);
     requiredFields.forEach((field) => {
       if (!fields.includes(field)) fail(`${label} muss das Feld ${field} enthalten.`);
@@ -84,9 +108,22 @@ function validateQuiz(quiz) {
     if (ids.has(question.id)) fail(`${label}.id ist doppelt vergeben: ${question.id}`);
     ids.add(question.id);
     if (!isNonEmptyString(question.category)) fail(`${label}.category muss ein nicht-leerer String sein.`);
+    // Topicvalidierung: Topics müssen gepflegt, passend und technisch eindeutig filterbar sein.
+    if (!isNonEmptyString(question.topic)) fail(`${label}.topic muss ein nicht-leerer String sein.`);
+    if (isNonEmptyString(question.topic) && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(question.topic)) {
+      fail(`${label}.topic muss kebab-case ohne Leerzeichen sein.`);
+    }
+    if (isNonEmptyString(question.category) && isNonEmptyString(question.topic)) {
+      const allowedTopics = TOPICS_BY_CATEGORY[question.category];
+      if (!allowedTopics || !allowedTopics.has(question.topic)) fail(`${label}.topic passt nicht zur Kategorie ${question.category}: ${question.topic}`);
+    }
     if (!isNonEmptyString(question.difficulty)) fail(`${label}.difficulty muss ein nicht-leerer String sein.`);
     if (isNonEmptyString(question.difficulty) && !difficulties.has(question.difficulty)) fail(`${label}.difficulty muss leicht, mittel oder schwer sein.`);
     if (!isNonEmptyString(question.question)) fail(`${label}.question muss ein nicht-leerer String sein.`);
+    // Fragetextprüfung: sichtbare Fragennummern gehören nicht in die Lernfrage.
+    if (isNonEmptyString(question.question) && /\b(?:bei\s+)?Frage\s+\d{3}\b/i.test(question.question)) {
+      fail(`${label}.question enthält eine sichtbare Fragennummer im Fragetext.`);
+    }
     if (isNonEmptyString(question.question)) {
       if (questionTexts.has(question.question)) fail(`${label}.question ist doppelt vergeben: ${question.question}`);
       questionTexts.add(question.question);
@@ -97,10 +134,8 @@ function validateQuiz(quiz) {
       difficultyCounts.set(question.category, counts);
     }
     if (!isNonEmptyString(question.correctAnswer)) fail(`${label}.correctAnswer muss ein nicht-leerer String sein.`);
-
-    if (!Array.isArray(question.wrongAnswers) || question.wrongAnswers.length !== 3) {
-      fail(`${label}.wrongAnswers muss genau drei falsche Antworten enthalten.`);
-    } else {
+    if (!Array.isArray(question.wrongAnswers) || question.wrongAnswers.length !== 3) fail(`${label}.wrongAnswers muss genau drei falsche Antworten enthalten.`);
+    else {
       const wrongAnswerSet = new Set();
       question.wrongAnswers.forEach((answer, answerIndex) => {
         if (!isNonEmptyString(answer)) fail(`${label}.wrongAnswers[${answerIndex}] muss ein nicht-leerer String sein.`);
@@ -112,7 +147,6 @@ function validateQuiz(quiz) {
     if (!isNonEmptyString(question.explanation)) fail(`${label}.explanation muss ein nicht-leerer String sein.`);
   });
 
-  // Schwierigkeitsprüfung: jede Fachkategorie muss die vorgegebene Verteilung erfüllen.
   difficultyCounts.forEach((counts, categoryId) => {
     if (counts.leicht !== 35) fail(`Kategorie ${categoryId} muss genau 35 leichte Fragen haben, aktuell: ${counts.leicht}.`);
     if (counts.mittel !== 45) fail(`Kategorie ${categoryId} muss genau 45 mittlere Fragen haben, aktuell: ${counts.mittel}.`);
@@ -126,42 +160,43 @@ function validateQuizCategoryLinks(quiz, categories) {
   const categoryIdSet = new Set(categoryIds);
   const counts = new Map(categoryIds.map((id) => [id, 0]));
   const idsByCategory = new Map(categoryIds.map((id) => [id, new Set()]));
-
   quiz.forEach((question, index) => {
     const label = `quiz[${index}]`;
-
     if (!categoryIdSet.has(question.category)) {
       fail(`${label}.category verweist auf keine vorhandene Fachkategorie: ${question.category}`);
       return;
     }
-
     counts.set(question.category, counts.get(question.category) + 1);
     idsByCategory.get(question.category).add(question.id);
-
     const expectedPrefix = `${question.category}-`;
-    if (!question.id.startsWith(expectedPrefix)) {
-      fail(`${label}.id muss mit ${expectedPrefix} beginnen.`);
-    }
-
+    if (!question.id.startsWith(expectedPrefix)) fail(`${label}.id muss mit ${expectedPrefix} beginnen.`);
     const suffix = question.id.slice(expectedPrefix.length);
-    if (!/^\d{3}$/.test(suffix)) {
-      fail(`${label}.id muss mit einer dreistelligen Nummer enden.`);
-    }
+    if (!/^\d{3}$/.test(suffix)) fail(`${label}.id muss mit einer dreistelligen Nummer enden.`);
   });
-
   categoryIds.forEach((categoryId) => {
     const count = counts.get(categoryId) || 0;
-    if (count !== 100) {
-      fail(`Kategorie ${categoryId} muss genau 100 Fragen haben, aktuell: ${count}.`);
-    }
-
+    if (count !== 100) fail(`Kategorie ${categoryId} muss genau 100 Fragen haben, aktuell: ${count}.`);
     const ids = idsByCategory.get(categoryId);
     for (let number = 1; number <= 100; number += 1) {
       const expectedId = `${categoryId}-${String(number).padStart(3, "0")}`;
-      if (!ids.has(expectedId)) {
-        fail(`Kategorie ${categoryId} muss die Frage-ID ${expectedId} enthalten.`);
-      }
+      if (!ids.has(expectedId)) fail(`Kategorie ${categoryId} muss die Frage-ID ${expectedId} enthalten.`);
     }
+  });
+}
+
+// Topicprüfung: stellt sicher, dass jedes Topic innerhalb seiner Kategorie genutzt wird.
+function validateQuizTopics(quiz) {
+  const counts = new Map();
+  quiz.forEach((question) => {
+    const key = `${question.category}:${question.topic}`;
+    counts.set(key, (counts.get(key) || 0) + 1);
+  });
+  Object.entries(TOPICS_BY_CATEGORY).forEach(([categoryId, topics]) => {
+    topics.forEach((topic) => {
+      const key = `${categoryId}:${topic}`;
+      const count = counts.get(key) || 0;
+      if (count === 0) fail(`Kategorie ${categoryId} muss mindestens eine Frage zum Topic ${topic} enthalten.`);
+    });
   });
 }
 
