@@ -231,6 +231,7 @@
     return {
       id: question.id,
       category: question.category,
+      topic: question.topic,
       difficulty: question.difficulty,
       question: question.question,
       options: shuffledAnswers.map((answer) => answer.text),

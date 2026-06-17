@@ -7,7 +7,7 @@ Eine statische, responsive Lernseite zur Vorbereitung auf die AP1-Prüfung für 
 ## Funktionen
 
 - Lernkapitel zu wichtigen AP1-Themen wie Netzwerke, SQL, OOP, UML, Projektmanagement und DSGVO
-- Dynamisches Rendering der Inhalte aus `data/lerninhalte.js`
+- Dynamisches Rendering der Inhalte aus getrennten Datendateien unter `data/`
 - Suche über Kapitel, Stichpunkte und Merksätze
 - Umschaltbarer Dark Mode mit Speicherung in `localStorage`
 - Multiple-Choice-Quiz mit 800 AP1-typischen Poolfragen, Kategorieauswahl, 40 zufälligen Fragen pro Durchlauf, Sofortfeedback und detaillierter Ergebnisstatistik
@@ -30,7 +30,19 @@ Eine statische, responsive Lernseite zur Vorbereitung auf die AP1-Prüfung für 
 ├── js/
 │   └── app.js
 ├── data/
-│   └── lerninhalte.js
+│   ├── lerninhalte.js
+│   ├── chapters.js
+│   ├── flashcards.js
+│   ├── quiz-categories.js
+│   └── quiz/
+│       ├── hardware-os.js
+│       ├── netzwerke.js
+│       ├── it-sicherheit.js
+│       ├── datenbanken-sql.js
+│       ├── softwareentwicklung.js
+│       ├── oop-uml.js
+│       ├── projektmanagement.js
+│       └── datenschutz-dsgvo.js
 └── assets/
     └── favicon.svg
 ```
@@ -71,10 +83,13 @@ GitHub Actions führt diese Checks bei Pushes und Pull Requests auf `main` autom
 
 - Es werden keine externen CDN-Dateien geladen.
 - Alle Inhalte liegen lokal im Repository.
-- Die Datenstruktur befindet sich im globalen Objekt `window.AP1_DATA` in `data/lerninhalte.js`.
+- Die Daten werden in getrennten Dateien gepflegt und in `data/lerninhalte.js` zum globalen Objekt `window.AP1_DATA` zusammengeführt.
 - Das Quiz nutzt Kategorien und Frage-IDs, damit Ergebnisse pro Lernbereich ausgewertet werden können.
 - Die Ergebnisstatistik wird ohne externe Chart-Bibliothek mit lokalem SVG gerendert.
 - Jede Fachkategorie im Quiz enthält exakt 100 Fragen mit eindeutigen IDs von `001` bis `100`.
 - Die Auswahl `Alle Themen` ist keine eigene Fachkategorie, sondern nutzt automatisch alle Fragen aus `window.AP1_DATA.quiz`.
 - Quizfragen speichern `correctAnswer` und `wrongAnswers`; `options` und `correctIndex` werden erst temporär beim Quizstart erzeugt.
 - Pro Quizdurchlauf werden maximal 40 Fragen ohne Wiederholung aus dem gewählten Fragenpool gezogen.
+- Quizfragen liegen nach Kategorie getrennt unter `data/quiz/`.
+- Jede Quizfrage enthält ein `topic`, damit Unterthemen später genauer ausgewertet werden können.
+- Der Validator verhindert sichtbare Fragennummern wie `Frage 047` im Fragetext.
