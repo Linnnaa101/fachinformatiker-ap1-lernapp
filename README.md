@@ -8,9 +8,10 @@ Eine statische, responsive Lernseite zur Vorbereitung auf die AP1-Prüfung für 
 - Dynamisches Rendering der Inhalte aus `data/lerninhalte.js`
 - Suche über Kapitel, Stichpunkte und Merksätze
 - Umschaltbarer Dark Mode mit Speicherung in `localStorage`
-- Multiple-Choice-Quiz mit mindestens 20 AP1-typischen Fragen, Sofortfeedback und Punktestand
+- Multiple-Choice-Quiz mit 40 AP1-typischen Fragen, Kategorieauswahl, Sofortfeedback und detaillierter Ergebnisstatistik
+- Ergebnis-Popup mit Gesamtpunktzahl, Trefferquote, Kategorieauswertung und visueller Verlaufskurve
 - Interaktive Karteikarten mit Fortschrittsanzeige
-- Speicherung von Dark Mode, Quiz-Fortschritt, Quiz-Punktestand und letzter Karteikarte
+- Speicherung von Dark Mode, Quiz-Kategorie und letzter Karteikarte
 - Mobile-first Design mit CSS-Variablen, Karten-Optik und guter Lesbarkeit
 
 ## Ordnerstruktur
@@ -67,3 +68,5 @@ GitHub Actions führt diese Checks bei Pushes und Pull Requests auf `main` autom
 - Es werden keine externen CDN-Dateien geladen.
 - Alle Inhalte liegen lokal im Repository.
 - Die Datenstruktur befindet sich im globalen Objekt `window.AP1_DATA` in `data/lerninhalte.js`.
+- Das Quiz nutzt Kategorien und Frage-IDs, damit Ergebnisse pro Lernbereich ausgewertet werden können.
+- Die Ergebnisstatistik wird ohne externe Chart-Bibliothek mit lokalem SVG gerendert.

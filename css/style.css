@@ -74,6 +74,8 @@ a { color: inherit; }
 .nav-toggle:focus-visible,
 .theme-toggle:focus-visible,
 .option-button:focus-visible,
+.category-button:focus-visible,
+.modal-close:focus-visible,
 .flashcard:focus-visible,
 .search-input:focus-visible,
 a:focus-visible {
@@ -122,6 +124,198 @@ h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 7vw, 4.5rem); line-heig
 .button:hover { background: var(--primary-dark); }
 .button-secondary { background: var(--accent); box-shadow: 0 8px 18px rgba(22, 163, 74, 0.24); }
 .button-secondary:hover { background: #15803d; }
+
+/* Zurück-nach-oben-Links: nutzt das bestehende Button-Design mit eigenem Abstand. */
+.back-to-top-link {
+  margin-top: 1.25rem;
+}
+
+/* Hilfsklasse: versteckt Bereiche, die erst nach Nutzeraktion erscheinen sollen. */
+.is-hidden {
+  display: none !important;
+}
+
+/* Quiz-Auswahl: Kategoriebuttons werden flexibel und scrollbar dargestellt. */
+.quiz-start-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.quiz-intro,
+.quiz-category-summary {
+  color: var(--muted);
+  margin: 0;
+}
+
+.quiz-category-options {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding: 0.25rem 0 0.5rem;
+  scroll-snap-type: x proximity;
+}
+
+.category-button {
+  flex: 0 0 auto;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.category-button:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.category-button.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.quiz-card.is-hidden,
+.quiz-start-panel.is-hidden {
+  display: none !important;
+}
+
+/* Ergebnis-Modal: liegt über der Seite und zeigt die Quizstatistik. */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.62);
+}
+
+.modal-card {
+  position: relative;
+  width: min(920px, 100%);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* Statistik: Kennzahlen und Kategorieergebnisse werden als Karten und Balken angezeigt. */
+.results-summary {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.results-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.stat-box {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--bg);
+}
+
+.stat-box strong {
+  display: block;
+  font-size: 1.6rem;
+}
+
+.category-stats {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0;
+}
+
+.category-result {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.category-result-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 800;
+}
+
+.stat-bar {
+  height: 0.75rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  width: var(--bar-width, 0%);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.results-note {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* Statistik-Kurve: Das SVG zeigt die Trefferquote während des Quiz. */
+.chart-card {
+  margin-top: 1rem;
+}
+
+.progress-chart {
+  min-height: 160px;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--bg);
+}
+
+.progress-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart-grid-line {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-label {
+  fill: var(--muted);
+  font-size: 12px;
+}
 .section { margin: 2rem 0; }
 .section-heading { margin-bottom: 1rem; }
 .section-heading h2 { margin: 0; font-size: clamp(1.55rem, 4vw, 2.4rem); }
@@ -191,6 +385,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   .main-nav { position: static; display: flex; flex-direction: row; margin-left: auto; padding: 0; border: 0; box-shadow: none; background: transparent; }
   .theme-toggle { margin-left: 0.5rem; }
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .results-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 1080px) { .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
@@ -205,5 +400,5 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-  .theme-toggle:hover, .nav-toggle:hover, .button:hover { transform: none; }
+  .theme-toggle:hover, .nav-toggle:hover, .button:hover, .category-button:hover { transform: none; }
 }
