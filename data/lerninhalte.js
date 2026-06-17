@@ -24,7 +24,7 @@ window.AP1_DATA = {
     { id: "projektmanagement", title: "Projektmanagement", description: "SMART, Scrum, Kanban und Projektrisiken." },
     { id: "datenschutz-dsgvo", title: "Datenschutz & DSGVO", description: "Personenbezogene Daten, Betroffenenrechte und Datenschutzprinzipien." }
   ],
-  // Quizfragen: 800 Poolfragen. Die richtige Antwort wird als correctAnswer gespeichert; die Anzeige mischt sie später zufällig mit wrongAnswers.
+  // Quizfragen: 800 Poolfragen. Die Daten speichern correctAnswer und wrongAnswers; die App mischt daraus pro Quizstart temporäre Antwortoptionen.
   quiz: [
     // Hardware & Betriebssysteme: 100 Fragen.
     { id: "hardware-os-001", category: "hardware-os", difficulty: "leicht", question: "Welche Aussage zu EVA-Prinzip ist in der AP1 für Fachinformatiker Anwendungsentwicklung bei Frage 001 richtig?", correctAnswer: "Eingabe, Verarbeitung und Ausgabe strukturieren die Datenverarbeitung", wrongAnswers: ["Die Aussage betrifft ausschließlich Grafikdesign ohne IT-Bezug", "Die Aussage ersetzt Dokumentation, Tests und Planung vollständig", "Die Aussage ist nur für private Unterhaltungselektronik relevant"], explanation: "Die beschriebene Komponente oder Funktion gehört zu Hardware und Betriebssystemen. Der Teilbereich lautet: EVA-Prinzip." },
