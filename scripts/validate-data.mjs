@@ -71,7 +71,7 @@ function validateQuiz(quiz) {
   const difficultyCounts = new Map();
   quiz.forEach((question, index) => {
     const label = `quiz[${index}]`;
-    // Frageobjektprüfung: options und correctIndex sind in der Datenbank verboten, weil die App Antwortpositionen erst beim Quizstart erzeugt.
+    // Frageobjektprüfung: Die Daten speichern keine Antwortposition; options und correctIndex entstehen erst temporär beim Quizstart.
     const fields = Object.keys(question);
     requiredFields.forEach((field) => {
       if (!fields.includes(field)) fail(`${label} muss das Feld ${field} enthalten.`);
@@ -101,13 +101,13 @@ function validateQuiz(quiz) {
     if (!Array.isArray(question.wrongAnswers) || question.wrongAnswers.length !== 3) {
       fail(`${label}.wrongAnswers muss genau drei falsche Antworten enthalten.`);
     } else {
-      const answerSet = new Set();
+      const wrongAnswerSet = new Set();
       question.wrongAnswers.forEach((answer, answerIndex) => {
         if (!isNonEmptyString(answer)) fail(`${label}.wrongAnswers[${answerIndex}] muss ein nicht-leerer String sein.`);
-        if (answerSet.has(answer)) fail(`${label}.wrongAnswers enthält eine doppelte Antwort: ${answer}`);
-        answerSet.add(answer);
+        if (wrongAnswerSet.has(answer)) fail(`${label}.wrongAnswers enthält eine doppelte Antwort: ${answer}`);
+        wrongAnswerSet.add(answer);
       });
-      if (answerSet.has(question.correctAnswer)) fail(`${label}.correctAnswer darf nicht zusätzlich in wrongAnswers vorkommen.`);
+      if (wrongAnswerSet.has(question.correctAnswer)) fail(`${label}.correctAnswer darf nicht zusätzlich in wrongAnswers vorkommen.`);
     }
     if (!isNonEmptyString(question.explanation)) fail(`${label}.explanation muss ein nicht-leerer String sein.`);
   });

@@ -29,7 +29,7 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-  // Quiz-Konfiguration: Ein Quizdurchlauf besteht aus maximal 40 zufällig gezogenen Fragen.
+  // Quiz-Konfiguration: Jeder Durchlauf nutzt maximal 40 zufällige Fragen aus dem gewählten Pool.
   const QUIZ_QUESTION_COUNT = 40;
 
   // Quiz-State: speichert Auswahl, aktive Fragen und Antwortverlauf für die Statistik.
@@ -200,7 +200,7 @@
     setText("#selected-category-summary", `Ausgewählt: Alle Themen – ${data.quiz.length} Fragen verfügbar.`);
   }
 
-  // Frage-Sampling: erstellt eine gemischte Kopie eines Arrays, ohne die Originaldaten zu verändern.
+  // Sampling: mischt eine Kopie eines Arrays, ohne die Originaldaten zu verändern.
   function shuffleArray(items) {
     const shuffled = [...items];
     for (let index = shuffled.length - 1; index > 0; index -= 1) {
@@ -210,12 +210,13 @@
     return shuffled;
   }
 
-  // Frage-Sampling: zieht ohne Wiederholung maximal die gewünschte Anzahl Fragen aus dem Pool.
+  // Sampling: zieht maximal amount Fragen ohne Wiederholung aus dem Pool.
   function pickQuestionsForQuiz(questionPool, amount) {
-    return shuffleArray(questionPool).slice(0, Math.min(amount, questionPool.length));
+    const safePool = Array.isArray(questionPool) ? questionPool : [];
+    return shuffleArray(safePool).slice(0, Math.min(amount, safePool.length));
   }
 
-  // Antwortvorbereitung: mischt richtige und falsche Antworten pro Frage neu.
+  // Antwortvorbereitung: mischt richtige und falsche Antworten für die aktuelle Session.
   function prepareAnswersForQuiz(question) {
     const answers = [
       { text: question.correctAnswer, correct: true },
@@ -224,7 +225,7 @@
     return shuffleArray(answers);
   }
 
-  // Quizstart: wandelt Poolfragen in temporäre Quizfragen mit gemischten Antwortpositionen um.
+  // Quizstart: erzeugt aus einer Poolfrage eine temporäre Quizfrage mit zufälliger Antwortposition.
   function prepareQuestionForQuiz(question) {
     const shuffledAnswers = prepareAnswersForQuiz(question);
     return {
@@ -238,7 +239,7 @@
     };
   }
 
-  // Quizstart: erstellt den fertigen 40-Fragen-Durchlauf aus einem Fragenpool.
+  // Quizstart: baut den tatsächlichen Quizdurchlauf mit maximal 40 eindeutigen Fragen.
   function prepareQuizQuestions(questionPool, amount) {
     return pickQuestionsForQuiz(questionPool, amount).map(prepareQuestionForQuiz);
   }
