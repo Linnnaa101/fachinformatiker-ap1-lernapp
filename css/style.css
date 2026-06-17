@@ -1,4 +1,5 @@
 :root {
+  --site-header-bg: rgba(255, 255, 255, 0.92);
   --primary: #2563eb;
   --primary-dark: #1d4ed8;
   --accent: #16a34a;
@@ -13,6 +14,7 @@
 }
 
 [data-theme="dark"] {
+  --site-header-bg: rgba(24, 34, 53, 0.92);
   --bg: #0f172a;
   --surface: #182235;
   --text: #eef4ff;
@@ -38,6 +40,7 @@ a { color: inherit; }
   position: sticky;
   top: 0;
   z-index: 10;
+  background: var(--site-header-bg);
   background: color-mix(in srgb, var(--surface) 92%, transparent);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(12px);
@@ -67,6 +70,17 @@ a { color: inherit; }
 .main-nav.open { display: flex; }
 .main-nav a { padding: 0.45rem; text-decoration: none; font-weight: 650; }
 .main-nav a:hover { color: var(--primary); }
+.button:focus-visible,
+.nav-toggle:focus-visible,
+.theme-toggle:focus-visible,
+.option-button:focus-visible,
+.flashcard:focus-visible,
+.search-input:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.search-input:focus-visible { border-color: var(--primary); }
 .nav-toggle, .theme-toggle, .button {
   border: 0;
   border-radius: 999px;
@@ -132,7 +146,7 @@ h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 7vw, 4.5rem); line-heig
 }
 .chapter-card h3 { margin-top: 0; color: var(--primary); }
 .chapter-card ul { padding-left: 1.2rem; }
-.mnemonic { padding: 0.75rem; border-left: 4px solid var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); border-radius: 0.6rem; }
+.mnemonic { padding: 0.75rem; border-left: 4px solid var(--accent); background: rgba(22, 163, 74, 0.1); background: color-mix(in srgb, var(--accent) 10%, transparent); border-radius: 0.6rem; }
 pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--code-bg); color: var(--code-text); }
 .quiz-meta { display: flex; justify-content: space-between; gap: 1rem; color: var(--muted); font-weight: 800; }
 .quiz-options { display: grid; gap: 0.7rem; margin: 1rem 0; }
@@ -163,6 +177,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   padding: 1.5rem;
   border: 2px solid var(--primary);
   border-radius: 1.2rem;
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.14), var(--surface));
   background: linear-gradient(145deg, color-mix(in srgb, var(--primary) 14%, var(--surface)), var(--surface));
   color: var(--text);
   cursor: pointer;
@@ -178,3 +193,17 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (min-width: 1080px) { .card-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .theme-toggle:hover, .nav-toggle:hover, .button:hover { transform: none; }
+}

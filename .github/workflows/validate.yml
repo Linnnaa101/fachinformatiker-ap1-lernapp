@@ -1,0 +1,28 @@
+name: Validate static app
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check data syntax
+        run: node --check data/lerninhalte.js
+
+      - name: Check app syntax
+        run: node --check js/app.js
+
+      - name: Validate learning data
+        run: node scripts/validate-data.mjs

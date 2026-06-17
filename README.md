@@ -50,6 +50,18 @@ Danach ist die Seite unter `http://localhost:8000` erreichbar.
 4. Branch `main` und Ordner `/ (root)` auswählen.
 5. Speichern. Nach kurzer Zeit stellt GitHub Pages die statische Seite bereit.
 
+## Qualitätssicherung
+
+Die App benötigt weiterhin kein npm-Projekt und keinen Build-Step. Für lokale Prüfungen reichen die folgenden Node-Kommandos:
+
+```bash
+node --check data/lerninhalte.js
+node --check js/app.js
+node scripts/validate-data.mjs
+```
+
+GitHub Actions führt diese Checks bei Pushes und Pull Requests auf `main` automatisch aus.
+
 ## Technische Hinweise
 
 - Es werden keine externen CDN-Dateien geladen.
