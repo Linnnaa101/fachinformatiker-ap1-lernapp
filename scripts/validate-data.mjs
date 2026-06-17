@@ -61,17 +61,17 @@ function validateQuizCategories(categories) {
   if (!ids.has("alle")) fail('window.AP1_DATA.quizCategories muss die Kategorie "alle" enthalten.');
 }
 
-// Quizvalidierung: prüft Umfang, Pflichtfelder und Antwortdaten.
+// Quizvalidierung: prüft Umfang, Pflichtfelder und die neue Antwortstruktur.
 function validateQuiz(quiz) {
   if (quiz.length !== 800) fail(`window.AP1_DATA.quiz muss genau 800 Fragen enthalten, aktuell: ${quiz.length}.`);
   const ids = new Set();
   const questionTexts = new Set();
   const difficulties = new Set(["leicht", "mittel", "schwer"]);
-  const requiredFields = ["id", "category", "difficulty", "question", "options", "correctIndex", "explanation"];
+  const requiredFields = ["id", "category", "difficulty", "question", "correctAnswer", "wrongAnswers", "explanation"];
   const difficultyCounts = new Map();
   quiz.forEach((question, index) => {
     const label = `quiz[${index}]`;
-    // Frageobjektprüfung: erlaubt nur die festgelegten Felder für Quizfragen.
+    // Frageobjektprüfung: options und correctIndex sind in der Datenbank verboten, weil die App Antwortpositionen erst beim Quizstart erzeugt.
     const fields = Object.keys(question);
     requiredFields.forEach((field) => {
       if (!fields.includes(field)) fail(`${label} muss das Feld ${field} enthalten.`);
@@ -96,13 +96,19 @@ function validateQuiz(quiz) {
       counts[question.difficulty] += 1;
       difficultyCounts.set(question.category, counts);
     }
-    if (!Array.isArray(question.options) || question.options.length !== 4) {
-      fail(`${label}.options muss genau vier Antworten enthalten.`);
+    if (!isNonEmptyString(question.correctAnswer)) fail(`${label}.correctAnswer muss ein nicht-leerer String sein.`);
+
+    if (!Array.isArray(question.wrongAnswers) || question.wrongAnswers.length !== 3) {
+      fail(`${label}.wrongAnswers muss genau drei falsche Antworten enthalten.`);
+    } else {
+      const answerSet = new Set();
+      question.wrongAnswers.forEach((answer, answerIndex) => {
+        if (!isNonEmptyString(answer)) fail(`${label}.wrongAnswers[${answerIndex}] muss ein nicht-leerer String sein.`);
+        if (answerSet.has(answer)) fail(`${label}.wrongAnswers enthält eine doppelte Antwort: ${answer}`);
+        answerSet.add(answer);
+      });
+      if (answerSet.has(question.correctAnswer)) fail(`${label}.correctAnswer darf nicht zusätzlich in wrongAnswers vorkommen.`);
     }
-    if (!Number.isInteger(question.correctIndex) || !Array.isArray(question.options) || question.correctIndex < 0 || question.correctIndex >= question.options.length) {
-      fail(`${label}.correctIndex muss auf eine vorhandene Antwort zeigen.`);
-    }
-    if (question.correctIndex !== 0) fail(`${label}.correctIndex muss 0 sein, weil die korrekte Antwort immer an erster Stelle steht.`);
     if (!isNonEmptyString(question.explanation)) fail(`${label}.explanation muss ein nicht-leerer String sein.`);
   });
 
@@ -114,7 +120,7 @@ function validateQuiz(quiz) {
   });
 }
 
-// Quiz-Kategorieprüfung: stellt die Verbindung zwischen Fragen, Kategorien und ID-Reihenfolge sicher.
+// Kategorie-/ID-Prüfung: stellt die Verbindung zwischen Fragen, Kategorien und ID-Reihenfolge sicher.
 function validateQuizCategoryLinks(quiz, categories) {
   const categoryIds = categories.filter((category) => category.id !== "alle").map((category) => category.id);
   const categoryIdSet = new Set(categoryIds);

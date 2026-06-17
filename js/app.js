@@ -29,6 +29,9 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
+  // Quiz-Konfiguration: Ein Quizdurchlauf besteht aus maximal 40 zufällig gezogenen Fragen.
+  const QUIZ_QUESTION_COUNT = 40;
+
   // Quiz-State: speichert Auswahl, aktive Fragen und Antwortverlauf für die Statistik.
   let selectedCategory = storage.get("ap1SelectedQuizCategory", "alle");
   let activeQuestions = [];
@@ -197,9 +200,53 @@
     setText("#selected-category-summary", `Ausgewählt: Alle Themen – ${data.quiz.length} Fragen verfügbar.`);
   }
 
+  // Frage-Sampling: erstellt eine gemischte Kopie eines Arrays, ohne die Originaldaten zu verändern.
+  function shuffleArray(items) {
+    const shuffled = [...items];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+    }
+    return shuffled;
+  }
+
+  // Frage-Sampling: zieht ohne Wiederholung maximal die gewünschte Anzahl Fragen aus dem Pool.
+  function pickQuestionsForQuiz(questionPool, amount) {
+    return shuffleArray(questionPool).slice(0, Math.min(amount, questionPool.length));
+  }
+
+  // Antwortvorbereitung: mischt richtige und falsche Antworten pro Frage neu.
+  function prepareAnswersForQuiz(question) {
+    const answers = [
+      { text: question.correctAnswer, correct: true },
+      ...question.wrongAnswers.map((answer) => ({ text: answer, correct: false }))
+    ];
+    return shuffleArray(answers);
+  }
+
+  // Quizstart: wandelt Poolfragen in temporäre Quizfragen mit gemischten Antwortpositionen um.
+  function prepareQuestionForQuiz(question) {
+    const shuffledAnswers = prepareAnswersForQuiz(question);
+    return {
+      id: question.id,
+      category: question.category,
+      difficulty: question.difficulty,
+      question: question.question,
+      options: shuffledAnswers.map((answer) => answer.text),
+      correctIndex: shuffledAnswers.findIndex((answer) => answer.correct),
+      explanation: question.explanation
+    };
+  }
+
+  // Quizstart: erstellt den fertigen 40-Fragen-Durchlauf aus einem Fragenpool.
+  function prepareQuizQuestions(questionPool, amount) {
+    return pickQuestionsForQuiz(questionPool, amount).map(prepareQuestionForQuiz);
+  }
+
   // Quizstart: setzt die Session zurück und zeigt die erste Frage an.
   function startQuiz() {
-    activeQuestions = getQuestionsForCategory(selectedCategory);
+    const questionPool = getQuestionsForCategory(selectedCategory);
+    activeQuestions = prepareQuizQuestions(questionPool, QUIZ_QUESTION_COUNT);
     quizAnswers = [];
     quizAnswered = 0;
     quizScore = 0;
@@ -270,6 +317,7 @@
     const correct = selectedIndex === question.correctIndex;
     quizAnswers.push({
       questionId: question.id,
+      poolQuestionId: question.id,
       category: question.category,
       correct,
       selectedIndex,
