@@ -63,11 +63,23 @@ function validateQuizCategories(categories) {
 
 // Quizvalidierung: prüft Umfang, Pflichtfelder und Antwortdaten.
 function validateQuiz(quiz) {
-  if (quiz.length !== 40) fail(`window.AP1_DATA.quiz muss genau 40 Fragen enthalten, aktuell: ${quiz.length}.`);
+  if (quiz.length !== 800) fail(`window.AP1_DATA.quiz muss genau 800 Fragen enthalten, aktuell: ${quiz.length}.`);
   const ids = new Set();
+  const questionTexts = new Set();
   const difficulties = new Set(["leicht", "mittel", "schwer"]);
+  const requiredFields = ["id", "category", "difficulty", "question", "options", "correctIndex", "explanation"];
+  const difficultyCounts = new Map();
   quiz.forEach((question, index) => {
     const label = `quiz[${index}]`;
+    // Frageobjektprüfung: erlaubt nur die festgelegten Felder für Quizfragen.
+    const fields = Object.keys(question);
+    requiredFields.forEach((field) => {
+      if (!fields.includes(field)) fail(`${label} muss das Feld ${field} enthalten.`);
+    });
+    fields.forEach((field) => {
+      if (!requiredFields.includes(field)) fail(`${label} enthält das unerlaubte Feld ${field}.`);
+    });
+
     if (!isNonEmptyString(question.id)) fail(`${label}.id muss ein nicht-leerer String sein.`);
     if (ids.has(question.id)) fail(`${label}.id ist doppelt vergeben: ${question.id}`);
     ids.add(question.id);
@@ -75,27 +87,75 @@ function validateQuiz(quiz) {
     if (!isNonEmptyString(question.difficulty)) fail(`${label}.difficulty muss ein nicht-leerer String sein.`);
     if (isNonEmptyString(question.difficulty) && !difficulties.has(question.difficulty)) fail(`${label}.difficulty muss leicht, mittel oder schwer sein.`);
     if (!isNonEmptyString(question.question)) fail(`${label}.question muss ein nicht-leerer String sein.`);
-    if (!Array.isArray(question.options) || question.options.length < 2) {
-      fail(`${label}.options muss mindestens zwei Antworten enthalten.`);
+    if (isNonEmptyString(question.question)) {
+      if (questionTexts.has(question.question)) fail(`${label}.question ist doppelt vergeben: ${question.question}`);
+      questionTexts.add(question.question);
+    }
+    if (isNonEmptyString(question.category) && isNonEmptyString(question.difficulty) && difficulties.has(question.difficulty)) {
+      const counts = difficultyCounts.get(question.category) || { leicht: 0, mittel: 0, schwer: 0 };
+      counts[question.difficulty] += 1;
+      difficultyCounts.set(question.category, counts);
+    }
+    if (!Array.isArray(question.options) || question.options.length !== 4) {
+      fail(`${label}.options muss genau vier Antworten enthalten.`);
     }
     if (!Number.isInteger(question.correctIndex) || !Array.isArray(question.options) || question.correctIndex < 0 || question.correctIndex >= question.options.length) {
       fail(`${label}.correctIndex muss auf eine vorhandene Antwort zeigen.`);
     }
+    if (question.correctIndex !== 0) fail(`${label}.correctIndex muss 0 sein, weil die korrekte Antwort immer an erster Stelle steht.`);
     if (!isNonEmptyString(question.explanation)) fail(`${label}.explanation muss ein nicht-leerer String sein.`);
+  });
+
+  // Schwierigkeitsprüfung: jede Fachkategorie muss die vorgegebene Verteilung erfüllen.
+  difficultyCounts.forEach((counts, categoryId) => {
+    if (counts.leicht !== 35) fail(`Kategorie ${categoryId} muss genau 35 leichte Fragen haben, aktuell: ${counts.leicht}.`);
+    if (counts.mittel !== 45) fail(`Kategorie ${categoryId} muss genau 45 mittlere Fragen haben, aktuell: ${counts.mittel}.`);
+    if (counts.schwer !== 20) fail(`Kategorie ${categoryId} muss genau 20 schwere Fragen haben, aktuell: ${counts.schwer}.`);
   });
 }
 
-// Quiz-Kategorieprüfung: stellt die Verbindung zwischen Fragen und Kategorien sicher.
+// Quiz-Kategorieprüfung: stellt die Verbindung zwischen Fragen, Kategorien und ID-Reihenfolge sicher.
 function validateQuizCategoryLinks(quiz, categories) {
-  const categoryIds = new Set(categories.filter((category) => category.id !== "alle").map((category) => category.id));
-  const counts = new Map(Array.from(categoryIds, (id) => [id, 0]));
+  const categoryIds = categories.filter((category) => category.id !== "alle").map((category) => category.id);
+  const categoryIdSet = new Set(categoryIds);
+  const counts = new Map(categoryIds.map((id) => [id, 0]));
+  const idsByCategory = new Map(categoryIds.map((id) => [id, new Set()]));
+
   quiz.forEach((question, index) => {
-    if (!categoryIds.has(question.category)) fail(`quiz[${index}].category verweist auf keine vorhandene Kategorie: ${question.category}`);
-    if (counts.has(question.category)) counts.set(question.category, counts.get(question.category) + 1);
+    const label = `quiz[${index}]`;
+
+    if (!categoryIdSet.has(question.category)) {
+      fail(`${label}.category verweist auf keine vorhandene Fachkategorie: ${question.category}`);
+      return;
+    }
+
+    counts.set(question.category, counts.get(question.category) + 1);
+    idsByCategory.get(question.category).add(question.id);
+
+    const expectedPrefix = `${question.category}-`;
+    if (!question.id.startsWith(expectedPrefix)) {
+      fail(`${label}.id muss mit ${expectedPrefix} beginnen.`);
+    }
+
+    const suffix = question.id.slice(expectedPrefix.length);
+    if (!/^\d{3}$/.test(suffix)) {
+      fail(`${label}.id muss mit einer dreistelligen Nummer enden.`);
+    }
   });
-  categories.filter((category) => category.id !== "alle").forEach((category) => {
-    const count = counts.get(category.id) || 0;
-    if (count !== 5) fail(`Kategorie ${category.id} muss genau 5 Fragen haben, aktuell: ${count}.`);
+
+  categoryIds.forEach((categoryId) => {
+    const count = counts.get(categoryId) || 0;
+    if (count !== 100) {
+      fail(`Kategorie ${categoryId} muss genau 100 Fragen haben, aktuell: ${count}.`);
+    }
+
+    const ids = idsByCategory.get(categoryId);
+    for (let number = 1; number <= 100; number += 1) {
+      const expectedId = `${categoryId}-${String(number).padStart(3, "0")}`;
+      if (!ids.has(expectedId)) {
+        fail(`Kategorie ${categoryId} muss die Frage-ID ${expectedId} enthalten.`);
+      }
+    }
   });
 }
 
