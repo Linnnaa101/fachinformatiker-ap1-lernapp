@@ -50,26 +50,64 @@
         <p id="search-status" aria-live="polite">Alle Kapitel werden angezeigt.</p>
       </div>
       <div id="chapters-container" class="card-grid"></div>
+      <!-- Zurück-nach-oben-Link für den Kapitelbereich -->
+      <a class="button back-to-top-link" href="#top" aria-label="Zurück zum Seitenanfang">↑ Zurück nach oben</a>
     </section>
 
     <section id="quiz" class="section" aria-labelledby="quiz-title">
       <div class="section-heading">
         <h2 id="quiz-title">AP1-Quiz</h2>
-        <p>Wähle eine Antwort aus und erhalte sofort Feedback.</p>
+        <p>Wähle zuerst einen Quizmodus oder eine Kategorie und starte danach dein Quiz.</p>
       </div>
-      <article class="quiz-card card">
+
+      <!-- Quiz-Startbereich: Nutzerinnen und Nutzer wählen hier den Lernbereich aus -->
+      <article id="quiz-start-panel" class="quiz-start-panel card">
+        <h3>Quizmodus wählen</h3>
+        <p class="quiz-intro">Wähle „Alle Themen“ für die komplette AP1-Wiederholung oder trainiere gezielt einen einzelnen Bereich.</p>
+        <div id="quiz-category-options" class="quiz-category-options" role="group" aria-label="Quiz-Kategorie auswählen"></div>
+        <p id="selected-category-summary" class="quiz-category-summary" aria-live="polite">Ausgewählt: Alle Themen – 40 Fragen verfügbar.</p>
+        <button id="start-quiz" class="button" type="button">Quiz starten</button>
+      </article>
+
+      <article id="quiz-card" class="quiz-card card is-hidden" aria-live="polite">
         <div class="quiz-meta">
-          <span id="quiz-progress">Frage 1 von 20</span>
+          <span id="quiz-progress">Frage 1 von 40</span>
+          <span id="quiz-category-label">Kategorie: Alle Themen</span>
           <span id="quiz-score">Punkte: 0</span>
         </div>
-        <h3 id="quiz-question">Quiz wird geladen ...</h3>
+        <h3 id="quiz-question">Wähle eine Kategorie und starte das Quiz.</h3>
         <div id="quiz-options" class="quiz-options" role="group" aria-labelledby="quiz-question"></div>
         <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
         <div class="quiz-actions">
           <button id="next-question" class="button" type="button">Nächste Frage</button>
           <button id="restart-quiz" class="button button-secondary" type="button">Quiz neu starten</button>
+          <button id="change-category" class="button button-secondary" type="button">Andere Kategorie wählen</button>
         </div>
       </article>
+
+      <!-- Ergebnis-Modal: zeigt nach dem Quiz die genaue Auswertung an -->
+      <div id="quiz-results-modal" class="modal-backdrop is-hidden" role="dialog" aria-modal="true" aria-labelledby="quiz-results-title" aria-describedby="quiz-results-summary">
+        <div class="modal-card card">
+          <button id="close-results" class="modal-close" type="button" aria-label="Ergebnisfenster schließen">×</button>
+          <p class="eyebrow">Quiz-Auswertung</p>
+          <h3 id="quiz-results-title">Quiz abgeschlossen 🎉</h3>
+          <p id="quiz-results-summary" class="results-summary"></p>
+          <div id="quiz-results-stats" class="results-stats"></div>
+          <div id="quiz-category-stats" class="category-stats"></div>
+          <div class="chart-card">
+            <h4>Antwortverlauf</h4>
+            <p>Die Kurve zeigt, wie sich deine Trefferquote während des Quiz entwickelt hat.</p>
+            <div id="quiz-progress-chart" class="progress-chart" aria-label="Visuelle Kurve der Trefferquote"></div>
+          </div>
+          <div class="quiz-actions">
+            <button id="retry-same-quiz" class="button" type="button">Gleiches Quiz wiederholen</button>
+            <button id="choose-new-category" class="button button-secondary" type="button">Andere Kategorie wählen</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zurück-nach-oben-Link für den Quizbereich -->
+      <a class="button back-to-top-link" href="#top" aria-label="Zurück zum Seitenanfang">↑ Zurück nach oben</a>
     </section>
 
     <section id="karteikarten" class="section" aria-labelledby="flashcards-title">
@@ -85,6 +123,8 @@
         </button>
         <button id="next-card" class="button" type="button">Nächste Karte</button>
       </article>
+      <!-- Zurück-nach-oben-Link für den Karteikartenbereich -->
+      <a class="button back-to-top-link" href="#top" aria-label="Zurück zum Seitenanfang">↑ Zurück nach oben</a>
     </section>
   </main>
 

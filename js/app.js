@@ -29,9 +29,13 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-  let quizAnswered = storage.getInteger("ap1QuizAnswered", 0, 0, data.quiz.length);
-  let quizScore = storage.getInteger("ap1QuizScore", 0, 0, quizAnswered);
-  let quizIndex = clamp(quizAnswered, 0, Math.max(data.quiz.length - 1, 0));
+  // Quiz-State: speichert Auswahl, aktive Fragen und Antwortverlauf für die Statistik.
+  let selectedCategory = storage.get("ap1SelectedQuizCategory", "alle");
+  let activeQuestions = [];
+  let quizAnswers = [];
+  let quizAnswered = 0;
+  let quizScore = 0;
+  let quizIndex = 0;
   let questionLocked = false;
   let flashcardIndex = storage.getInteger("ap1FlashcardIndex", 0, 0, Math.max(data.flashcards.length - 1, 0));
   let flashcardBackVisible = false;
@@ -41,10 +45,11 @@
     initTheme();
     renderChapters(data.chapters);
     initSearch();
-    renderQuiz();
+    initQuizCategorySelection();
     initQuizControls();
     renderFlashcard();
     initFlashcardControls();
+    initResultsModalControls();
   }
 
   function initNavigation() {
@@ -129,6 +134,89 @@
     });
   }
 
+  // Kategorieauswahl: baut die auswählbaren Quizbereiche auf.
+  function initQuizCategorySelection() {
+    const options = $("#quiz-category-options");
+    if (!options) return;
+    if (selectedCategory !== "alle" && !getCategoryById(selectedCategory)) selectedCategory = "alle";
+    renderQuizCategoryOptions();
+    updateSelectedCategorySummary();
+  }
+
+  // Kategorieauswahl: rendert Buttons für alle Quizbereiche.
+  function renderQuizCategoryOptions() {
+    const options = $("#quiz-category-options");
+    if (!options) return;
+    options.innerHTML = "";
+    if (!data.quizCategories.length) {
+      options.appendChild(createMessage("Keine Quiz-Kategorien verfügbar."));
+      return;
+    }
+    data.quizCategories.forEach((category) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "category-button";
+      if (category.id === selectedCategory) button.classList.add("selected");
+      button.textContent = category.title;
+      button.setAttribute("aria-pressed", String(category.id === selectedCategory));
+      button.addEventListener("click", () => selectQuizCategory(category.id));
+      options.appendChild(button);
+    });
+  }
+
+  // Kategorieauswahl: speichert die gewählte Kategorie.
+  function selectQuizCategory(categoryId) {
+    selectedCategory = categoryId;
+    storage.set("ap1SelectedQuizCategory", selectedCategory);
+    renderQuizCategoryOptions();
+    updateSelectedCategorySummary();
+  }
+
+  // Kategorieauswahl: findet Metadaten zur Kategorie.
+  function getCategoryById(categoryId) {
+    const category = data.quizCategories.find((item) => item.id === categoryId);
+    if (category) return category;
+    if (categoryId === "alle") return { id: "alle", title: "Alle Themen", description: "Gemischtes Quiz mit allen Fragen." };
+    return null;
+  }
+
+  // Kategorieauswahl: filtert Fragen nach Auswahl.
+  function getQuestionsForCategory(categoryId) {
+    if (categoryId === "alle") return data.quiz;
+    return data.quiz.filter((question) => question.category === categoryId);
+  }
+
+  // Kategorieauswahl: aktualisiert den Auswahlhinweis.
+  function updateSelectedCategorySummary() {
+    const category = getCategoryById(selectedCategory);
+    const questions = getQuestionsForCategory(selectedCategory);
+    if (category) {
+      setText("#selected-category-summary", `Ausgewählt: ${category.title} – ${questions.length} Fragen verfügbar.`);
+      return;
+    }
+    setText("#selected-category-summary", `Ausgewählt: Alle Themen – ${data.quiz.length} Fragen verfügbar.`);
+  }
+
+  // Quizstart: setzt die Session zurück und zeigt die erste Frage an.
+  function startQuiz() {
+    activeQuestions = getQuestionsForCategory(selectedCategory);
+    quizAnswers = [];
+    quizAnswered = 0;
+    quizScore = 0;
+    quizIndex = 0;
+    questionLocked = false;
+    if (activeQuestions.length === 0) {
+      setText("#selected-category-summary", "Für diese Kategorie sind noch keine Fragen verfügbar.");
+      return;
+    }
+    const startPanel = $("#quiz-start-panel");
+    const quizCard = $("#quiz-card");
+    if (startPanel) startPanel.classList.add("is-hidden");
+    if (quizCard) quizCard.classList.remove("is-hidden");
+    renderQuiz();
+  }
+
+  // Quizstart: rendert die aktuelle Frage der aktiven Session.
   function renderQuiz() {
     const questionEl = $("#quiz-question");
     const options = $("#quiz-options");
@@ -139,24 +227,22 @@
     setDisabled("#next-question", true);
     setText("#quiz-score", `Punkte: ${quizScore}`);
 
-    if (!data.quiz.length) {
-      setText("#quiz-progress", "Keine Fragen verfügbar");
-      questionEl.textContent = "Aktuell sind keine Quizfragen verfügbar.";
-      setText("#quiz-feedback", "Bitte ergänze Fragen in data/lerninhalte.js.");
+    if (!activeQuestions.length) {
+      setText("#quiz-progress", "Keine Fragen ausgewählt");
+      questionEl.textContent = "Bitte wähle zuerst eine Quiz-Kategorie.";
+      setText("#quiz-feedback", "Starte ein Quiz über den Auswahlbereich.");
       return;
     }
 
-    if (quizAnswered >= data.quiz.length) {
-      quizIndex = data.quiz.length - 1;
-      setText("#quiz-progress", `Quiz abgeschlossen (${data.quiz.length} von ${data.quiz.length})`);
-      questionEl.textContent = "Quiz abgeschlossen";
-      setText("#quiz-feedback", `Quiz abgeschlossen: ${quizScore} von ${data.quiz.length} Punkten.`);
+    if (quizAnswered >= activeQuestions.length) {
+      showResultsModal();
       return;
     }
 
-    quizIndex = clamp(quizAnswered, 0, data.quiz.length - 1);
-    const question = data.quiz[quizIndex];
-    setText("#quiz-progress", `Frage ${quizAnswered + 1} von ${data.quiz.length}`);
+    quizIndex = clamp(quizAnswered, 0, activeQuestions.length - 1);
+    const question = activeQuestions[quizIndex];
+    setText("#quiz-progress", `Frage ${quizAnswered + 1} von ${activeQuestions.length}`);
+    setText("#quiz-category-label", `Kategorie: ${getCategoryById(question.category)?.title || "Unbekannt"}`);
     questionEl.textContent = question.question;
     setText("#quiz-feedback", "");
 
@@ -170,10 +256,11 @@
     });
   }
 
+  // Antwortauswertung: markiert Antworten und speichert den Verlauf.
   function answerQuestion(selectedIndex) {
-    if (questionLocked || quizAnswered >= data.quiz.length) return;
+    if (questionLocked || quizAnswered >= activeQuestions.length) return;
     questionLocked = true;
-    const question = data.quiz[quizIndex];
+    const question = activeQuestions[quizIndex];
     const buttons = $$(".option-button");
     buttons.forEach((button, index) => {
       button.disabled = true;
@@ -181,39 +268,176 @@
       if (index === selectedIndex && index !== question.correctIndex) button.classList.add("wrong");
     });
     const correct = selectedIndex === question.correctIndex;
-    if (correct) quizScore = clamp(quizScore + 1, 0, data.quiz.length);
-    quizAnswered = clamp(quizAnswered + 1, 0, data.quiz.length);
-    storage.set("ap1QuizScore", quizScore);
-    storage.set("ap1QuizAnswered", quizAnswered);
+    quizAnswers.push({
+      questionId: question.id,
+      category: question.category,
+      correct,
+      selectedIndex,
+      correctIndex: question.correctIndex
+    });
+    if (correct) quizScore = clamp(quizScore + 1, 0, activeQuestions.length);
+    quizAnswered = clamp(quizAnswered + 1, 0, activeQuestions.length);
     setText("#quiz-score", `Punkte: ${quizScore}`);
     setText("#quiz-feedback", `${correct ? "Richtig!" : "Leider falsch."} ${question.explanation}`);
-    if (quizAnswered >= data.quiz.length) {
-      setText("#quiz-feedback", `${correct ? "Richtig!" : "Leider falsch."} ${question.explanation} Quiz abgeschlossen: ${quizScore} von ${data.quiz.length} Punkten.`);
+    if (quizAnswered >= activeQuestions.length) {
+      setText("#quiz-feedback", `${correct ? "Richtig!" : "Leider falsch."} ${question.explanation} Quiz abgeschlossen: ${quizScore} von ${activeQuestions.length} Punkten.`);
+      setDisabled("#next-question", true);
+      window.setTimeout(showResultsModal, 600);
+      return;
     }
-    setDisabled("#next-question", quizAnswered >= data.quiz.length);
+    setDisabled("#next-question", false);
   }
 
+  // Quizstart: verbindet Buttons mit Start, Wechsel und Neustart.
   function initQuizControls() {
+    const startButton = $("#start-quiz");
     const nextButton = $("#next-question");
     const restartButton = $("#restart-quiz");
+    const changeButton = $("#change-category");
 
+    if (startButton) startButton.addEventListener("click", () => startQuiz());
     if (nextButton) {
       nextButton.addEventListener("click", () => {
-        if (quizAnswered < data.quiz.length) renderQuiz();
+        if (quizAnswered < activeQuestions.length) renderQuiz();
       });
     }
-    if (restartButton) {
-      restartButton.addEventListener("click", () => {
-        quizIndex = 0;
-        quizScore = 0;
-        quizAnswered = 0;
-        questionLocked = false;
-        storage.set("ap1QuizScore", quizScore);
-        storage.set("ap1QuizAnswered", quizAnswered);
-        setText("#quiz-feedback", "");
-        renderQuiz();
+    if (restartButton) restartButton.addEventListener("click", () => startQuiz());
+    if (changeButton) changeButton.addEventListener("click", () => showQuizStartPanel());
+  }
+
+  // Reset-Funktionen: wechseln zwischen Quizkarte und Auswahlbereich.
+  function showQuizStartPanel() {
+    const quizCard = $("#quiz-card");
+    const startPanel = $("#quiz-start-panel");
+    const options = $("#quiz-options");
+    if (quizCard) quizCard.classList.add("is-hidden");
+    if (startPanel) startPanel.classList.remove("is-hidden");
+    setText("#quiz-feedback", "");
+    setText("#quiz-question", "");
+    if (options) options.innerHTML = "";
+    updateSelectedCategorySummary();
+  }
+
+  // Ergebnisberechnung: fasst Punkte, Kategorien und Verlauf zusammen.
+  function calculateQuizResults() {
+    const total = quizAnswers.length;
+    const correct = quizAnswers.filter((answer) => answer.correct).length;
+    const wrong = total - correct;
+    const percent = total ? formatPercent((correct / total) * 100) : 0;
+    const categoryMap = new Map();
+    quizAnswers.forEach((answer, index) => {
+      const category = getCategoryById(answer.category) || { id: answer.category, title: "Unbekannt" };
+      if (!categoryMap.has(answer.category)) categoryMap.set(answer.category, { id: answer.category, title: category.title, total: 0, correct: 0, percent: 0 });
+      const entry = categoryMap.get(answer.category);
+      entry.total += 1;
+      if (answer.correct) entry.correct += 1;
+      entry.percent = formatPercent((entry.correct / entry.total) * 100);
+    });
+    const categoryResults = Array.from(categoryMap.values());
+    const strongestCategory = categoryResults.reduce((best, item) => (!best || item.percent > best.percent ? item : best), null);
+    const weakestCategory = categoryResults.reduce((worst, item) => (!worst || item.percent < worst.percent ? item : worst), null);
+    let runningCorrect = 0;
+    const history = quizAnswers.map((answer, index) => {
+      if (answer.correct) runningCorrect += 1;
+      return formatPercent((runningCorrect / (index + 1)) * 100);
+    });
+    return { total, correct, wrong, percent, categoryResults, strongestCategory, weakestCategory, history };
+  }
+
+  // Ergebnis-Modal: rendert Zusammenfassung und Kategorieauswertung.
+  function renderResultsModal(results) {
+    setText("#quiz-results-summary", `Du hast ${results.correct} von ${results.total} Fragen richtig beantwortet (${results.percent} %).`);
+    const stats = $("#quiz-results-stats");
+    if (stats) {
+      stats.innerHTML = `
+        <div class="stat-box"><span>Richtig</span><strong>${results.correct}</strong></div>
+        <div class="stat-box"><span>Falsch</span><strong>${results.wrong}</strong></div>
+        <div class="stat-box"><span>Trefferquote</span><strong>${results.percent} %</strong></div>
+      `;
+    }
+    const categoryStats = $("#quiz-category-stats");
+    if (categoryStats) {
+      categoryStats.innerHTML = results.categoryResults.map((item) => `
+        <div class="category-result">
+          <div class="category-result-header"><span>${escapeHtml(item.title)}</span><span>${item.correct}/${item.total}</span></div>
+          <div class="stat-bar"><div class="stat-bar-fill" style="--bar-width: ${item.percent}%;"></div></div>
+        </div>
+      `).join("");
+      const note = document.createElement("p");
+      note.className = "results-note";
+      note.textContent = `Stärkste Kategorie: ${results.strongestCategory?.title || "Keine"}. Schwächste Kategorie: ${results.weakestCategory?.title || "Keine"}.`;
+      categoryStats.appendChild(note);
+    }
+    renderProgressChart(results.history);
+  }
+
+  // Ergebnis-Modal: öffnet die Auswertung nach Quizende.
+  function showResultsModal() {
+    const results = calculateQuizResults();
+    renderResultsModal(results);
+    const modal = $("#quiz-results-modal");
+    if (modal) modal.classList.remove("is-hidden");
+    const closeButton = $("#close-results");
+    if (closeButton) closeButton.focus();
+  }
+
+  // Ergebnis-Modal: schließt die Auswertung.
+  function hideResultsModal() {
+    const modal = $("#quiz-results-modal");
+    if (modal) modal.classList.add("is-hidden");
+  }
+
+  // Ergebnis-Modal: verbindet Schließen, Escape und Wiederholen.
+  function initResultsModalControls() {
+    const modal = $("#quiz-results-modal");
+    const closeButton = $("#close-results");
+    const retryButton = $("#retry-same-quiz");
+    const chooseButton = $("#choose-new-category");
+    if (closeButton) closeButton.addEventListener("click", () => hideResultsModal());
+    if (modal) {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) hideResultsModal();
       });
     }
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") hideResultsModal();
+    });
+    if (retryButton) retryButton.addEventListener("click", () => { hideResultsModal(); startQuiz(); });
+    if (chooseButton) chooseButton.addEventListener("click", () => { hideResultsModal(); showQuizStartPanel(); });
+  }
+
+  // Chart-Rendering: zeichnet den Antwortverlauf als lokales SVG.
+  function renderProgressChart(history) {
+    const chart = $("#quiz-progress-chart");
+    if (!chart) return;
+    if (history.length === 0) {
+      chart.textContent = "Keine Verlaufsdaten verfügbar.";
+      return;
+    }
+    const width = 320;
+    const height = 140;
+    const padding = 20;
+    const points = history.map((value, index) => {
+      const x = history.length === 1 ? width / 2 : padding + (index * (width - padding * 2)) / (history.length - 1);
+      const y = height - padding - (clamp(value, 0, 100) * (height - padding * 2)) / 100;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(" ");
+    chart.innerHTML = `
+      <svg viewBox="0 0 320 140" role="img" aria-label="Trefferquote im Verlauf">
+        <line class="chart-grid-line" x1="20" y1="120" x2="300" y2="120"></line>
+        <line class="chart-grid-line" x1="20" y1="70" x2="300" y2="70"></line>
+        <line class="chart-grid-line" x1="20" y1="20" x2="300" y2="20"></line>
+        <text class="chart-label" x="2" y="124">0%</text>
+        <text class="chart-label" x="2" y="74">50%</text>
+        <text class="chart-label" x="2" y="24">100%</text>
+        <polyline class="chart-line" points="${points}"></polyline>
+      </svg>
+    `;
+  }
+
+  // Ergebnisberechnung: formatiert Prozentwerte ganzzahlig.
+  function formatPercent(value) {
+    return Math.round(value);
   }
 
   function renderFlashcard() {
@@ -261,6 +485,7 @@
     return {
       chapters: Array.isArray(safeData.chapters) ? safeData.chapters : [],
       quiz: Array.isArray(safeData.quiz) ? safeData.quiz : [],
+      quizCategories: Array.isArray(safeData.quizCategories) ? safeData.quizCategories : [],
       flashcards: Array.isArray(safeData.flashcards) ? safeData.flashcards : []
     };
   }

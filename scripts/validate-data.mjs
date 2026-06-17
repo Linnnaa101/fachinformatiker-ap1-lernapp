@@ -11,10 +11,13 @@ if (!data || typeof data !== "object") {
 } else {
   validateArray("chapters");
   validateArray("quiz");
+  validateArray("quizCategories");
   validateArray("flashcards");
 
   if (Array.isArray(data.chapters)) validateChapters(data.chapters);
   if (Array.isArray(data.quiz)) validateQuiz(data.quiz);
+  if (Array.isArray(data.quizCategories)) validateQuizCategories(data.quizCategories);
+  if (Array.isArray(data.quiz) && Array.isArray(data.quizCategories)) validateQuizCategoryLinks(data.quiz, data.quizCategories);
   if (Array.isArray(data.flashcards)) validateFlashcards(data.flashcards);
 }
 
@@ -44,9 +47,33 @@ function validateChapters(chapters) {
   });
 }
 
+// Kategorievalidierung: prüft IDs und Pflichtfelder.
+function validateQuizCategories(categories) {
+  const ids = new Set();
+  categories.forEach((category, index) => {
+    const label = `quizCategories[${index}]`;
+    if (!isNonEmptyString(category.id)) fail(`${label}.id muss ein nicht-leerer String sein.`);
+    if (ids.has(category.id)) fail(`${label}.id ist doppelt vergeben: ${category.id}`);
+    ids.add(category.id);
+    if (!isNonEmptyString(category.title)) fail(`${label}.title muss ein nicht-leerer String sein.`);
+    if (!isNonEmptyString(category.description)) fail(`${label}.description muss ein nicht-leerer String sein.`);
+  });
+  if (!ids.has("alle")) fail('window.AP1_DATA.quizCategories muss die Kategorie "alle" enthalten.');
+}
+
+// Quizvalidierung: prüft Umfang, Pflichtfelder und Antwortdaten.
 function validateQuiz(quiz) {
+  if (quiz.length !== 40) fail(`window.AP1_DATA.quiz muss genau 40 Fragen enthalten, aktuell: ${quiz.length}.`);
+  const ids = new Set();
+  const difficulties = new Set(["leicht", "mittel", "schwer"]);
   quiz.forEach((question, index) => {
     const label = `quiz[${index}]`;
+    if (!isNonEmptyString(question.id)) fail(`${label}.id muss ein nicht-leerer String sein.`);
+    if (ids.has(question.id)) fail(`${label}.id ist doppelt vergeben: ${question.id}`);
+    ids.add(question.id);
+    if (!isNonEmptyString(question.category)) fail(`${label}.category muss ein nicht-leerer String sein.`);
+    if (!isNonEmptyString(question.difficulty)) fail(`${label}.difficulty muss ein nicht-leerer String sein.`);
+    if (isNonEmptyString(question.difficulty) && !difficulties.has(question.difficulty)) fail(`${label}.difficulty muss leicht, mittel oder schwer sein.`);
     if (!isNonEmptyString(question.question)) fail(`${label}.question muss ein nicht-leerer String sein.`);
     if (!Array.isArray(question.options) || question.options.length < 2) {
       fail(`${label}.options muss mindestens zwei Antworten enthalten.`);
@@ -55,6 +82,20 @@ function validateQuiz(quiz) {
       fail(`${label}.correctIndex muss auf eine vorhandene Antwort zeigen.`);
     }
     if (!isNonEmptyString(question.explanation)) fail(`${label}.explanation muss ein nicht-leerer String sein.`);
+  });
+}
+
+// Quiz-Kategorieprüfung: stellt die Verbindung zwischen Fragen und Kategorien sicher.
+function validateQuizCategoryLinks(quiz, categories) {
+  const categoryIds = new Set(categories.filter((category) => category.id !== "alle").map((category) => category.id));
+  const counts = new Map(Array.from(categoryIds, (id) => [id, 0]));
+  quiz.forEach((question, index) => {
+    if (!categoryIds.has(question.category)) fail(`quiz[${index}].category verweist auf keine vorhandene Kategorie: ${question.category}`);
+    if (counts.has(question.category)) counts.set(question.category, counts.get(question.category) + 1);
+  });
+  categories.filter((category) => category.id !== "alle").forEach((category) => {
+    const count = counts.get(category.id) || 0;
+    if (count !== 5) fail(`Kategorie ${category.id} muss genau 5 Fragen haben, aktuell: ${count}.`);
   });
 }
 
