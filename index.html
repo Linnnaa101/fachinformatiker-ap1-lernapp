@@ -142,6 +142,8 @@
           <p class="eyebrow">Quiz-Auswertung</p>
           <h3 id="quiz-results-title">Quiz abgeschlossen 🎉</h3>
           <p id="quiz-results-summary" class="results-summary"></p>
+          <p id="quiz-results-message" class="results-message"></p>
+          <div id="quiz-results-recommendation" class="results-recommendation" aria-live="polite"></div>
           <div id="quiz-results-stats" class="results-stats"></div>
           <div id="quiz-category-stats" class="category-stats"></div>
           <div class="chart-card">
@@ -149,8 +151,8 @@
             <p>Die Kurve zeigt, wie sich deine Trefferquote während des Quiz entwickelt hat.</p>
             <div id="quiz-progress-chart" class="progress-chart" aria-label="Visuelle Kurve der Trefferquote"></div>
           </div>
-          <div class="quiz-actions">
-            <button id="retry-same-quiz" class="button" type="button">Gleiches Quiz wiederholen</button>
+          <div class="quiz-actions results-actions" aria-label="Nächste Lernaktion">
+            <button id="retry-same-quiz" class="button" type="button">Nochmal üben</button>
             <button id="choose-new-category" class="button button-secondary" type="button">Andere Kategorie wählen</button>
           </div>
         </div>
