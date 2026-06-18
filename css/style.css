@@ -666,7 +666,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
 }
 
 .hero .eyebrow,
-.dashboard-stats .eyebrow {
+.learning-progress-dashboard .eyebrow {
   color: inherit;
   opacity: 0.86;
 }
@@ -730,7 +730,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   font-weight: 750;
 }
 
-.dashboard-stats {
+.learning-progress-dashboard {
   margin: 1.5rem 0 2rem;
 }
 
@@ -754,6 +754,38 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   gap: 0.45rem;
   padding: 1rem;
   background: linear-gradient(145deg, color-mix(in srgb, var(--primary) 9%, var(--surface)), var(--surface));
+}
+
+.dashboard-status {
+  max-width: 760px;
+}
+
+.dashboard-empty {
+  display: grid;
+  gap: 0.35rem;
+  border-style: dashed;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent),
+    var(--surface);
+}
+
+.dashboard-empty strong {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.dashboard-empty span,
+.dashboard-stat-label {
+  color: var(--muted);
+  font-weight: 750;
+}
+
+.dashboard-stat-label {
+  font-size: 0.9rem;
+}
+
+.dashboard-stat-card strong {
+  overflow-wrap: anywhere;
 }
 
 .stat-icon,
@@ -849,7 +881,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
 
 @media (min-width: 1080px) {
   .dashboard-stat-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 

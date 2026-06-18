@@ -31,6 +31,15 @@
 
   // Quiz-Konfiguration: Jeder Durchlauf nutzt maximal 40 zufällige Fragen aus dem gewählten Pool.
   const QUIZ_QUESTION_COUNT = 40;
+  const LEARNING_PROGRESS_KEY = "ap1LearningProgress";
+  const DEFAULT_LEARNING_PROGRESS = {
+    quizSessions: 0,
+    bestScore: 0,
+    lastScore: 0,
+    lastCategory: "",
+    lastCompletedAt: "",
+    flashcardsViewed: 0
+  };
 
   // Quiz-State: speichert Auswahl, aktive Fragen und Antwortverlauf für die Statistik.
   let selectedCategory = storage.get("ap1SelectedQuizCategory", "alle");
@@ -42,6 +51,7 @@
   let questionLocked = false;
   let currentQuestionAnswered = false;
   let explanationPanelOpen = false;
+  let currentQuizProgressSaved = false;
   let flashcardIndex = storage.getInteger("ap1FlashcardIndex", 0, 0, Math.max(data.flashcards.length - 1, 0));
   let flashcardBackVisible = false;
 
@@ -51,6 +61,7 @@
     initSearch();
     initQuizCategorySelection();
     initQuizControls();
+    renderLearningProgressDashboard();
     renderFlashcard();
     initFlashcardControls();
     initResultsModalControls();
@@ -279,6 +290,7 @@
     questionLocked = false;
     currentQuestionAnswered = false;
     explanationPanelOpen = false;
+    currentQuizProgressSaved = false;
     resetAnswerExplanation();
     updateQuizProgressBar();
     if (activeQuestions.length === 0) {
@@ -551,6 +563,80 @@
     `;
   }
 
+  function getLearningProgress() {
+    const storedProgress = storage.get(LEARNING_PROGRESS_KEY, DEFAULT_LEARNING_PROGRESS);
+    return {
+      ...DEFAULT_LEARNING_PROGRESS,
+      ...(storedProgress && typeof storedProgress === "object" ? storedProgress : {})
+    };
+  }
+
+  function saveLearningProgress(progress) {
+    storage.set(LEARNING_PROGRESS_KEY, { ...DEFAULT_LEARNING_PROGRESS, ...progress });
+    renderLearningProgressDashboard();
+  }
+
+  function saveQuizProgress(results) {
+    if (currentQuizProgressSaved || !results.total) return;
+    const progress = getLearningProgress();
+    const category = getCategoryById(selectedCategory);
+    const score = clamp(results.percent, 0, 100);
+    saveLearningProgress({
+      ...progress,
+      quizSessions: Math.max(0, Number(progress.quizSessions) || 0) + 1,
+      bestScore: Math.max(Number(progress.bestScore) || 0, score),
+      lastScore: score,
+      lastCategory: category?.title || selectedCategory || "Alle Themen",
+      lastCompletedAt: new Date().toISOString()
+    });
+    currentQuizProgressSaved = true;
+  }
+
+  function updateFlashcardProgress() {
+    if (!data.flashcards.length) return;
+    const progress = getLearningProgress();
+    const viewed = Math.max(Number(progress.flashcardsViewed) || 0, flashcardIndex + 1);
+    if (viewed !== progress.flashcardsViewed) saveLearningProgress({ ...progress, flashcardsViewed: viewed });
+  }
+
+  function renderLearningProgressDashboard() {
+    const status = $("#dashboard-status");
+    const empty = $("#dashboard-empty");
+    const grid = $("#dashboard-progress-grid");
+    if (!status || !empty || !grid) return;
+
+    const progress = getLearningProgress();
+    const sessions = Math.max(0, Number(progress.quizSessions) || 0);
+    const flashcardsViewed = Math.max(0, Number(progress.flashcardsViewed) || 0);
+    const hasQuizProgress = sessions > 0;
+
+    empty.classList.toggle("is-hidden", hasQuizProgress);
+    grid.classList.toggle("is-hidden", !hasQuizProgress);
+
+    if (!hasQuizProgress) {
+      status.textContent = flashcardsViewed > 0
+        ? `Du hast schon ${flashcardsViewed} Karteikarte${flashcardsViewed === 1 ? "" : "n"} angesehen. Starte ein Quiz für mehr Fortschrittswerte.`
+        : "Starte dein erstes Quiz, um deinen Lernfortschritt zu sehen.";
+      return;
+    }
+
+    const bestScore = clamp(Number(progress.bestScore) || 0, 0, 100);
+    const lastScore = clamp(Number(progress.lastScore) || 0, 0, 100);
+    const lastCategory = progress.lastCategory || "Alle Themen";
+    setText("#dashboard-quiz-sessions", String(sessions));
+    setText("#dashboard-best-score", `${bestScore} %`);
+    setText("#dashboard-last-category", lastCategory);
+    setText("#dashboard-last-score", `${lastScore} %`);
+    setText("#dashboard-flashcards-viewed", `${flashcardsViewed} angesehen`);
+    status.textContent = getProgressStatusText(bestScore, lastScore);
+  }
+
+  function getProgressStatusText(bestScore, lastScore) {
+    if (bestScore >= 80) return "Weiter so! Du hast bereits ein starkes Quiz-Ergebnis erreicht.";
+    if (lastScore >= 60) return "Weiter so! Deine letzte Quizrunde zeigt eine solide Grundlage.";
+    return "Dranbleiben lohnt sich: Wiederhole gezielt die schwächeren Themen und starte die nächste Runde.";
+  }
+
   // Ergebnis-Modal: rendert Zusammenfassung und Kategorieauswertung.
   function renderResultsModal(results) {
     const feedback = getResultFeedback(results.percent);
@@ -592,6 +678,7 @@
   // Ergebnis-Modal: öffnet die Auswertung nach Quizende.
   function showResultsModal() {
     const results = calculateQuizResults();
+    saveQuizProgress(results);
     renderResultsModal(results);
     const modal = $("#quiz-results-modal");
     if (modal) modal.classList.remove("is-hidden");
@@ -684,6 +771,7 @@
     setText("#flashcard-text", visibleText);
     setText("#flashcard-hint", flashcardBackVisible ? "Klicke, um die Frage erneut zu sehen" : "Antwort anzeigen");
     setProgress("#flashcard-progress-fill", progress);
+    updateFlashcardProgress();
 
     if (cardButton) {
       cardButton.classList.toggle("is-showing-back", flashcardBackVisible);
