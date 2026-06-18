@@ -40,31 +40,41 @@
       </div>
     </section>
 
-    <section class="dashboard-stats" aria-labelledby="dashboard-title">
+    <section class="learning-progress-dashboard" aria-labelledby="dashboard-title">
       <div class="section-heading dashboard-heading">
         <p class="eyebrow">Lern-Dashboard</p>
-        <h2 id="dashboard-title">Dein AP1-Training auf einen Blick</h2>
+        <h2 id="dashboard-title">Dein lokaler Lernfortschritt</h2>
+        <p id="dashboard-status" class="dashboard-status" aria-live="polite">Starte dein erstes Quiz, um deinen Lernfortschritt zu sehen.</p>
       </div>
-      <div class="dashboard-stat-grid">
+      <div id="dashboard-empty" class="dashboard-empty card" role="status">
+        <strong>Noch kein Quiz abgeschlossen</strong>
+        <span>Starte dein erstes Quiz oder öffne die Karteikarten, um deinen Lernfortschritt lokal in diesem Browser zu sehen.</span>
+      </div>
+      <div id="dashboard-progress-grid" class="dashboard-stat-grid is-hidden" aria-label="Gespeicherte Lernfortschritte">
         <article class="dashboard-stat-card">
-          <span class="stat-icon" aria-hidden="true">❓</span>
-          <strong>800</strong>
-          <span>Quizfragen</span>
+          <span class="stat-icon" aria-hidden="true">✅</span>
+          <span class="dashboard-stat-label">Quizrunden</span>
+          <strong id="dashboard-quiz-sessions">0</strong>
+        </article>
+        <article class="dashboard-stat-card">
+          <span class="stat-icon" aria-hidden="true">🏆</span>
+          <span class="dashboard-stat-label">Beste Punktzahl</span>
+          <strong id="dashboard-best-score">0 %</strong>
         </article>
         <article class="dashboard-stat-card">
           <span class="stat-icon" aria-hidden="true">🧭</span>
-          <strong>8</strong>
-          <span>Kategorien</span>
+          <span class="dashboard-stat-label">Letzte Kategorie</span>
+          <strong id="dashboard-last-category">–</strong>
+        </article>
+        <article class="dashboard-stat-card">
+          <span class="stat-icon" aria-hidden="true">📈</span>
+          <span class="dashboard-stat-label">Letztes Ergebnis</span>
+          <strong id="dashboard-last-score">0 %</strong>
         </article>
         <article class="dashboard-stat-card">
           <span class="stat-icon" aria-hidden="true">🃏</span>
-          <strong>15</strong>
-          <span>Karteikarten</span>
-        </article>
-        <article class="dashboard-stat-card">
-          <span class="stat-icon" aria-hidden="true">⏱️</span>
-          <strong>40</strong>
-          <span>Fragen pro Quiz</span>
+          <span class="dashboard-stat-label">Karteikarten</span>
+          <strong id="dashboard-flashcards-viewed">0 angesehen</strong>
         </article>
       </div>
     </section>
