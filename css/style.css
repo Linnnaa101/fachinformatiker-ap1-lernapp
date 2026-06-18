@@ -507,19 +507,9 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   background: transparent;
   color: var(--text);
   cursor: pointer;
-  perspective: 1200px;
   text-align: left;
 }
 .flashcard-inner {
-  position: relative;
-  display: grid;
-  min-height: 260px;
-  transform-style: preserve-3d;
-  transition: transform 0.55s ease;
-}
-.flashcard.is-flipped .flashcard-inner { transform: rotateY(180deg); }
-.flashcard-face {
-  grid-area: 1 / 1;
   display: grid;
   align-content: center;
   gap: 1rem;
@@ -530,13 +520,12 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   background: linear-gradient(145deg, rgba(37, 99, 235, 0.14), var(--surface));
   background: linear-gradient(145deg, color-mix(in srgb, var(--primary) 14%, var(--surface)), var(--surface));
   box-shadow: var(--shadow);
-  backface-visibility: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
 }
-.flashcard-back {
+.flashcard.is-showing-back .flashcard-inner {
   border-color: var(--accent);
   background: linear-gradient(145deg, rgba(22, 163, 74, 0.16), var(--surface));
   background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 16%, var(--surface)), var(--surface));
-  transform: rotateY(180deg);
 }
 .flashcard strong {
   display: block;
@@ -593,9 +582,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
-  .flashcard-inner { transform: none !important; }
-  .flashcard.is-flipped .flashcard-front { display: none; }
-  .flashcard:not(.is-flipped) .flashcard-back { display: none; }
+  .flashcard-inner { transition: none !important; }
   .theme-toggle:hover, .nav-toggle:hover, .button:hover, .category-button:hover { transform: none; }
 }
 
