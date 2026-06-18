@@ -685,7 +685,8 @@
       setText("#flashcard-progress", "Keine Karteikarten verfügbar");
       setText("#flashcard-side", "Hinweis");
       setText("#flashcard-text", "Aktuell sind keine Karteikarten verfügbar.");
-      setText("#flashcard-back-text", "");
+      setText("#flashcard-label", "Hinweis");
+      setText("#flashcard-hint", "");
       setProgress("#flashcard-progress-fill", 0);
       setDisabled("#previous-card", true);
       setDisabled("#next-card", true);
@@ -697,19 +698,17 @@
     const card = data.flashcards[flashcardIndex];
     const progress = ((flashcardIndex + 1) / data.flashcards.length) * 100;
     setText("#flashcard-progress", `Karte ${flashcardIndex + 1} von ${data.flashcards.length}`);
+    const visibleText = flashcardBackVisible ? card.back : card.front;
     setText("#flashcard-side", flashcardBackVisible ? "Antwort sichtbar" : "Frage sichtbar");
-    setText("#flashcard-text", card.front);
-    setText("#flashcard-back-text", card.back);
+    setText("#flashcard-label", flashcardBackVisible ? "Antwort" : "Frage");
+    setText("#flashcard-text", visibleText);
+    setText("#flashcard-hint", flashcardBackVisible ? "Klicke, um die Frage erneut zu sehen" : "Antwort anzeigen");
     setProgress("#flashcard-progress-fill", progress);
 
     if (cardButton) {
-      cardButton.classList.toggle("is-flipped", flashcardBackVisible);
+      cardButton.classList.toggle("is-showing-back", flashcardBackVisible);
       cardButton.setAttribute("aria-label", flashcardBackVisible ? "Frage anzeigen" : "Antwort anzeigen");
       cardButton.setAttribute("aria-pressed", String(flashcardBackVisible));
-      const backFace = $(".flashcard-back", cardButton);
-      const frontFace = $(".flashcard-front", cardButton);
-      if (backFace) backFace.setAttribute("aria-hidden", String(!flashcardBackVisible));
-      if (frontFace) frontFace.setAttribute("aria-hidden", String(flashcardBackVisible));
     }
   }
 
