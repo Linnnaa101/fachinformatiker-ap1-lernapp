@@ -520,28 +520,90 @@
     return { total, correct, wrong, percent, categoryResults, strongestCategory, weakestCategory, history };
   }
 
+  // Ergebnis-Feedback: motivierende Texte passend zur Trefferquote.
+  function getResultFeedback(percent) {
+    if (percent >= 90) {
+      return {
+        title: "Sehr stark!",
+        message: "Du bist in diesem Themenbereich schon sehr sicher und gehst mit viel Rückenwind in die AP1-Vorbereitung."
+      };
+    }
+    if (percent >= 75) {
+      return {
+        title: "Starkes Ergebnis!",
+        message: "Du hast eine gute Basis. Festige jetzt gezielt die wenigen Themen, bei denen noch Unsicherheit bleibt."
+      };
+    }
+    if (percent >= 60) {
+      return {
+        title: "Solide Grundlage.",
+        message: "Du bist auf einem guten Weg. Wiederhole einzelne Lernfelder, damit aus Grundlagen prüfungssichere Routine wird."
+      };
+    }
+    if (percent >= 40) {
+      return {
+        title: "Weiter üben lohnt sich.",
+        message: "Du hast schon wichtige Ansätze. Nutze die Auswertung, um schwächere Bereiche Schritt für Schritt zu festigen."
+      };
+    }
+    return {
+      title: "Guter Start – jetzt gezielt wiederholen.",
+      message: "Nutze die Auswertung, um die Grundlagen in den schwächeren Bereichen gezielt zu wiederholen."
+    };
+  }
+
+  // Lernempfehlung: nutzt stärkste und schwächste Kategorie aus der bestehenden Auswertung.
+  function renderLearningRecommendation(results) {
+    const strongest = results.strongestCategory;
+    const weakest = results.weakestCategory;
+    const strongestText = strongest ? `Stärkster Bereich: ${escapeHtml(strongest.title)} (${strongest.percent} %).` : "Stärkster Bereich: noch nicht verfügbar.";
+    const weakestText = weakest ? `Wiederholen: ${escapeHtml(weakest.title)} (${weakest.percent} %).` : "Wiederholen: Starte mit den Themen, bei denen du dich am unsichersten fühlst.";
+    const recommendation = weakest
+      ? `Empfehlung: Wiederhole besonders den Bereich „${escapeHtml(weakest.title)}“.`
+      : "Empfehlung: Wiederhole die wichtigsten AP1-Grundlagen und starte anschließend ein weiteres Quiz.";
+    return `
+      <h4>Lernempfehlung</h4>
+      <p>${recommendation}</p>
+      <dl class="recommendation-list">
+        <div><dt>Stärke</dt><dd>${strongestText}</dd></div>
+        <div><dt>Fokus</dt><dd>${weakestText}</dd></div>
+      </dl>
+    `;
+  }
+
   // Ergebnis-Modal: rendert Zusammenfassung und Kategorieauswertung.
   function renderResultsModal(results) {
-    setText("#quiz-results-summary", `Du hast ${results.correct} von ${results.total} Fragen richtig beantwortet (${results.percent} %).`);
+    const feedback = getResultFeedback(results.percent);
+    setText("#quiz-results-title", feedback.title);
+    setText("#quiz-results-summary", `Du hast ${results.correct} von ${results.total} Fragen richtig beantwortet. Das entspricht ${results.percent} % Trefferquote.`);
+    setText("#quiz-results-message", feedback.message);
+    const recommendation = $("#quiz-results-recommendation");
+    if (recommendation) recommendation.innerHTML = renderLearningRecommendation(results);
     const stats = $("#quiz-results-stats");
     if (stats) {
       stats.innerHTML = `
-        <div class="stat-box"><span>Richtig</span><strong>${results.correct}</strong></div>
-        <div class="stat-box"><span>Falsch</span><strong>${results.wrong}</strong></div>
-        <div class="stat-box"><span>Trefferquote</span><strong>${results.percent} %</strong></div>
+        <div class="stat-box"><span>Richtige Antworten</span><strong>${results.correct}</strong><small>von ${results.total} Fragen sicher gelöst</small></div>
+        <div class="stat-box"><span>Falsche Antworten</span><strong>${results.wrong}</strong><small>gute Ansatzpunkte zum Wiederholen</small></div>
+        <div class="stat-box"><span>Trefferquote</span><strong>${results.percent} %</strong><small>dein aktueller Lernstand</small></div>
       `;
     }
     const categoryStats = $("#quiz-category-stats");
     if (categoryStats) {
       categoryStats.innerHTML = results.categoryResults.map((item) => `
         <div class="category-result">
-          <div class="category-result-header"><span>${escapeHtml(item.title)}</span><span>${item.correct}/${item.total}</span></div>
-          <div class="stat-bar"><div class="stat-bar-fill" style="--bar-width: ${item.percent}%;"></div></div>
+          <div class="category-result-header">
+            <span class="category-result-name">${escapeHtml(item.title)}</span>
+            <span class="category-result-score">${item.correct}/${item.total} richtig</span>
+            <strong class="category-result-percent">${item.percent} %</strong>
+          </div>
+          <div class="stat-bar" aria-label="${escapeHtml(item.title)}: ${item.percent} Prozent richtig">
+            <div class="stat-bar-fill" style="--bar-width: ${item.percent}%;"></div>
+          </div>
         </div>
       `).join("");
       const note = document.createElement("p");
       note.className = "results-note";
-      note.textContent = `Stärkste Kategorie: ${results.strongestCategory?.title || "Keine"}. Schwächste Kategorie: ${results.weakestCategory?.title || "Keine"}.`;
+      note.textContent = `Stärkster Bereich: ${results.strongestCategory?.title || "Keine"}. Wiederholen: ${results.weakestCategory?.title || "Keine"}.`;
       categoryStats.appendChild(note);
     }
     renderProgressChart(results.history);
