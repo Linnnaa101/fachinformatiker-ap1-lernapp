@@ -680,10 +680,23 @@
 
   function renderFlashcard() {
     if (!$("#flashcard-text")) return;
+    const cardButton = $("#flashcard");
     if (!data.flashcards.length) {
       setText("#flashcard-progress", "Keine Karteikarten verfügbar");
       setText("#flashcard-side", "Hinweis");
       setText("#flashcard-text", "Aktuell sind keine Karteikarten verfügbar.");
+      setText("#flashcard-back-text", "");
+      setProgress("#flashcard-progress-fill", 0);
+      if (cardButton) {
+        cardButton.classList.remove("is-flipped");
+        cardButton.setAttribute("aria-label", "Antwort anzeigen");
+        cardButton.setAttribute("aria-pressed", "false");
+        const backFace = $(".flashcard-back", cardButton);
+        const frontFace = $(".flashcard-front", cardButton);
+        if (backFace) backFace.setAttribute("aria-hidden", "true");
+        if (frontFace) frontFace.setAttribute("aria-hidden", "false");
+      }
+      setDisabled("#previous-card", true);
       setDisabled("#next-card", true);
       setDisabled("#flashcard", true);
       return;
@@ -691,30 +704,58 @@
 
     flashcardIndex = clamp(flashcardIndex, 0, data.flashcards.length - 1);
     const card = data.flashcards[flashcardIndex];
+    const progress = ((flashcardIndex + 1) / data.flashcards.length) * 100;
     setText("#flashcard-progress", `Karte ${flashcardIndex + 1} von ${data.flashcards.length}`);
-    setText("#flashcard-side", flashcardBackVisible ? "Rückseite" : "Vorderseite");
-    setText("#flashcard-text", flashcardBackVisible ? card.back : card.front);
+    setText("#flashcard-side", flashcardBackVisible ? "Antwort sichtbar" : "Frage sichtbar");
+    setText("#flashcard-text", card.front);
+    setText("#flashcard-back-text", card.back);
+    setProgress("#flashcard-progress-fill", progress);
+
+    if (cardButton) {
+      cardButton.classList.toggle("is-flipped", flashcardBackVisible);
+      cardButton.setAttribute("aria-label", flashcardBackVisible ? "Frage anzeigen" : "Antwort anzeigen");
+      cardButton.setAttribute("aria-pressed", String(flashcardBackVisible));
+      const backFace = $(".flashcard-back", cardButton);
+      const frontFace = $(".flashcard-front", cardButton);
+      if (backFace) backFace.setAttribute("aria-hidden", String(!flashcardBackVisible));
+      if (frontFace) frontFace.setAttribute("aria-hidden", String(flashcardBackVisible));
+    }
+  }
+
+  function setFlashcardSide(showBack) {
+    flashcardBackVisible = showBack;
+    renderFlashcard();
+  }
+
+  function showFlashcardAt(nextIndex) {
+    if (!data.flashcards.length) return;
+    flashcardIndex = (nextIndex + data.flashcards.length) % data.flashcards.length;
+    flashcardBackVisible = false;
+    storage.set("ap1FlashcardIndex", flashcardIndex);
+    renderFlashcard();
+  }
+
+  function setProgress(selector, percent) {
+    const element = $(selector);
+    if (element) element.style.width = `${clamp(percent, 0, 100)}%`;
   }
 
   function initFlashcardControls() {
     const card = $("#flashcard");
+    const previousButton = $("#previous-card");
     const nextButton = $("#next-card");
 
     if (card) {
       card.addEventListener("click", () => {
         if (!data.flashcards.length) return;
-        flashcardBackVisible = !flashcardBackVisible;
-        renderFlashcard();
+        setFlashcardSide(!flashcardBackVisible);
       });
     }
+    if (previousButton) {
+      previousButton.addEventListener("click", () => showFlashcardAt(flashcardIndex - 1));
+    }
     if (nextButton) {
-      nextButton.addEventListener("click", () => {
-        if (!data.flashcards.length) return;
-        flashcardIndex = (flashcardIndex + 1) % data.flashcards.length;
-        flashcardBackVisible = false;
-        storage.set("ap1FlashcardIndex", flashcardIndex);
-        renderFlashcard();
-      });
+      nextButton.addEventListener("click", () => showFlashcardAt(flashcardIndex + 1));
     }
   }
 

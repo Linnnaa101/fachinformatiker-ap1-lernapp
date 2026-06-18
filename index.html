@@ -165,15 +165,34 @@
     <section id="karteikarten" class="section" aria-labelledby="flashcards-title">
       <div class="section-heading">
         <h2 id="flashcards-title">Karteikarten</h2>
-        <p>Klicke auf die Karte, um die Erklärung umzudrehen.</p>
+        <p>Prüfe erst die Frage, decke dann die Antwort auf und wechsle gezielt zur nächsten Lernkarte.</p>
       </div>
-      <article class="flashcard-panel card">
-        <p id="flashcard-progress" class="flashcard-progress">Karte 1 von 15</p>
-        <button id="flashcard" class="flashcard" type="button" aria-label="Karteikarte umdrehen">
-          <span id="flashcard-side" class="flashcard-side">Vorderseite</span>
-          <strong id="flashcard-text">Karte wird geladen ...</strong>
+      <article class="flashcard-panel card" aria-label="Karteikarten-Trainer">
+        <div class="flashcard-progress-row">
+          <p id="flashcard-progress" class="flashcard-progress">Karte 1 von 15</p>
+          <span id="flashcard-side" class="flashcard-side" aria-live="polite">Frage sichtbar</span>
+        </div>
+        <div class="flashcard-progress-track" aria-hidden="true">
+          <span id="flashcard-progress-fill" class="flashcard-progress-fill"></span>
+        </div>
+        <button id="flashcard" class="flashcard" type="button" aria-label="Antwort anzeigen" aria-pressed="false">
+          <span class="flashcard-inner">
+            <span class="flashcard-face flashcard-front" aria-hidden="false">
+              <span class="flashcard-label">Frage</span>
+              <strong id="flashcard-text">Karte wird geladen ...</strong>
+              <span class="flashcard-hint">Antwort anzeigen</span>
+            </span>
+            <span class="flashcard-face flashcard-back" aria-hidden="true">
+              <span class="flashcard-label">Antwort</span>
+              <strong id="flashcard-back-text">Antwort wird geladen ...</strong>
+              <span class="flashcard-hint">Klicke, um die Frage erneut zu sehen</span>
+            </span>
+          </span>
         </button>
-        <button id="next-card" class="button" type="button">Nächste Karte</button>
+        <div class="flashcard-controls" aria-label="Karteikarten-Steuerung">
+          <button id="previous-card" class="button button-secondary" type="button">Vorherige Karte</button>
+          <button id="next-card" class="button" type="button">Nächste Karte</button>
+        </div>
       </article>
       <!-- Zurück-nach-oben-Link für den Karteikartenbereich -->
       <a class="button back-to-top-link" href="#top" aria-label="Zurück zum Seitenanfang">↑ Zurück nach oben</a>
