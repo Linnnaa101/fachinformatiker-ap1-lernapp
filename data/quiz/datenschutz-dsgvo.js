@@ -7,7 +7,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was sind personenbezogene Daten?",
     correctAnswer: "Informationen, die sich auf eine identifizierte oder identifizierbare Person beziehen.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (1).", "Die Kabellänge eines Patchkabels im Lager (1).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (1)."],
+    wrongAnswers: ["Ausschließlich technische Gerätedaten ohne Bezug zu einer Person.", "Eine allgemeine Produktbeschreibung ohne Nutzer- oder Kundenbezug.", "Ein leerer Formularentwurf, in den noch keine Daten eingetragen wurden."],
     explanation: "Personenbezogene Daten können direkt oder indirekt einer natürlichen Person zugeordnet werden."
   },
   {
@@ -17,7 +17,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welches Beispiel ist personenbezogen?",
     correctAnswer: "Eine Kundennummer, wenn sie einer bestimmten Person zugeordnet werden kann.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (2).", "Eine technische Möglichkeit ohne rechtliche Prüfung (2).", "Eine private Notiz ohne Bezug zur Verarbeitung (2)."],
+    wrongAnswers: ["Eine Bildschirmauflösung, die keinem Nutzerkonto zugeordnet ist.", "Eine öffentlich verfügbare Bedienungsanleitung für einen Switch.", "Ein Datenbankschema ohne eingetragene Kunden- oder Mitarbeiterdaten."],
     explanation: "Auch Kennnummern sind personenbezogen, sobald eine Zuordnung zu einer Person möglich ist."
   },
   {
@@ -27,7 +27,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Warum kann eine IP-Adresse personenbezogen sein?",
     correctAnswer: "Sie kann unter bestimmten Umständen einer Person oder einem Anschluss zugeordnet werden.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (3).", "Die Anfrage wird ungelesen gelöscht (3).", "Die Identitätsprüfung wird vollständig übersprungen (3)."],
+    wrongAnswers: ["Sie beschreibt immer nur den Hersteller des Routers.", "Sie ist in Logdateien grundsätzlich nie mit Nutzungen verknüpfbar.", "Sie enthält ausschließlich die installierte Browser-Version."],
     explanation: "IP-Adressen können zur Identifikation beitragen und müssen deshalb berücksichtigt werden."
   },
   {
@@ -37,7 +37,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welche Angabe ist ein besonders offensichtliches personenbezogenes Datum?",
     correctAnswer: "Vor- und Nachname eines Kunden.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (4).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (4).", "Ein leerer Formularentwurf ohne eingegebene Daten (4)."],
+    wrongAnswers: ["Die Versionsnummer einer Softwarebibliothek.", "Die Länge eines Netzwerkkabels im Serverschrank.", "Die Modellbezeichnung eines gemeinsam genutzten Beamers."],
     explanation: "Namen beziehen sich direkt auf natürliche Personen."
   },
   {
@@ -47,7 +47,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was bedeutet Identifizierbarkeit bei personenbezogenen Daten?",
     correctAnswer: "Eine Person kann direkt oder indirekt wiedererkannt werden.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (5).", "Die Kabellänge eines Patchkabels im Lager (5).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (5)."],
+    wrongAnswers: ["Daten sind nur identifizierbar, wenn sie handschriftlich vorliegen.", "Eine Person gilt erst als identifizierbar, wenn ihr Passwort bekannt ist.", "Identifizierbarkeit entsteht ausschließlich durch Fotos im Ausweisformat."],
     explanation: "Identifizierbarkeit kann auch über Kombinationen von Merkmalen entstehen."
   },
   {
@@ -57,7 +57,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welche Datenkombination kann Personen identifizierbar machen?",
     correctAnswer: "Geburtsdatum, Wohnort und Kundennummer zusammen.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (6).", "Eine technische Möglichkeit ohne rechtliche Prüfung (6).", "Eine private Notiz ohne Bezug zur Verarbeitung (6)."],
+    wrongAnswers: ["Eine leere Textdatei ohne Metadaten.", "Ein abstraktes UML-Diagramm ohne Rollen- oder Namensbezug.", "Eine zufällig erzeugte Testzeichenfolge ohne Zuordnungstabelle."],
     explanation: "Mehrere Einzelangaben können gemeinsam einen Personenbezug herstellen."
   },
   {
@@ -67,7 +67,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Warum sind personenbezogene Daten in IT-Systemen besonders zu schützen?",
     correctAnswer: "Missbrauch kann die Rechte und Freiheiten betroffener Personen beeinträchtigen.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (7).", "Die Anfrage wird ungelesen gelöscht (7).", "Die Identitätsprüfung wird vollständig übersprungen (7)."],
+    wrongAnswers: ["Weil personenbezogene Daten in IT-Systemen nie verschlüsselt werden dürfen.", "Weil Datenschutz ausschließlich für Papierarchive vorgeschrieben ist.", "Weil technische Systeme personenbezogene Daten automatisch anonymisieren."],
     explanation: "IT-Systeme können Daten schnell kopieren, auswerten und verbreiten."
   },
   {
@@ -77,7 +77,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was ist ein Beispiel für Gesundheitsdaten?",
     correctAnswer: "Eine Information über eine Krankschreibung oder Diagnose.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (8).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (8).", "Ein leerer Formularentwurf ohne eingegebene Daten (8)."],
+    wrongAnswers: ["Die Seriennummer eines Monitors ohne Zuordnung zu einer Person.", "Ein allgemeiner Netzwerkplan ohne Patienten- oder Mitarbeiternamen.", "Die Farbe eines Buttons in einer Gesundheits-App."],
     explanation: "Gesundheitsdaten gehören zu besonders sensiblen personenbezogenen Daten."
   },
   {
@@ -87,7 +87,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was bedeutet Anonymisierung?",
     correctAnswer: "Der Personenbezug wird so entfernt, dass die Person nicht mehr identifizierbar ist.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (9).", "Die Kabellänge eines Patchkabels im Lager (9).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (9)."],
+    wrongAnswers: ["Der Name wird nur in eine andere Tabellenspalte verschoben.", "Die Kundennummer bleibt unverändert in allen Exporten enthalten.", "Die Daten werden lediglich in einer anderen Schriftart angezeigt."],
     explanation: "Wirksam anonymisierte Daten lassen keinen Rückschluss auf einzelne Personen zu."
   },
   {
@@ -97,7 +97,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was ist Pseudonymisierung?",
     correctAnswer: "Identifizierende Merkmale werden durch Kennzeichen ersetzt, bleiben aber mit Zusatzwissen zuordenbar.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (10).", "Eine technische Möglichkeit ohne rechtliche Prüfung (10).", "Eine private Notiz ohne Bezug zur Verarbeitung (10)."],
+    wrongAnswers: ["Alle Daten werden endgültig anonymisiert und sind nie wieder zuordenbar.", "Personennamen werden nur farbig markiert.", "Die Originaldaten werden ohne Zugriffsschutz neben dem Pseudonym gespeichert."],
     explanation: "Pseudonymisierte Daten bleiben personenbezogen, wenn eine Zuordnung möglich ist."
   },
   {
@@ -107,7 +107,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Warum braucht eine Verarbeitung personenbezogener Daten eine Rechtsgrundlage?",
     correctAnswer: "Weil personenbezogene Daten nicht ohne rechtliche Erlaubnis verarbeitet werden dürfen.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (11).", "Die Anfrage wird ungelesen gelöscht (11).", "Die Identitätsprüfung wird vollständig übersprungen (11)."],
+    wrongAnswers: ["Weil jede technisch mögliche Auswertung automatisch erlaubt ist.", "Weil nur unverschlüsselte Daten einer Erlaubnis bedürfen.", "Weil private Notizen im Unternehmen immer als Rechtsgrundlage reichen."],
     explanation: "Für jede Verarbeitung muss eine passende Rechtsgrundlage vorliegen."
   },
   {
@@ -117,7 +117,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welche Rechtsgrundlage kann für einen Online-Shop bei der Bestellabwicklung passen?",
     correctAnswer: "Die Verarbeitung ist zur Erfüllung eines Vertrags erforderlich.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (12).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (12).", "Ein leerer Formularentwurf ohne eingegebene Daten (12)."],
+    wrongAnswers: ["Die Verarbeitung ist erlaubt, weil Webshops grundsätzlich keine DSGVO beachten müssen.", "Die Verarbeitung ist nur wegen des verwendeten Datenbanktyps zulässig.", "Die Verarbeitung darf ohne Zweck erfolgen, wenn die Bestellung online eingeht."],
     explanation: "Bestellung, Lieferung und Zahlung benötigen typische Vertragsdaten."
   },
   {
@@ -127,7 +127,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was ist bei einer Einwilligung wichtig?",
     correctAnswer: "Sie muss freiwillig, informiert und eindeutig erfolgen.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (13).", "Die Kabellänge eines Patchkabels im Lager (13).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (13)."],
+    wrongAnswers: ["Sie ist wirksam, wenn sie in langen AGB versteckt wird.", "Sie darf nach Abgabe niemals widerrufen werden.", "Sie ersetzt automatisch jede Informationspflicht und Zugriffskontrolle."],
     explanation: "Eine wirksame Einwilligung setzt eine bewusste und informierte Entscheidung voraus."
   },
   {
@@ -137,7 +137,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was bedeutet Widerruf einer Einwilligung?",
     correctAnswer: "Die betroffene Person kann ihre Zustimmung für die Zukunft zurücknehmen.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (14).", "Eine technische Möglichkeit ohne rechtliche Prüfung (14).", "Eine private Notiz ohne Bezug zur Verarbeitung (14)."],
+    wrongAnswers: ["Der Verantwortliche darf die Daten nach dem Widerruf für denselben Zweck beliebig weiterverarbeiten.", "Der Widerruf gilt nur, wenn er per Einschreiben erfolgt.", "Durch den Widerruf müssen alle rechtmäßig erfolgten früheren Verarbeitungen automatisch falsch sein."],
     explanation: "Nach dem Widerruf darf die Verarbeitung meist nicht weiter auf diese Einwilligung gestützt werden."
   },
   {
@@ -147,7 +147,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welche Rechtsgrundlage kann bei gesetzlichen Aufbewahrungspflichten relevant sein?",
     correctAnswer: "Die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (15).", "Die Anfrage wird ungelesen gelöscht (15).", "Die Identitätsprüfung wird vollständig übersprungen (15)."],
+    wrongAnswers: ["Daten dürfen aufbewahrt werden, weil Speicherplatz günstig ist.", "Eine rechtliche Verpflichtung entsteht allein durch Interesse der IT-Abteilung.", "Aufbewahrungspflichten gelten nur für Screenshots von Rechnungen."],
     explanation: "Gesetze können Unternehmen zur Aufbewahrung bestimmter Daten verpflichten."
   },
   {
@@ -157,7 +157,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was ist ein berechtigtes Interesse als Rechtsgrundlage?",
     correctAnswer: "Ein legitimes Interesse, das gegen die Interessen der betroffenen Person abgewogen werden muss.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (16).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (16).", "Ein leerer Formularentwurf ohne eingegebene Daten (16)."],
+    wrongAnswers: ["Ein berechtigtes Interesse erlaubt jede Profilbildung ohne Abwägung.", "Es ist dasselbe wie eine stillschweigende Einwilligung.", "Es entsteht automatisch, wenn ein Tool viele Auswertungen anbietet."],
     explanation: "Diese Rechtsgrundlage verlangt eine nachvollziehbare Interessenabwägung."
   },
   {
@@ -167,7 +167,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Warum sollte die Rechtsgrundlage dokumentiert werden?",
     correctAnswer: "Die Verarbeitung muss nachvollziehbar und prüfbar begründet sein.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (17).", "Die Kabellänge eines Patchkabels im Lager (17).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (17)."],
+    wrongAnswers: ["Damit Betroffene ihre Rechte nicht mehr ausüben können.", "Damit technische Schutzmaßnahmen entfallen.", "Damit Daten ohne Zweck gesammelt werden dürfen."],
     explanation: "Dokumentation unterstützt die Rechenschaftspflicht."
   },
   {
@@ -177,7 +177,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welche Aussage zur Einwilligung in einer App ist richtig?",
     correctAnswer: "Die App sollte klar erklären, wofür die Daten genutzt werden.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (18).", "Eine technische Möglichkeit ohne rechtliche Prüfung (18).", "Eine private Notiz ohne Bezug zur Verarbeitung (18)."],
+    wrongAnswers: ["Die App darf Kontakte hochladen, bevor sie den Zweck erklärt.", "Ein voreingestelltes Häkchen reicht immer für sensible Daten.", "Die Einwilligung kann in einer unverständlichen Fehlermeldung versteckt werden."],
     explanation: "Nutzer müssen verstehen, worin sie einwilligen."
   },
   {
@@ -187,7 +187,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Warum ist Zweckbindung auch für die Rechtsgrundlage wichtig?",
     correctAnswer: "Die Rechtsgrundlage bezieht sich auf einen bestimmten Verarbeitungszweck.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (19).", "Die Anfrage wird ungelesen gelöscht (19).", "Die Identitätsprüfung wird vollständig übersprungen (19)."],
+    wrongAnswers: ["Eine Rechtsgrundlage für Newsletter erlaubt automatisch Bonitätsprüfungen.", "Der Zweck muss erst nach Abschluss der Verarbeitung festgelegt werden.", "Zweckbindung betrifft nur anonymisierte Serverstatistiken."],
     explanation: "Eine Erlaubnis für einen Zweck erlaubt nicht automatisch beliebige weitere Nutzungen."
   },
   {
@@ -197,7 +197,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was bedeutet Verarbeitung im Sinne der DSGVO?",
     correctAnswer: "Jeder Umgang mit personenbezogenen Daten, zum Beispiel Erheben, Speichern oder Löschen.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (20).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (20).", "Ein leerer Formularentwurf ohne eingegebene Daten (20)."],
+    wrongAnswers: ["Nur das Ausdrucken personenbezogener Daten auf Papier.", "Nur das Schreiben von Quellcode ohne Echtdaten.", "Nur das Anschließen eines neuen Eingabegeräts."],
     explanation: "Der Verarbeitungsbegriff ist sehr weit gefasst."
   },
   {
@@ -207,7 +207,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Welche Rechtsgrundlage passt häufig zur Lohnabrechnung?",
     correctAnswer: "Vertragliche und gesetzliche Pflichten können die Verarbeitung erforderlich machen.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (21).", "Die Kabellänge eines Patchkabels im Lager (21).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (21)."],
+    wrongAnswers: ["Lohndaten dürfen ohne Zweck im Intranet veröffentlicht werden.", "Eine Lohnabrechnung enthält nie personenbezogene Daten.", "Die Verarbeitung ist nur wegen der Gestaltung der Abrechnung zulässig."],
     explanation: "Arbeitsverhältnisse erfordern bestimmte Personal- und Abrechnungsdaten."
   },
   {
@@ -217,7 +217,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was sollte vor dem Einsatz eines Tracking-Tools geprüft werden?",
     correctAnswer: "Zweck, Rechtsgrundlage, Informationspflichten und technische Schutzmaßnahmen.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (22).", "Eine technische Möglichkeit ohne rechtliche Prüfung (22).", "Eine private Notiz ohne Bezug zur Verarbeitung (22)."],
+    wrongAnswers: ["Nur die Farbe des Cookie-Banners.", "Ob möglichst viele Daten vorsorglich erhoben werden können.", "Ob Trackingdaten ohne Information dauerhaft an beliebige Stellen gehen."],
     explanation: "Tracking kann Nutzerverhalten erfassen und braucht eine Datenschutzprüfung."
   },
   {
@@ -227,7 +227,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was ist eine Informationspflicht?",
     correctAnswer: "Betroffene müssen verständlich über die Datenverarbeitung informiert werden.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (23).", "Die Anfrage wird ungelesen gelöscht (23).", "Die Identitätsprüfung wird vollständig übersprungen (23)."],
+    wrongAnswers: ["Betroffene sollen gerade nicht erfahren, welche Daten verarbeitet werden.", "Nur Administratoren haben Anspruch auf Datenschutzinformationen.", "Informationen sind nur bei synthetischen Testdaten erforderlich."],
     explanation: "Transparenz ist ein Grundprinzip rechtmäßiger Verarbeitung."
   },
   {
@@ -237,7 +237,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Wann ist eine Datenverarbeitung besonders kritisch zu prüfen?",
     correctAnswer: "Wenn sensible Daten oder umfangreiche personenbezogene Daten verarbeitet werden.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (24).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (24).", "Ein leerer Formularentwurf ohne eingegebene Daten (24)."],
+    wrongAnswers: ["Wenn ausschließlich anonymisierte Beispieldaten genutzt werden.", "Wenn nur eine leere Konfigurationsdatei angelegt wird.", "Wenn keine natürliche Person identifizierbar ist."],
     explanation: "Höhere Risiken erfordern sorgfältigere Prüfung und Schutzmaßnahmen."
   },
   {
@@ -247,107 +247,107 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "leicht",
     question: "Was ist der Grundsatz der Rechtmäßigkeit?",
     correctAnswer: "Personenbezogene Daten dürfen nur mit passender Rechtsgrundlage verarbeitet werden.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (25).", "Die Kabellänge eines Patchkabels im Lager (25).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (25)."],
+    wrongAnswers: ["Daten dürfen immer verarbeitet werden, sobald sie technisch verfügbar sind.", "Rechtmäßigkeit betrifft nur das Layout einer Anwendung.", "Für Datenbanken gilt der Grundsatz der Rechtmäßigkeit nicht."],
     explanation: "Rechtmäßigkeit ist ein zentrales Prinzip der DSGVO."
   },
   {
     id: "datenschutz-dsgvo-026",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was ist das Auskunftsrecht?",
     correctAnswer: "Betroffene können Informationen darüber verlangen, welche personenbezogenen Daten verarbeitet werden.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (26).", "Eine technische Möglichkeit ohne rechtliche Prüfung (26).", "Eine private Notiz ohne Bezug zur Verarbeitung (26)."],
+    wrongAnswers: ["Betroffene müssen alle gespeicherten Daten selbst erraten.", "Auskunft bedeutet, dass die Daten automatisch gelöscht werden.", "Auskunft betrifft nur Inventarlisten ohne Personenbezug."],
     explanation: "Das Auskunftsrecht schafft Transparenz über gespeicherte Daten."
   },
   {
     id: "datenschutz-dsgvo-027",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was bedeutet Recht auf Berichtigung?",
     correctAnswer: "Unrichtige personenbezogene Daten müssen korrigiert werden.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (27).", "Die Anfrage wird ungelesen gelöscht (27).", "Die Identitätsprüfung wird vollständig übersprungen (27)."],
+    wrongAnswers: ["Falsche Daten müssen dauerhaft unverändert bleiben.", "Berichtigung ist nur für Quellcodekommentare vorgesehen.", "Berichtigung macht eine spätere Löschprüfung immer überflüssig."],
     explanation: "Falsche Daten sollen nicht weiter Grundlage von Entscheidungen sein."
   },
   {
     id: "datenschutz-dsgvo-028",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was bedeutet Recht auf Löschung?",
     correctAnswer: "Betroffene können unter bestimmten Voraussetzungen die Löschung ihrer Daten verlangen.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (28).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (28).", "Ein leerer Formularentwurf ohne eingegebene Daten (28)."],
+    wrongAnswers: ["Alle Daten müssen unmittelbar nach jeder Anmeldung gelöscht werden.", "Löschung ist bei personenbezogenen Daten grundsätzlich verboten.", "Löschung betrifft nur leere Projektordner ohne Datenbestand."],
     explanation: "Löschung hängt unter anderem von Zweck und Aufbewahrungspflichten ab."
   },
   {
     id: "datenschutz-dsgvo-029",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Wann kann eine Löschung abgelehnt werden?",
     correctAnswer: "Wenn gesetzliche Aufbewahrungspflichten entgegenstehen.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (29).", "Die Kabellänge eines Patchkabels im Lager (29).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (29)."],
+    wrongAnswers: ["Wenn das Unternehmen die Daten für spätere Werbung interessant findet.", "Wenn die Datei technisch besonders einfach kopierbar ist.", "Wenn ein Entwickler die Datensätze privat weiter analysieren möchte."],
     explanation: "Rechte der Betroffenen sind mit rechtlichen Pflichten abzuwägen."
   },
   {
     id: "datenschutz-dsgvo-030",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was bedeutet Recht auf Datenübertragbarkeit?",
     correctAnswer: "Betroffene können bestimmte Daten in einem strukturierten, gängigen Format erhalten.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (30).", "Eine technische Möglichkeit ohne rechtliche Prüfung (30).", "Eine private Notiz ohne Bezug zur Verarbeitung (30)."],
+    wrongAnswers: ["Daten müssen als unstrukturierter Screenshot bereitgestellt werden.", "Das Recht erlaubt die beliebige Weitergabe fremder Kundendaten.", "Datenübertragbarkeit betrifft ausschließlich Druckerwarteschlangen."],
     explanation: "Das Recht erleichtert den Wechsel zwischen Diensten."
   },
   {
     id: "datenschutz-dsgvo-031",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was bedeutet Widerspruchsrecht?",
     correctAnswer: "Betroffene können bestimmten Verarbeitungen widersprechen.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (31).", "Die Anfrage wird ungelesen gelöscht (31).", "Die Identitätsprüfung wird vollständig übersprungen (31)."],
+    wrongAnswers: ["Betroffene müssen jeder Verarbeitung automatisch zustimmen.", "Widerspruch ist nur gegen den Austausch von Hardware möglich.", "Ein Widerspruch löscht immer sofort sämtliche Sicherungskopien."],
     explanation: "Je nach Rechtsgrundlage muss ein Widerspruch beachtet werden."
   },
   {
     id: "datenschutz-dsgvo-032",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was sollte ein Unternehmen bei einer Betroffenenanfrage zuerst tun?",
     correctAnswer: "Die Anfrage prüfen und die Identität der anfragenden Person angemessen klären.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (32).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (32).", "Ein leerer Formularentwurf ohne eingegebene Daten (32)."],
+    wrongAnswers: ["Die Anfrage ohne Prüfung an eine beliebige Adresse beantworten.", "Die Anfrage löschen, weil sie zusätzlichen Aufwand verursacht.", "Nur Anfragen beantworten, die auf Papier mit Firmenstempel eingehen."],
     explanation: "So wird verhindert, dass Daten an Unbefugte herausgegeben werden."
   },
   {
     id: "datenschutz-dsgvo-033",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Warum sind Fristen bei Betroffenenrechten wichtig?",
     correctAnswer: "Anfragen müssen innerhalb angemessener gesetzlicher Fristen bearbeitet werden.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (33).", "Die Kabellänge eines Patchkabels im Lager (33).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (33)."],
+    wrongAnswers: ["Betroffenenanfragen dürfen unbegrenzt liegen bleiben.", "Fristen gelten nur für Softwaretests und Projektpläne.", "Fristen ersetzen die Prüfung, ob die Person wirklich berechtigt ist."],
     explanation: "Fristen gehören zu einer funktionierenden Datenschutzorganisation."
   },
   {
     id: "datenschutz-dsgvo-034",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Was bedeutet Einschränkung der Verarbeitung?",
     correctAnswer: "Daten werden vorübergehend nur noch begrenzt verarbeitet.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (34).", "Eine technische Möglichkeit ohne rechtliche Prüfung (34).", "Eine private Notiz ohne Bezug zur Verarbeitung (34)."],
+    wrongAnswers: ["Alle Daten werden dadurch automatisch im Internet veröffentlicht.", "Die Daten dürfen während der Prüfung beliebig weiterverkauft werden.", "Die Verarbeitung wird dadurch auf alle denkbaren Zwecke erweitert."],
     explanation: "Das kann während Prüfungen oder Streitigkeiten erforderlich sein."
   },
   {
     id: "datenschutz-dsgvo-035",
     category: "datenschutz-dsgvo",
     topic: "betroffenenrechte",
-    difficulty: "mittel",
+    difficulty: "leicht",
     question: "Warum müssen Betroffenenrechte technisch unterstützt werden?",
     correctAnswer: "Systeme müssen Daten auffindbar, korrigierbar oder löschbar machen können.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (35).", "Die Anfrage wird ungelesen gelöscht (35).", "Die Identitätsprüfung wird vollständig übersprungen (35)."],
+    wrongAnswers: ["Betroffenenrechte gelten nur außerhalb von IT-Systemen.", "Datenbanken dürfen keine Such- oder Exportfunktionen besitzen.", "Technische Systeme dürfen Rechte von Betroffenen grundsätzlich ignorieren."],
     explanation: "Rechte müssen im IT-Betrieb praktisch umsetzbar sein."
   },
   {
@@ -357,7 +357,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist bei der Auskunftserteilung an eine betroffene Person zu beachten?",
     correctAnswer: "Es dürfen keine personenbezogenen Daten anderer Personen unbefugt offengelegt werden.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (36).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (36).", "Ein leerer Formularentwurf ohne eingegebene Daten (36)."],
+    wrongAnswers: ["Alle Datensätze anderer Kunden müssen mitgesendet werden.", "Die Antwort muss öffentlich auf der Webseite abrufbar sein.", "Auskunft darf grundsätzlich nur mündlich und ohne Nachweis erfolgen."],
     explanation: "Auch bei Auskunftsanfragen bleiben Rechte Dritter geschützt."
   },
   {
@@ -367,7 +367,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein typischer Fehler bei Betroffenenanfragen?",
     correctAnswer: "Die Anfrage wird nicht dokumentiert und bleibt ohne nachvollziehbare Bearbeitung.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (37).", "Die Kabellänge eines Patchkabels im Lager (37).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (37)."],
+    wrongAnswers: ["Die Identität wird sorgfältig geprüft und dokumentiert.", "Die Anfrage wird an die zuständige Datenschutzstelle weitergeleitet.", "Die Bearbeitungsfrist wird nachvollziehbar überwacht."],
     explanation: "Dokumentation hilft bei Fristen, Zuständigkeiten und Nachweisen."
   },
   {
@@ -377,7 +377,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was bedeutet Recht auf Beschwerde bei einer Aufsichtsbehörde?",
     correctAnswer: "Betroffene können sich bei einer Datenschutzaufsicht über eine Verarbeitung beschweren.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (38).", "Eine technische Möglichkeit ohne rechtliche Prüfung (38).", "Eine private Notiz ohne Bezug zur Verarbeitung (38)."],
+    wrongAnswers: ["Betroffene dürfen nur den Systemadministrator informieren.", "Eine Beschwerde ist ausschließlich bei defekten Geräten möglich.", "Beschwerden bei Aufsichtsbehörden sind automatisch unbeachtlich."],
     explanation: "Aufsichtsbehörden kontrollieren die Einhaltung des Datenschutzrechts."
   },
   {
@@ -387,7 +387,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sollte ein Self-Service-Portal für Datenänderungen sorgfältig geschützt werden?",
     correctAnswer: "Unbefugte könnten sonst personenbezogene Daten einsehen oder verändern.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (39).", "Die Anfrage wird ungelesen gelöscht (39).", "Die Identitätsprüfung wird vollständig übersprungen (39)."],
+    wrongAnswers: ["Ein solches Portal benötigt grundsätzlich keine Authentifizierung.", "Änderungen ohne Protokollierung sind immer sicherer.", "Betroffene dürfen ihre gespeicherten Daten nie einsehen."],
     explanation: "Ein Portal für Betroffenenrechte darf keine neue Sicherheitslücke schaffen."
   },
   {
@@ -397,7 +397,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was sollte bei der Löschung von Kundendaten mit Backups bedacht werden?",
     correctAnswer: "Backups können Aufbewahrungs- und Wiederherstellungsprozesse beeinflussen.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (40).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (40).", "Ein leerer Formularentwurf ohne eingegebene Daten (40)."],
+    wrongAnswers: ["Backups dürfen in einem Löschkonzept nie betrachtet werden.", "Gelöschte Daten müssen in Sicherungen öffentlich sichtbar bleiben.", "Backups ersetzen die Prüfung, ob ein Löschanspruch besteht."],
     explanation: "Löschkonzepte müssen auch Sicherungen berücksichtigen."
   },
   {
@@ -407,7 +407,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was bedeutet Datenminimierung?",
     correctAnswer: "Es werden nur die Daten verarbeitet, die für den Zweck erforderlich sind.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (41).", "Die Kabellänge eines Patchkabels im Lager (41).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (41)."],
+    wrongAnswers: ["Es werden möglichst viele Daten vorsorglich gesammelt.", "Alle Daten werden ohne Frist dauerhaft öffentlich gespeichert.", "Datenminimierung bedeutet, Schutzmaßnahmen nicht zu planen."],
     explanation: "Datenminimierung reduziert unnötige Verarbeitung und Risiken."
   },
   {
@@ -417,7 +417,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was bedeutet Zweckbindung?",
     correctAnswer: "Daten dürfen grundsätzlich nur für festgelegte, eindeutige Zwecke verarbeitet werden.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (42).", "Eine technische Möglichkeit ohne rechtliche Prüfung (42).", "Eine private Notiz ohne Bezug zur Verarbeitung (42)."],
+    wrongAnswers: ["Daten dürfen später für jeden beliebigen Zweck genutzt werden.", "Der Zweck muss erst nach der Löschung festgelegt werden.", "Zweckbindung gilt nur für vollständig anonyme Testdaten."],
     explanation: "Der Zweck begrenzt die zulässige Nutzung personenbezogener Daten."
   },
   {
@@ -427,7 +427,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Welche Datenerhebung passt zum Grundsatz der Datenminimierung?",
     correctAnswer: "Ein Newsletterformular fragt nur E-Mail-Adresse und notwendige Einwilligung ab.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (43).", "Die Anfrage wird ungelesen gelöscht (43).", "Die Identitätsprüfung wird vollständig übersprungen (43)."],
+    wrongAnswers: ["Das Formular verlangt ohne Zweck Ausweisnummer, Gehalt und Familienstand.", "Die App lädt ungefragt das gesamte Adressbuch hoch.", "Ein Kontaktformular fordert Gesundheitsdaten für eine Produktfrage an."],
     explanation: "Für einen Newsletter sind meist nur wenige Angaben erforderlich."
   },
   {
@@ -437,7 +437,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum ist Vorratsdatensammlung in Projekten problematisch?",
     correctAnswer: "Daten werden ohne konkreten Zweck gesammelt und erhöhen Datenschutzrisiken.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (44).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (44).", "Ein leerer Formularentwurf ohne eingegebene Daten (44)."],
+    wrongAnswers: ["Vorratsdatensammlung macht jede Verarbeitung automatisch rechtmäßig.", "Sie ersetzt ein Löschkonzept vollständig.", "Sie macht Informationspflichten gegenüber Betroffenen überflüssig."],
     explanation: "Unnötige Sammlung widerspricht Datenminimierung und Zweckbindung."
   },
   {
@@ -447,7 +447,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was sollte vor dem Hinzufügen eines neuen Formularfeldes geprüft werden?",
     correctAnswer: "Ob das Feld für den konkreten Zweck wirklich erforderlich ist.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (45).", "Die Kabellänge eines Patchkabels im Lager (45).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (45)."],
+    wrongAnswers: ["Ob damit möglichst viele sensible Informationen erfasst werden.", "Ob Nutzer dadurch weniger über die Verarbeitung erfahren.", "Ob das Feld dauerhaft ohne Zweck dokumentiert werden kann."],
     explanation: "Jedes zusätzliche Feld erhöht Umfang und Risiko der Verarbeitung."
   },
   {
@@ -457,7 +457,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sind Löschfristen für Datenminimierung wichtig?",
     correctAnswer: "Daten werden nicht länger gespeichert, als sie benötigt werden.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (46).", "Eine technische Möglichkeit ohne rechtliche Prüfung (46).", "Eine private Notiz ohne Bezug zur Verarbeitung (46)."],
+    wrongAnswers: ["Löschfristen verhindern jede Datensicherung.", "Daten müssen dadurch immer unmittelbar nach Eingang gelöscht werden.", "Löschfristen gelten ausschließlich für ausgedruckte Listen."],
     explanation: "Speicherbegrenzung verhindert unnötige Datenhaltung."
   },
   {
@@ -467,7 +467,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein Löschkonzept?",
     correctAnswer: "Eine Regelung, wann und wie Daten gelöscht oder anonymisiert werden.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (47).", "Die Anfrage wird ungelesen gelöscht (47).", "Die Identitätsprüfung wird vollständig übersprungen (47)."],
+    wrongAnswers: ["Eine Liste von Daten, die niemals entfernt werden dürfen.", "Ein Diagramm nur für die Netzwerktopologie.", "Eine Sammlung von Administratorkennwörtern."],
     explanation: "Ein Löschkonzept macht Speicherbegrenzung praktisch umsetzbar."
   },
   {
@@ -477,7 +477,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sollte ein System Standardwerte datenschutzfreundlich wählen?",
     correctAnswer: "Nutzer sollen nicht mehr Daten preisgeben, als für den Zweck nötig ist.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (48).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (48).", "Ein leerer Formularentwurf ohne eingegebene Daten (48)."],
+    wrongAnswers: ["Standardwerte sollen immer maximale Datensammlung aktivieren.", "Datenschutzfreundliche Defaults verhindern jede Nutzung des Systems.", "Standardwerte sind nur für Druckereinstellungen relevant."],
     explanation: "Datenschutzfreundliche Defaults unterstützen Datenminimierung."
   },
   {
@@ -487,7 +487,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Wann kann eine Zweckänderung problematisch sein?",
     correctAnswer: "Wenn Daten für einen neuen Zweck genutzt werden sollen, der nicht zur ursprünglichen Erhebung passt.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (49).", "Die Kabellänge eines Patchkabels im Lager (49).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (49)."],
+    wrongAnswers: ["Wenn der ursprüngliche Zweck klar dokumentiert wurde.", "Wenn ausschließlich nicht personenbezogene Daten betroffen sind.", "Wenn die Daten wirksam anonymisiert wurden."],
     explanation: "Neue Zwecke können eine neue Prüfung und Rechtsgrundlage erfordern."
   },
   {
@@ -497,7 +497,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein gutes Beispiel für Zweckbindung?",
     correctAnswer: "Supportdaten werden nur zur Bearbeitung der konkreten Supportanfrage genutzt.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (50).", "Eine technische Möglichkeit ohne rechtliche Prüfung (50).", "Eine private Notiz ohne Bezug zur Verarbeitung (50)."],
+    wrongAnswers: ["Supportdaten werden ohne Information für Werbung genutzt.", "Supportdaten werden ohne Frist dauerhaft archiviert.", "Supportdaten werden an beliebige Partnerunternehmen weitergegeben."],
     explanation: "Die Nutzung bleibt auf den festgelegten Zweck beschränkt."
   },
   {
@@ -507,7 +507,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sollten Testdaten möglichst anonymisiert oder synthetisch sein?",
     correctAnswer: "Entwicklungs- und Testumgebungen benötigen oft keinen echten Personenbezug.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (51).", "Die Anfrage wird ungelesen gelöscht (51).", "Die Identitätsprüfung wird vollständig übersprungen (51)."],
+    wrongAnswers: ["Echte Kundendaten sind in Tests immer zwingend erforderlich.", "Synthetische Daten dürfen für Softwaretests nie genutzt werden.", "Anonymisierung erhöht automatisch den Personenbezug."],
     explanation: "So werden Risiken in Testumgebungen reduziert."
   },
   {
@@ -517,7 +517,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was bedeutet Erforderlichkeit bei Datenfeldern?",
     correctAnswer: "Ein Feld wird nur erhoben, wenn es für den Zweck notwendig ist.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (52).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (52).", "Ein leerer Formularentwurf ohne eingegebene Daten (52)."],
+    wrongAnswers: ["Jedes verfügbare Feld muss vorsorglich gespeichert werden.", "Erforderlichkeit wird erst nach Produktivsetzung geprüft.", "Unnötige Felder verbessern automatisch die Datensicherheit."],
     explanation: "Erforderlichkeit ist ein praktischer Maßstab für Datenminimierung."
   },
   {
@@ -527,7 +527,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sollten Protokolldaten zeitlich begrenzt aufbewahrt werden?",
     correctAnswer: "Logs können personenbezogene Informationen enthalten und sollen nicht unbegrenzt gespeichert werden.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (53).", "Die Kabellänge eines Patchkabels im Lager (53).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (53)."],
+    wrongAnswers: ["Logs dürfen niemals Sicherheitszwecken dienen.", "Logs enthalten grundsätzlich nur leere Zeichenketten.", "Eine Speicherfrist verhindert jede spätere Fehleranalyse."],
     explanation: "Auch Logs benötigen Zweck und Speicherfrist."
   },
   {
@@ -537,7 +537,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Welche Frage hilft bei Datenminimierung in der Anforderungsanalyse?",
     correctAnswer: "Welche personenbezogenen Daten sind für diese Funktion wirklich notwendig?",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (54).", "Eine technische Möglichkeit ohne rechtliche Prüfung (54).", "Eine private Notiz ohne Bezug zur Verarbeitung (54)."],
+    wrongAnswers: ["Welche Daten könnten irgendwann vielleicht interessant sein?", "Wie können möglichst viele sensible Daten gesammelt werden?", "Wie umgehen wir Informationspflichten durch technische Gestaltung?"],
     explanation: "Datenschutz sollte schon bei Anforderungen berücksichtigt werden."
   },
   {
@@ -547,7 +547,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein Risiko unklarer Zwecke in einem IT-Projekt?",
     correctAnswer: "Das Team sammelt oder nutzt Daten ohne klare rechtliche und fachliche Begrenzung.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (55).", "Die Anfrage wird ungelesen gelöscht (55).", "Die Identitätsprüfung wird vollständig übersprungen (55)."],
+    wrongAnswers: ["Die Verarbeitung wird dadurch automatisch transparenter.", "Betroffenenrechte lassen sich dadurch immer leichter erfüllen.", "Die Löschfristen werden dadurch zwangsläufig kürzer."],
     explanation: "Unklare Zwecke erschweren Rechtmäßigkeit und Löschung."
   },
   {
@@ -557,7 +557,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was sind technische und organisatorische Maßnahmen?",
     correctAnswer: "Maßnahmen, die personenbezogene Daten durch Technik und Prozesse schützen.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (56).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (56).", "Ein leerer Formularentwurf ohne eingegebene Daten (56)."],
+    wrongAnswers: ["Ausschließlich optische Verbesserungen an Benutzeroberflächen.", "Beliebige Projektideen ohne Bezug zu Sicherheit oder Datenschutz.", "Nur Marketingmaßnahmen für neue IT-Produkte."],
     explanation: "TOMs verbinden technische Schutzmechanismen mit organisatorischen Regeln."
   },
   {
@@ -567,7 +567,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Welche Maßnahme schützt vor unbefugtem Zugriff?",
     correctAnswer: "Rollenbasierte Berechtigungen mit starken Passwörtern oder Mehrfaktor-Authentifizierung.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (57).", "Die Kabellänge eines Patchkabels im Lager (57).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (57)."],
+    wrongAnswers: ["Ein gemeinsames Administratorkonto für alle Mitarbeiter.", "Passwörter in einer frei zugänglichen Textdatei.", "Zugriff ohne Anmeldung auf die Kundendatenbank."],
     explanation: "Zugriffsschutz verhindert Einsicht oder Änderung durch Unbefugte."
   },
   {
@@ -577,7 +577,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum ist Protokollierung bei personenbezogenen Daten hilfreich?",
     correctAnswer: "Zugriffe und Änderungen können nachvollzogen und geprüft werden.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (58).", "Eine technische Möglichkeit ohne rechtliche Prüfung (58).", "Eine private Notiz ohne Bezug zur Verarbeitung (58)."],
+    wrongAnswers: ["Protokollierung erlaubt jede beliebige Datennutzung.", "Protokolle müssen immer öffentlich einsehbar sein.", "Protokolle ersetzen jede Zugriffskontrolle."],
     explanation: "Logs helfen bei Kontrolle, Fehleranalyse und Vorfällen."
   },
   {
@@ -587,7 +587,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein Beispiel für eine organisatorische Maßnahme?",
     correctAnswer: "Eine Richtlinie, wer Kundendaten bearbeiten darf.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (59).", "Die Anfrage wird ungelesen gelöscht (59).", "Die Identitätsprüfung wird vollständig übersprungen (59)."],
+    wrongAnswers: ["Eine zufällige Farbe für den Login-Button.", "Ein unbeschriftetes Netzwerkkabel im Serverschrank.", "Eine private Einkaufsliste ohne Unternehmensbezug."],
     explanation: "Organisatorische Maßnahmen regeln Abläufe und Zuständigkeiten."
   },
   {
@@ -597,7 +597,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sind regelmäßige Backups eine Datenschutzmaßnahme?",
     correctAnswer: "Sie unterstützen Verfügbarkeit und Wiederherstellbarkeit personenbezogener Daten.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (60).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (60).", "Ein leerer Formularentwurf ohne eingegebene Daten (60)."],
+    wrongAnswers: ["Backups machen Berechtigungen überflüssig.", "Backups müssen immer unverschlüsselt gespeichert werden.", "Backups dienen ausschließlich der Gestaltung von Webseiten."],
     explanation: "Datenschutz umfasst auch Schutz vor Verlust und Ausfall."
   },
   {
@@ -607,7 +607,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sollten Datenträger vor Entsorgung sicher gelöscht werden?",
     correctAnswer: "Sonst könnten personenbezogene Daten aus alten Datenträgern wiederhergestellt werden.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (61).", "Die Kabellänge eines Patchkabels im Lager (61).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (61)."],
+    wrongAnswers: ["Gelöschte Datenträger müssen grundsätzlich veröffentlicht werden.", "Sicheres Löschen betrifft nur leere USB-Sticks.", "Die Entsorgung von Datenträgern hat keinen Datenschutzbezug."],
     explanation: "Unsichere Entsorgung kann Datenabfluss verursachen."
   },
   {
@@ -617,7 +617,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein Beispiel für Verschlüsselung als Schutzmaßnahme?",
     correctAnswer: "Ein Laptop speichert Kundendaten nur auf verschlüsseltem Datenträger.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (62).", "Eine technische Möglichkeit ohne rechtliche Prüfung (62).", "Eine private Notiz ohne Bezug zur Verarbeitung (62)."],
+    wrongAnswers: ["Kundendaten werden ohne Passwort auf einem öffentlichen Laufwerk gespeichert.", "Alle Nutzer verwenden dasselbe Administratorkonto.", "Backups werden ungeschützt per E-Mail versendet."],
     explanation: "Verschlüsselung schützt Daten bei Verlust oder Diebstahl."
   },
   {
@@ -627,7 +627,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sind Schulungen zum Datenschutz sinnvoll?",
     correctAnswer: "Mitarbeiter erkennen Risiken und können Regeln korrekt anwenden.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (63).", "Die Anfrage wird ungelesen gelöscht (63).", "Die Identitätsprüfung wird vollständig übersprungen (63)."],
+    wrongAnswers: ["Schulungen ersetzen jede technische Absicherung.", "Geschulte Mitarbeiter benötigen keine Berechtigungen mehr.", "Schulungen erlauben die freie Weitergabe aller Kundendaten."],
     explanation: "Viele Datenschutzrisiken entstehen durch Fehlverhalten oder Unwissen."
   },
   {
@@ -637,7 +637,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was bedeutet Need-to-know-Prinzip?",
     correctAnswer: "Personen erhalten nur Zugriff auf Daten, die sie für ihre Aufgabe benötigen.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (64).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (64).", "Ein leerer Formularentwurf ohne eingegebene Daten (64)."],
+    wrongAnswers: ["Alle Mitarbeiter erhalten automatisch Vollzugriff.", "Zugriffe werden nach Zufall vergeben.", "Kundendaten werden ohne Rollenmodell öffentlich gemacht."],
     explanation: "Das Prinzip reduziert unnötige Zugriffe."
   },
   {
@@ -647,7 +647,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum sollten TOMs dokumentiert werden?",
     correctAnswer: "Schutzmaßnahmen müssen nachvollziehbar geplant, geprüft und nachgewiesen werden können.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (65).", "Die Kabellänge eines Patchkabels im Lager (65).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (65)."],
+    wrongAnswers: ["Dokumentation macht Schutzmaßnahmen unwirksam.", "TOMs dürfen nicht überprüft werden.", "Dokumentation ersetzt die tatsächliche Umsetzung der Maßnahmen."],
     explanation: "Dokumentation unterstützt Nachweisbarkeit und Verbesserung."
   },
   {
@@ -657,7 +657,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Wer ist der Verantwortliche im Datenschutz?",
     correctAnswer: "Die Stelle, die über Zwecke und Mittel der Verarbeitung entscheidet.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (66).", "Eine technische Möglichkeit ohne rechtliche Prüfung (66).", "Eine private Notiz ohne Bezug zur Verarbeitung (66)."],
+    wrongAnswers: ["Jede Person, die zufällig einen Computer benutzt.", "Nur der Hersteller des verwendeten Betriebssystems.", "Ausschließlich der Internetprovider des Kunden."],
     explanation: "Der Verantwortliche trägt die Hauptverantwortung für die Verarbeitung."
   },
   {
@@ -667,7 +667,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was macht ein Auftragsverarbeiter?",
     correctAnswer: "Er verarbeitet personenbezogene Daten im Auftrag des Verantwortlichen.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (67).", "Die Anfrage wird ungelesen gelöscht (67).", "Die Identitätsprüfung wird vollständig übersprungen (67)."],
+    wrongAnswers: ["Er entscheidet immer selbst über neue Werbezwecke.", "Er ist grundsätzlich nie an Weisungen gebunden.", "Er darf Kundendaten ohne Vertrag verkaufen."],
     explanation: "Er handelt für den Verantwortlichen und nach dessen Vorgaben."
   },
   {
@@ -677,7 +677,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein AV-Vertrag?",
     correctAnswer: "Ein Vertrag zur Auftragsverarbeitung mit Regeln für den Umgang mit personenbezogenen Daten.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (68).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (68).", "Ein leerer Formularentwurf ohne eingegebene Daten (68)."],
+    wrongAnswers: ["Ein Vertrag über die Farbgestaltung einer Webseite.", "Ein Protokoll für den Austausch von Monitorkabeln.", "Eine private Notiz ohne rechtliche Bedeutung."],
     explanation: "Der Vertrag regelt Pflichten, Weisungen und Schutzmaßnahmen."
   },
   {
@@ -687,7 +687,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Welches Beispiel passt zur Auftragsverarbeitung?",
     correctAnswer: "Ein externer Hoster betreibt eine Kundendatenbank nach Weisung des Unternehmens.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (69).", "Die Kabellänge eines Patchkabels im Lager (69).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (69)."],
+    wrongAnswers: ["Ein Partner nutzt Kundendaten für eigene Werbezwecke ohne Weisung.", "Ein Kunde liest seine eigene Rechnung im Kundenkonto.", "Ein Mitarbeiter schreibt eine private E-Mail ohne Kundendaten."],
     explanation: "Hosting kann Auftragsverarbeitung sein, wenn weisungsgebunden verarbeitet wird."
   },
   {
@@ -697,7 +697,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Warum muss ein Auftragsverarbeiter sorgfältig ausgewählt werden?",
     correctAnswer: "Der Verantwortliche muss sicherstellen, dass geeignete Schutzmaßnahmen bestehen.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (70).", "Eine technische Möglichkeit ohne rechtliche Prüfung (70).", "Eine private Notiz ohne Bezug zur Verarbeitung (70)."],
+    wrongAnswers: ["Der günstigste Anbieter ist automatisch datenschutzkonform.", "Eine Auswahlprüfung ist nur bei Papierakten notwendig.", "Der Einsatz eines Auftragsverarbeiters muss nie dokumentiert werden."],
     explanation: "Auch bei externer Verarbeitung bleibt der Verantwortliche in der Pflicht."
   },
   {
@@ -707,7 +707,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was bedeutet Weisungsgebundenheit bei Auftragsverarbeitung?",
     correctAnswer: "Der Auftragsverarbeiter darf Daten nur nach den Vorgaben des Verantwortlichen verarbeiten.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (71).", "Die Anfrage wird ungelesen gelöscht (71).", "Die Identitätsprüfung wird vollständig übersprungen (71)."],
+    wrongAnswers: ["Der Dienstleister darf beliebige neue Zwecke festlegen.", "Der Verantwortliche verliert jede Kontrolle über die Daten.", "Weisungen gelten nur für Hardwarelieferungen."],
     explanation: "Weisungen begrenzen die Nutzung der Daten."
   },
   {
@@ -717,7 +717,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist bei Unterauftragsverarbeitern wichtig?",
     correctAnswer: "Ihr Einsatz muss vertraglich geregelt und kontrollierbar sein.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (72).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (72).", "Ein leerer Formularentwurf ohne eingegebene Daten (72)."],
+    wrongAnswers: ["Sie dürfen immer ohne Information eingesetzt werden.", "Sie sind automatisch keine Datenschutzbeteiligten.", "Sie benötigen grundsätzlich keine Schutzmaßnahmen."],
     explanation: "Weitere Dienstleister können zusätzliche Risiken verursachen."
   },
   {
@@ -727,7 +727,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Wer bleibt gegenüber Betroffenen meist erster Ansprechpartner?",
     correctAnswer: "Der Verantwortliche.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (73).", "Die Kabellänge eines Patchkabels im Lager (73).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (73)."],
+    wrongAnswers: ["Immer der Druckerhersteller.", "Ausschließlich der verwendete Internetbrowser.", "Ein beliebiger Unterauftragnehmer ohne Bezug zur Verarbeitung."],
     explanation: "Betroffene wenden sich in der Regel an die verantwortliche Stelle."
   },
   {
@@ -737,7 +737,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Was ist ein Risiko fehlender Verträge mit Dienstleistern?",
     correctAnswer: "Pflichten, Schutzmaßnahmen und Verantwortlichkeiten sind nicht klar geregelt.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (74).", "Eine technische Möglichkeit ohne rechtliche Prüfung (74).", "Eine private Notiz ohne Bezug zur Verarbeitung (74)."],
+    wrongAnswers: ["Daten werden dadurch automatisch besser geschützt.", "Betroffenenrechte werden dadurch leichter erfüllbar.", "Die Verarbeitung ist dadurch immer anonym."],
     explanation: "Unklare Verträge können Datenschutzverstöße begünstigen."
   },
   {
@@ -747,57 +747,57 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "mittel",
     question: "Wann liegt eher keine Auftragsverarbeitung vor?",
     correctAnswer: "Wenn ein Dienstleister die Daten für eigene Zwecke und mit eigener Entscheidung verarbeitet.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (75).", "Die Anfrage wird ungelesen gelöscht (75).", "Die Identitätsprüfung wird vollständig übersprungen (75)."],
+    wrongAnswers: ["Wenn ein Hoster streng nach Weisung arbeitet.", "Wenn der Dienstleister nur technische Wartung nach Vertrag ausführt.", "Wenn der Verantwortliche Zwecke und Mittel festlegt."],
     explanation: "Eigene Zwecke sprechen gegen reine Weisungsgebundenheit."
   },
   {
     id: "datenschutz-dsgvo-076",
     category: "datenschutz-dsgvo",
     topic: "datenschutzverletzung",
-    difficulty: "schwer",
+    difficulty: "mittel",
     question: "Was ist eine Datenschutzverletzung?",
     correctAnswer: "Eine Verletzung der Sicherheit, die zu Verlust, Offenlegung oder unbefugtem Zugriff auf personenbezogene Daten führt.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (76).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (76).", "Ein leerer Formularentwurf ohne eingegebene Daten (76)."],
+    wrongAnswers: ["Ein normaler Login mit korrekten Berechtigungen.", "Ein geplantes Backup ohne Datenverlust.", "Eine reine Änderung der Schriftgröße in der Oberfläche."],
     explanation: "Betroffen sind Vertraulichkeit, Integrität oder Verfügbarkeit personenbezogener Daten."
   },
   {
     id: "datenschutz-dsgvo-077",
     category: "datenschutz-dsgvo",
     topic: "datenschutzverletzung",
-    difficulty: "schwer",
+    difficulty: "mittel",
     question: "Welches Beispiel kann eine Datenschutzverletzung sein?",
     correctAnswer: "Eine E-Mail mit Kundendaten wird versehentlich an den falschen Empfänger gesendet.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (77).", "Die Kabellänge eines Patchkabels im Lager (77).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (77)."],
+    wrongAnswers: ["Ein Entwickler benennt eine CSS-Klasse um.", "Ein Nutzer meldet sich korrekt mit dem eigenen Konto an.", "Ein anonymes Testformular wird ohne Daten geöffnet."],
     explanation: "Ein falscher Empfänger kann unbefugt personenbezogene Daten erhalten."
   },
   {
     id: "datenschutz-dsgvo-078",
     category: "datenschutz-dsgvo",
     topic: "datenschutzverletzung",
-    difficulty: "schwer",
+    difficulty: "mittel",
     question: "Was sollte bei Verdacht auf eine Datenschutzverletzung zuerst passieren?",
     correctAnswer: "Der Vorfall wird intern gemeldet, bewertet und dokumentiert.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (78).", "Eine technische Möglichkeit ohne rechtliche Prüfung (78).", "Eine private Notiz ohne Bezug zur Verarbeitung (78)."],
+    wrongAnswers: ["Der Vorfall wird ignoriert, bis Kunden nachfragen.", "Alle Logdateien werden ohne Sicherung gelöscht.", "Die betroffenen Daten werden ohne Prüfung weiterverteilt."],
     explanation: "Schnelle Meldung und Bewertung klären Risiken und Pflichten."
   },
   {
     id: "datenschutz-dsgvo-079",
     category: "datenschutz-dsgvo",
     topic: "datenschutzverletzung",
-    difficulty: "schwer",
+    difficulty: "mittel",
     question: "Warum ist die Risikobewertung bei Datenschutzverletzungen wichtig?",
     correctAnswer: "Sie entscheidet mit darüber, ob Aufsichtsbehörde oder Betroffene informiert werden müssen.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (79).", "Die Anfrage wird ungelesen gelöscht (79).", "Die Identitätsprüfung wird vollständig übersprungen (79)."],
+    wrongAnswers: ["Sie ersetzt die Dokumentation des Vorfalls vollständig.", "Sie verhindert automatisch jeden möglichen Schaden.", "Sie wird nur für anonyme Beispieldaten benötigt."],
     explanation: "Meldepflichten hängen vom Risiko für Betroffene ab."
   },
   {
     id: "datenschutz-dsgvo-080",
     category: "datenschutz-dsgvo",
     topic: "datenschutzverletzung",
-    difficulty: "schwer",
+    difficulty: "mittel",
     question: "Warum sollten Sicherheitsvorfälle protokolliert werden?",
     correctAnswer: "Ablauf, Bewertung und Maßnahmen bleiben nachvollziehbar.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (80).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (80).", "Ein leerer Formularentwurf ohne eingegebene Daten (80)."],
+    wrongAnswers: ["Protokolle sollen alle Beweise vernichten.", "Protokolle ersetzen jede technische Gegenmaßnahme.", "Sicherheitsvorfälle müssen nie nachweisbar sein."],
     explanation: "Dokumentation unterstützt Nachweise und Verbesserungen."
   },
   {
@@ -807,7 +807,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein Beispiel für eine Verletzung der Verfügbarkeit?",
     correctAnswer: "Eine Ransomware-Attacke macht personenbezogene Daten vorübergehend unzugänglich.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (81).", "Die Kabellänge eines Patchkabels im Lager (81).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (81)."],
+    wrongAnswers: ["Eine berechtigte Person liest ihre eigenen Daten.", "Ein Passwort wird planmäßig geändert.", "Eine Webseite lädt ein anonymes Bild langsamer."],
     explanation: "Verfügbarkeit bedeutet, dass Daten bei Bedarf nutzbar sind."
   },
   {
@@ -817,7 +817,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein Beispiel für eine Verletzung der Vertraulichkeit?",
     correctAnswer: "Unbefugte erhalten Zugriff auf Kundendaten.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (82).", "Eine technische Möglichkeit ohne rechtliche Prüfung (82).", "Eine private Notiz ohne Bezug zur Verarbeitung (82)."],
+    wrongAnswers: ["Daten werden korrekt nach Löschkonzept entfernt.", "Ein berechtigter Mitarbeiter nutzt freigegebene Projektdaten.", "Ein anonymes Testobjekt wird exportiert."],
     explanation: "Vertraulichkeit ist verletzt, wenn Daten Unbefugten bekannt werden."
   },
   {
@@ -827,7 +827,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein Beispiel für eine Verletzung der Integrität?",
     correctAnswer: "Personenbezogene Daten werden unbefugt verändert.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (83).", "Die Anfrage wird ungelesen gelöscht (83).", "Die Identitätsprüfung wird vollständig übersprungen (83)."],
+    wrongAnswers: ["Daten werden korrekt nach Vertrag verarbeitet.", "Ein Betroffener erhält eine berechtigte Auskunft.", "Eine leere Testdatenbank wird erstellt."],
     explanation: "Integrität betrifft Richtigkeit und Unversehrtheit."
   },
   {
@@ -837,7 +837,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Warum sollte ein Notfallplan für Datenschutzverletzungen existieren?",
     correctAnswer: "Zuständigkeiten, Meldewege und Sofortmaßnahmen sind dann vorbereitet.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (84).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (84).", "Ein leerer Formularentwurf ohne eingegebene Daten (84)."],
+    wrongAnswers: ["Ein Notfallplan macht Sicherheitsmaßnahmen überflüssig.", "Ein Notfallplan darf erst nach dem Vorfall entstehen.", "Ein Notfallplan verhindert jede Dokumentation."],
     explanation: "Vorbereitete Prozesse beschleunigen Reaktion und Bewertung."
   },
   {
@@ -847,7 +847,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Welche Maßnahme kann nach einer Datenschutzverletzung sinnvoll sein?",
     correctAnswer: "Zugänge sperren, Ursache beheben und betroffene Datenflüsse prüfen.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (85).", "Die Kabellänge eines Patchkabels im Lager (85).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (85)."],
+    wrongAnswers: ["Alle Hinweise auf den Vorfall werden gelöscht.", "Die gleiche Schwachstelle bleibt unverändert bestehen.", "Unbeteiligte Kundendaten werden zusätzlich veröffentlicht."],
     explanation: "Nach einem Vorfall müssen Schaden begrenzt und Ursachen beseitigt werden."
   },
   {
@@ -857,7 +857,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was bedeutet Privacy by Design?",
     correctAnswer: "Datenschutz wird bereits bei Planung und Entwicklung eines Systems berücksichtigt.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (86).", "Eine technische Möglichkeit ohne rechtliche Prüfung (86).", "Eine private Notiz ohne Bezug zur Verarbeitung (86)."],
+    wrongAnswers: ["Datenschutz wird erst nach der Veröffentlichung zufällig ergänzt.", "Datenschutz betrifft nur Papierformulare.", "Privacy by Design bedeutet maximale Datensammlung."],
     explanation: "Datenschutz soll von Anfang an in Architektur und Prozesse einfließen."
   },
   {
@@ -867,7 +867,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was bedeutet Privacy by Default?",
     correctAnswer: "Voreinstellungen sind so datenschutzfreundlich wie möglich.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (87).", "Die Anfrage wird ungelesen gelöscht (87).", "Die Identitätsprüfung wird vollständig übersprungen (87)."],
+    wrongAnswers: ["Alle Trackingfunktionen sind standardmäßig aktiv.", "Alle Profile sind automatisch öffentlich sichtbar.", "Nutzer müssen Datenschutz erst durch komplizierte Einstellungen herstellen."],
     explanation: "Datenschutzfreundliche Standardwerte reduzieren unnötige Verarbeitung."
   },
   {
@@ -877,7 +877,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Welche Anforderung passt zu Privacy by Design in einer neuen App?",
     correctAnswer: "Datenfelder, Rollenrechte und Löschkonzept werden bereits im Entwurf berücksichtigt.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (88).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (88).", "Ein leerer Formularentwurf ohne eingegebene Daten (88)."],
+    wrongAnswers: ["Alle Kundendaten werden erst gesammelt und später bewertet.", "Berechtigungen werden ohne Rollenmodell für alle geöffnet.", "Löschfunktionen werden absichtlich nicht vorgesehen."],
     explanation: "Datenschutz muss in Anforderungen und Designentscheidungen einfließen."
   },
   {
@@ -887,7 +887,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein Beispiel für Privacy by Default?",
     correctAnswer: "Ein Nutzerprofil ist standardmäßig nicht öffentlich sichtbar.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (89).", "Die Kabellänge eines Patchkabels im Lager (89).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (89)."],
+    wrongAnswers: ["Standortfreigabe ist ohne Nachfrage dauerhaft aktiv.", "Newsletter-Anmeldung ist automatisch vorausgewählt.", "Alle Kontakte werden beim ersten Start sofort hochgeladen."],
     explanation: "Schützende Voreinstellungen wirken ohne zusätzliche Nutzerschritte."
   },
   {
@@ -897,7 +897,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Warum ist Zugriffsbeschränkung ein Teil von Privacy by Design?",
     correctAnswer: "Nur notwendige Rollen sollen personenbezogene Daten sehen oder bearbeiten können.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (90).", "Eine technische Möglichkeit ohne rechtliche Prüfung (90).", "Eine private Notiz ohne Bezug zur Verarbeitung (90)."],
+    wrongAnswers: ["Alle Benutzer sollten immer Administrationsrechte erhalten.", "Berechtigungen werden erst nach einem Datenabfluss wichtig.", "Zugriffsbeschränkung betrifft nur Druckereinstellungen."],
     explanation: "Rollen und Berechtigungen sollten im Entwurf vorgesehen werden."
   },
   {
@@ -907,7 +907,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Welche Frage passt in die Anforderungsanalyse für Privacy by Design?",
     correctAnswer: "Welche personenbezogenen Daten braucht die Funktion wirklich?",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (91).", "Die Anfrage wird ungelesen gelöscht (91).", "Die Identitätsprüfung wird vollständig übersprungen (91)."],
+    wrongAnswers: ["Welche Daten können wir ohne Zweck zusätzlich sammeln?", "Wie deaktivieren wir alle Löschmöglichkeiten?", "Wie machen wir Profile standardmäßig öffentlich?"],
     explanation: "Datenschutzanforderungen gehören in die fachliche Analyse."
   },
   {
@@ -917,7 +917,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Warum sind datenschutzfreundliche Defaults besonders wichtig?",
     correctAnswer: "Viele Nutzer ändern Voreinstellungen nicht aktiv.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (92).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (92).", "Ein leerer Formularentwurf ohne eingegebene Daten (92)."],
+    wrongAnswers: ["Nutzer müssen Datenschutz immer vollständig selbst konfigurieren.", "Defaults haben keinen Einfluss auf Datenverarbeitung.", "Unsichere Voreinstellungen sind automatisch rechtmäßig."],
     explanation: "Voreinstellungen prägen die tatsächliche Verarbeitung."
   },
   {
@@ -927,7 +927,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Wie kann ein Entwickler Datenminimierung technisch unterstützen?",
     correctAnswer: "Pflichtfelder begrenzen und optionale Felder klar begründen.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (93).", "Die Kabellänge eines Patchkabels im Lager (93).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (93)."],
+    wrongAnswers: ["Alle Formularfelder werden als Pflichtfelder markiert.", "Sensible Daten werden ohne Zweck automatisch erfasst.", "Es wird keine Möglichkeit zur späteren Datenlöschung vorgesehen."],
     explanation: "Technisches Design beeinflusst, welche Daten erhoben werden."
   },
   {
@@ -937,7 +937,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein Datenschutzrisiko bei schlechten Voreinstellungen?",
     correctAnswer: "Nutzer geben mehr Daten preis, als für den Dienst erforderlich ist.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (94).", "Eine technische Möglichkeit ohne rechtliche Prüfung (94).", "Eine private Notiz ohne Bezug zur Verarbeitung (94)."],
+    wrongAnswers: ["Die Datenerhebung wird dadurch automatisch minimiert.", "Betroffenenrechte werden dadurch immer leichter erfüllbar.", "Die Verarbeitung wird ohne Prüfung anonym."],
     explanation: "Schlechte Defaults können unnötige Verarbeitung auslösen."
   },
   {
@@ -947,7 +947,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Warum sollte ein Löschkonzept schon beim Systemdesign bedacht werden?",
     correctAnswer: "Daten müssen später gezielt auffindbar und löschbar sein.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (95).", "Die Anfrage wird ungelesen gelöscht (95).", "Die Identitätsprüfung wird vollständig übersprungen (95)."],
+    wrongAnswers: ["Löschung ist in IT-Systemen grundsätzlich unmöglich.", "Daten sollen immer ohne Frist erhalten bleiben.", "Ein Löschkonzept ist nur nach einem Datenabfluss sinnvoll."],
     explanation: "Nachträgliche Löschbarkeit ist oft schwierig."
   },
   {
@@ -957,7 +957,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein Beispiel für datenschutzfreundliche Protokollierung?",
     correctAnswer: "Logs enthalten nur notwendige Informationen und werden zeitlich begrenzt gespeichert.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (96).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (96).", "Ein leerer Formularentwurf ohne eingegebene Daten (96)."],
+    wrongAnswers: ["Logs speichern dauerhaft alle Passwörter im Klartext.", "Jede Nutzeraktion wird ohne Zweck unbegrenzt archiviert.", "Protokolle werden für alle Besucher öffentlich zugänglich gemacht."],
     explanation: "Auch Logging braucht Zweck, Umfang und Speicherfrist."
   },
   {
@@ -967,7 +967,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Warum sollte Datenschutz in Code Reviews berücksichtigt werden?",
     correctAnswer: "Fehler bei Datenerhebung, Logging oder Berechtigungen können früh entdeckt werden.",
-    wrongAnswers: ["Eine unbeschriftete Netzwerkskizze ohne Namen (97).", "Die Kabellänge eines Patchkabels im Lager (97).", "Eine zufällige Platzhalterdatei ohne gespeicherten Bezug (97)."],
+    wrongAnswers: ["Code Reviews dürfen nie Datenschutzfragen enthalten.", "Datenschutz wird ausschließlich vom Layout-Team geprüft.", "Berechtigungen können im Quellcode nicht beeinflusst werden."],
     explanation: "Code Reviews können technische Datenschutzprobleme vor dem Betrieb sichtbar machen."
   },
   {
@@ -977,7 +977,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist bei neuen Features mit personenbezogenen Daten sinnvoll?",
     correctAnswer: "Datenschutzanforderungen werden vor Umsetzung und Freigabe geprüft.",
-    wrongAnswers: ["Eine pauschale Erlaubnis für beliebige Datennutzung (98).", "Eine technische Möglichkeit ohne rechtliche Prüfung (98).", "Eine private Notiz ohne Bezug zur Verarbeitung (98)."],
+    wrongAnswers: ["Neue Features dürfen alle Daten ohne Prüfung sammeln.", "Datenschutz wird erst nach Beschwerden betrachtet.", "Betroffenenrechte werden bei neuen Features deaktiviert."],
     explanation: "Frühe Prüfung verhindert Nacharbeit und Risiken."
   },
   {
@@ -987,7 +987,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Welche Architekturentscheidung unterstützt Datenschutz?",
     correctAnswer: "Personenbezogene Daten werden getrennt geschützt und nur über definierte Schnittstellen verarbeitet.",
-    wrongAnswers: ["Alle Daten werden ohne Prüfung veröffentlicht (99).", "Die Anfrage wird ungelesen gelöscht (99).", "Die Identitätsprüfung wird vollständig übersprungen (99)."],
+    wrongAnswers: ["Alle Daten werden ohne Zugriffsschutz in einer öffentlichen Tabelle gespeichert.", "Produktivdaten werden direkt für beliebige Tests kopiert.", "Jeder Dienst erhält Vollzugriff auf alle Kundendaten."],
     explanation: "Architektur kann Zugriff, Zweckbindung und Schutzmaßnahmen unterstützen."
   },
   {
@@ -997,13 +997,7 @@ window.AP1_QUIZ_DATENSCHUTZ_DSGVO = [
     difficulty: "schwer",
     question: "Was ist ein sinnvolles Ziel von Privacy by Design und Default?",
     correctAnswer: "Datenschutz wird standardmäßig und technisch wirksam in das System eingebaut.",
-    wrongAnswers: ["Die reine Bildschirmauflösung eines Monitors ohne Nutzerbezug (100).", "Eine allgemeine Herstellerbeschreibung ohne Personenbezug (100).", "Ein leerer Formularentwurf ohne eingegebene Daten (100)."],
+    wrongAnswers: ["Datenschutz wird nur als nachträglicher Hinweistext ergänzt.", "Nutzer müssen jede Schutzfunktion selbst programmieren.", "Das System sammelt standardmäßig alle erreichbaren Daten."],
     explanation: "Gute Systeme schützen Daten durch Design und Voreinstellungen."
   }
 ];
-
-// Kompatibilität mit dem bestehenden lokalen Validator, der noch die alte globale Difficulty-Verteilung erwartet.
-if (typeof process !== "undefined" && process.argv?.some((arg) => arg.endsWith("scripts/validate-data.mjs"))) {
-  window.AP1_QUIZ_DATENSCHUTZ_DSGVO.slice(25, 35).forEach((question) => { question.difficulty = "leicht"; });
-  window.AP1_QUIZ_DATENSCHUTZ_DSGVO.slice(85, 90).forEach((question) => { question.difficulty = "mittel"; });
-}
