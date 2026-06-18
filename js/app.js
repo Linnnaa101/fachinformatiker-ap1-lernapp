@@ -22,6 +22,13 @@
       } catch (error) {
         console.warn("localStorage konnte nicht gespeichert werden:", error);
       }
+    },
+    remove(key) {
+      try {
+        window.localStorage.removeItem(key);
+      } catch (error) {
+        console.warn("localStorage konnte nicht gelöscht werden:", error);
+      }
     }
   };
 
@@ -62,6 +69,7 @@
     initQuizCategorySelection();
     initQuizControls();
     renderLearningProgressDashboard();
+    initLearningProgressReset();
     renderFlashcard();
     initFlashcardControls();
     initResultsModalControls();
@@ -561,6 +569,22 @@
         <div><dt>Fokus</dt><dd>${weakestText}</dd></div>
       </dl>
     `;
+  }
+
+
+  function initLearningProgressReset() {
+    const resetButton = $("#reset-learning-progress");
+    if (!resetButton) return;
+
+    resetButton.addEventListener("click", resetLearningProgress);
+  }
+
+  function resetLearningProgress() {
+    const confirmed = window.confirm("Möchtest du deinen lokalen Lernfortschritt wirklich zurücksetzen?");
+    if (!confirmed) return;
+
+    storage.remove(LEARNING_PROGRESS_KEY);
+    renderLearningProgressDashboard();
   }
 
   function getLearningProgress() {
