@@ -47,7 +47,6 @@
 
   function init() {
     initNavigation();
-    initTheme();
     renderChapters(data.chapters);
     initSearch();
     initQuizCategorySelection();
@@ -72,25 +71,6 @@
         toggle.setAttribute("aria-expanded", "false");
       }
     });
-  }
-
-  function initTheme() {
-    const toggle = $("#theme-toggle");
-    const savedTheme = storage.get("ap1Theme", "light");
-    applyTheme(savedTheme);
-    if (!toggle) return;
-
-    toggle.addEventListener("click", () => {
-      const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      applyTheme(nextTheme);
-      storage.set("ap1Theme", nextTheme);
-    });
-  }
-
-  function applyTheme(theme) {
-    document.documentElement.dataset.theme = theme === "dark" ? "dark" : "light";
-    const toggle = $("#theme-toggle");
-    if (toggle) toggle.textContent = theme === "dark" ? "☀️" : "🌙";
   }
 
   function renderChapters(chapters) {
