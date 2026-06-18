@@ -194,12 +194,32 @@
     });
   }
 
-  // Kategorieauswahl: speichert die gewählte Kategorie.
+  // Kategorieauswahl: speichert die gewählte Kategorie und führt zum nächsten Schritt.
   function selectQuizCategory(categoryId) {
     selectedCategory = categoryId;
     storage.set("ap1SelectedQuizCategory", selectedCategory);
     renderQuizCategoryOptions();
     updateSelectedCategorySummary();
+    scrollToQuizLengthSelector();
+  }
+
+  function scrollToQuizLengthSelector() {
+    scrollElementIntoView($(".quiz-length-selector"), "center");
+  }
+
+  function scrollToActiveQuizQuestion() {
+    scrollElementIntoView($("#quiz-card"), "start");
+  }
+
+  function scrollElementIntoView(element, block = "center") {
+    if (!element) return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => {
+      element.scrollIntoView({
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+        block
+      });
+    });
   }
 
   function getStoredQuizQuestionCount() {
@@ -341,6 +361,7 @@
     if (startPanel) startPanel.classList.add("is-hidden");
     if (quizCard) quizCard.classList.remove("is-hidden");
     renderQuiz();
+    scrollToActiveQuizQuestion();
   }
 
   // Quizstart: rendert die aktuelle Frage der aktiven Session.
