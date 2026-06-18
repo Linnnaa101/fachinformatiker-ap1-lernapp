@@ -146,7 +146,7 @@
     updateSelectedCategorySummary();
   }
 
-  // Kategorieauswahl: rendert Buttons für alle Quizbereiche.
+  // Kategorieauswahl: rendert moderne Karten für alle Quizbereiche.
   function renderQuizCategoryOptions() {
     const options = $("#quiz-category-options");
     if (!options) return;
@@ -155,14 +155,36 @@
       options.appendChild(createMessage("Keine Quiz-Kategorien verfügbar."));
       return;
     }
-    data.quizCategories.forEach((category) => {
+
+    const categoryCards = [
+      {
+        id: "alle",
+        title: "Alle Themen",
+        description: "Gemischtes Training aus allen AP1-Bereichen."
+      },
+      ...data.quizCategories.filter((category) => category.id !== "alle")
+    ];
+
+    categoryCards.forEach((category) => {
+      const isSelected = category.id === selectedCategory;
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "category-button";
-      if (category.id === selectedCategory) button.classList.add("selected");
-      button.textContent = category.title;
-      button.setAttribute("aria-pressed", String(category.id === selectedCategory));
+      button.className = "category-button category-card-button";
+      if (isSelected) button.classList.add("selected");
+      button.setAttribute("aria-pressed", String(isSelected));
       button.addEventListener("click", () => selectQuizCategory(category.id));
+
+      const title = category.title || "Unbenannte Kategorie";
+      const description = category.description || "Gezieltes AP1-Training mit passenden Quizfragen.";
+      const questionCount = getCategoryQuestionCount(category.id);
+      button.innerHTML = `
+        <span class="category-card-top">
+          <span class="category-icon" aria-hidden="true">${getCategoryIcon(category.id)}</span>
+          <span class="category-count">${questionCount} Fragen</span>
+        </span>
+        <span class="category-title">${escapeHtml(title)}</span>
+        <span class="category-description">${escapeHtml(description)}</span>
+      `;
       options.appendChild(button);
     });
   }
@@ -173,6 +195,25 @@
     storage.set("ap1SelectedQuizCategory", selectedCategory);
     renderQuizCategoryOptions();
     updateSelectedCategorySummary();
+  }
+
+  function getCategoryIcon(categoryId) {
+    const icons = {
+      alle: "🎯",
+      "hardware-os": "🖥️",
+      netzwerke: "🌐",
+      "it-sicherheit": "🔐",
+      "datenbanken-sql": "🗄️",
+      softwareentwicklung: "💻",
+      "oop-uml": "📐",
+      projektmanagement: "📋",
+      "datenschutz-dsgvo": "🛡️"
+    };
+    return icons[categoryId] || "📚";
+  }
+
+  function getCategoryQuestionCount(categoryId) {
+    return getQuestionsForCategory(categoryId).length;
   }
 
   // Kategorieauswahl: findet Metadaten zur Kategorie.
