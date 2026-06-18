@@ -622,3 +622,238 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
 @media (prefers-reduced-motion: reduce) {
   .category-card-button:hover { transform: none; }
 }
+
+/* Quiz-Oberfläche: Fortschritt, kompakte Meta-Chips und klare Lernbereiche. */
+.quiz-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.quiz-progress-area {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.quiz-progress-bar {
+  width: 100%;
+  height: 0.8rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--primary) 18%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--border) 70%, var(--surface));
+}
+
+.quiz-progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #0ea5e9, var(--accent));
+  transition: width 0.28s ease;
+}
+
+.quiz-meta {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.quiz-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.15rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.quiz-question-block {
+  display: grid;
+  gap: 0.45rem;
+  padding: clamp(1rem, 3vw, 1.35rem);
+  border: 1px solid color-mix(in srgb, var(--primary) 20%, var(--border));
+  border-radius: 1.1rem;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 12%, transparent), transparent 38%),
+    color-mix(in srgb, var(--primary) 5%, var(--surface));
+}
+
+.quiz-question-kicker {
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quiz-question-block h3 {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
+  line-height: 1.3;
+}
+
+.quiz-options {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.option-button {
+  position: relative;
+  padding: 1rem 1rem 1rem 1.1rem;
+  border-width: 2px;
+  background: var(--surface);
+  box-shadow: 0 5px 14px rgba(23, 32, 51, 0.05);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.option-button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--primary) 6%, var(--surface));
+  box-shadow: 0 10px 20px rgba(23, 32, 51, 0.08);
+  transform: translateY(-1px);
+}
+
+.option-button:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.option-button.correct {
+  background: color-mix(in srgb, #22c55e 18%, var(--surface));
+  color: var(--text);
+  border-color: #16a34a;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #16a34a 35%, transparent);
+}
+
+.option-button.correct::after {
+  content: "Richtig";
+  float: right;
+  margin-left: 0.75rem;
+  color: #166534;
+  font-weight: 900;
+}
+
+.option-button.wrong {
+  background: color-mix(in srgb, #ef4444 16%, var(--surface));
+  color: var(--text);
+  border-color: #ef4444;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, #ef4444 30%, transparent);
+}
+
+.option-button.wrong::after {
+  content: "Leider falsch";
+  float: right;
+  margin-left: 0.75rem;
+  color: #991b1b;
+  font-weight: 900;
+}
+
+.option-button.muted {
+  color: var(--muted);
+  background: color-mix(in srgb, var(--border) 22%, var(--surface));
+}
+
+.quiz-feedback-area {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.feedback {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface));
+}
+
+.explanation-toggle {
+  justify-self: start;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface));
+  color: var(--primary);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 850;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.explanation-toggle:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 13%, var(--surface));
+  transform: translateY(-1px);
+}
+
+.explanation-toggle:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.explanation-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.answer-explanation-panel {
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  border-left: 5px solid var(--primary);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--primary) 7%, var(--surface));
+  box-shadow: 0 8px 20px rgba(23, 32, 51, 0.06);
+}
+
+.answer-explanation-panel:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.answer-explanation-panel h4 {
+  margin: 0 0 0.35rem;
+  color: var(--primary);
+}
+
+.answer-explanation-panel p {
+  margin: 0;
+  color: var(--text);
+}
+
+[data-theme="dark"] .option-button.correct::after {
+  color: #86efac;
+}
+
+[data-theme="dark"] .option-button.wrong::after {
+  color: #fca5a5;
+}
+
+@media (max-width: 560px) {
+  .quiz-chip,
+  .explanation-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .option-button.correct::after,
+  .option-button.wrong::after {
+    display: block;
+    float: none;
+    margin: 0.35rem 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-progress-fill,
+  .option-button,
+  .explanation-toggle {
+    transition: none;
+  }
+
+  .option-button:hover:not(:disabled),
+  .explanation-toggle:hover:not(:disabled) {
+    transform: none;
+  }
+}

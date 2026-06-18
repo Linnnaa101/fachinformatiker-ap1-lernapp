@@ -105,14 +105,29 @@
       </article>
 
       <article id="quiz-card" class="quiz-card card is-hidden" aria-live="polite">
-        <div class="quiz-meta">
-          <span id="quiz-progress">Frage 1 von 40</span>
-          <span id="quiz-category-label">Kategorie: Alle Themen</span>
-          <span id="quiz-score">Punkte: 0</span>
+        <div class="quiz-progress-area" aria-label="Quizfortschritt">
+          <div class="quiz-progress-bar" id="quiz-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Fortschritt im Quiz">
+            <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+          </div>
         </div>
-        <h3 id="quiz-question">Wähle eine Kategorie und starte das Quiz.</h3>
+        <div class="quiz-meta" aria-label="Quizinformationen">
+          <span id="quiz-progress" class="quiz-chip">Frage 1 von 40</span>
+          <span id="quiz-category-label" class="quiz-chip">Kategorie: Alle Themen</span>
+          <span id="quiz-score" class="quiz-chip">Punkte: 0</span>
+        </div>
+        <div class="quiz-question-block">
+          <span class="quiz-question-kicker">Aktuelle Frage</span>
+          <h3 id="quiz-question">Wähle eine Kategorie und starte das Quiz.</h3>
+        </div>
         <div id="quiz-options" class="quiz-options" role="group" aria-labelledby="quiz-question"></div>
-        <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
+        <div class="quiz-feedback-area">
+          <p id="quiz-feedback" class="feedback" aria-live="polite"></p>
+          <button id="answer-explanation-toggle" class="explanation-toggle is-hidden" type="button" aria-controls="answer-explanation-panel" aria-expanded="false" aria-label="Erklärung zur aktuellen Antwort anzeigen" disabled>ⓘ Erklärung anzeigen</button>
+          <section id="answer-explanation-panel" class="answer-explanation-panel is-hidden" aria-live="polite" aria-labelledby="answer-explanation-title" tabindex="-1">
+            <h4 id="answer-explanation-title">Warum ist das richtig?</h4>
+            <p id="answer-explanation-text"></p>
+          </section>
+        </div>
         <div class="quiz-actions">
           <button id="next-question" class="button" type="button">Nächste Frage</button>
           <button id="restart-quiz" class="button button-secondary" type="button">Quiz neu starten</button>
