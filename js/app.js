@@ -40,6 +40,8 @@
   let quizScore = 0;
   let quizIndex = 0;
   let questionLocked = false;
+  let currentQuestionAnswered = false;
+  let explanationPanelOpen = false;
   let flashcardIndex = storage.getInteger("ap1FlashcardIndex", 0, 0, Math.max(data.flashcards.length - 1, 0));
   let flashcardBackVisible = false;
 
@@ -295,6 +297,10 @@
     quizScore = 0;
     quizIndex = 0;
     questionLocked = false;
+    currentQuestionAnswered = false;
+    explanationPanelOpen = false;
+    resetAnswerExplanation();
+    updateQuizProgressBar();
     if (activeQuestions.length === 0) {
       setText("#selected-category-summary", "Für diese Kategorie sind noch keine Fragen verfügbar.");
       return;
@@ -313,14 +319,19 @@
     if (!questionEl || !options) return;
 
     questionLocked = false;
+    currentQuestionAnswered = false;
+    explanationPanelOpen = false;
     options.innerHTML = "";
     setDisabled("#next-question", true);
     setText("#quiz-score", `Punkte: ${quizScore}`);
+    resetAnswerExplanation();
+    updateQuizProgressBar();
 
     if (!activeQuestions.length) {
       setText("#quiz-progress", "Keine Fragen ausgewählt");
       questionEl.textContent = "Bitte wähle zuerst eine Quiz-Kategorie.";
       setText("#quiz-feedback", "Starte ein Quiz über den Auswahlbereich.");
+      updateQuizProgressBar();
       return;
     }
 
@@ -329,10 +340,14 @@
       return;
     }
 
+    const nextButton = $("#next-question");
+    if (nextButton) nextButton.textContent = "Nächste Frage";
+
     quizIndex = clamp(quizAnswered, 0, activeQuestions.length - 1);
     const question = activeQuestions[quizIndex];
     setText("#quiz-progress", `Frage ${quizAnswered + 1} von ${activeQuestions.length}`);
     setText("#quiz-category-label", `Kategorie: ${getCategoryById(question.category)?.title || "Unbekannt"}`);
+    updateQuizProgressBar();
     questionEl.textContent = question.question;
     setText("#quiz-feedback", "");
 
@@ -354,8 +369,15 @@
     const buttons = $$(".option-button");
     buttons.forEach((button, index) => {
       button.disabled = true;
-      if (index === question.correctIndex) button.classList.add("correct");
-      if (index === selectedIndex && index !== question.correctIndex) button.classList.add("wrong");
+      if (index === question.correctIndex) {
+        button.classList.add("correct");
+        button.setAttribute("aria-label", `${button.textContent} – richtige Antwort`);
+      } else if (index === selectedIndex) {
+        button.classList.add("wrong");
+        button.setAttribute("aria-label", `${button.textContent} – deine Antwort, leider falsch`);
+      } else {
+        button.classList.add("muted");
+      }
     });
     const correct = selectedIndex === question.correctIndex;
     quizAnswers.push({
@@ -368,15 +390,70 @@
     });
     if (correct) quizScore = clamp(quizScore + 1, 0, activeQuestions.length);
     quizAnswered = clamp(quizAnswered + 1, 0, activeQuestions.length);
+    currentQuestionAnswered = true;
     setText("#quiz-score", `Punkte: ${quizScore}`);
-    setText("#quiz-feedback", `${correct ? "Richtig!" : "Leider falsch."} ${question.explanation}`);
+    updateQuizProgressBar();
+    setText("#quiz-feedback", correct ? "Richtig beantwortet." : "Leider falsch. Die richtige Antwort ist markiert.");
+    enableAnswerExplanation(question);
     if (quizAnswered >= activeQuestions.length) {
-      setText("#quiz-feedback", `${correct ? "Richtig!" : "Leider falsch."} ${question.explanation} Quiz abgeschlossen: ${quizScore} von ${activeQuestions.length} Punkten.`);
-      setDisabled("#next-question", true);
-      window.setTimeout(showResultsModal, 600);
+      setText("#quiz-feedback", `${correct ? "Richtig beantwortet." : "Leider falsch. Die richtige Antwort ist markiert."} Quiz abgeschlossen: ${quizScore} von ${activeQuestions.length} Punkten.`);
+      setDisabled("#next-question", false);
+      const nextButton = $("#next-question");
+      if (nextButton) nextButton.textContent = "Ergebnis anzeigen";
       return;
     }
     setDisabled("#next-question", false);
+  }
+
+
+  function updateQuizProgressBar() {
+    const bar = $("#quiz-progress-bar");
+    const fill = $("#quiz-progress-fill");
+    const total = activeQuestions.length;
+    const visibleStep = total ? Math.min(quizAnswered + (currentQuestionAnswered ? 0 : 1), total) : 0;
+    const completedStep = total ? Math.min(Math.max(visibleStep, quizAnswered), total) : 0;
+    const percent = total ? Math.round((completedStep / total) * 100) : 0;
+    if (fill) fill.style.width = `${percent}%`;
+    if (bar) {
+      bar.setAttribute("aria-valuenow", String(percent));
+      bar.setAttribute("aria-valuetext", total ? `Frage ${completedStep} von ${total}` : "Kein Quiz gestartet");
+    }
+  }
+
+  function resetAnswerExplanation() {
+    const toggle = $("#answer-explanation-toggle");
+    const panel = $("#answer-explanation-panel");
+    setText("#answer-explanation-text", "");
+    explanationPanelOpen = false;
+    if (toggle) {
+      toggle.classList.add("is-hidden");
+      toggle.disabled = true;
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.textContent = "ⓘ Erklärung anzeigen";
+    }
+    if (panel) panel.classList.add("is-hidden");
+  }
+
+  function enableAnswerExplanation(question) {
+    const toggle = $("#answer-explanation-toggle");
+    setText("#answer-explanation-text", question.explanation || "Zu dieser Frage ist keine Erklärung hinterlegt.");
+    if (toggle) {
+      toggle.classList.remove("is-hidden");
+      toggle.disabled = false;
+      toggle.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function toggleAnswerExplanation() {
+    if (!currentQuestionAnswered) return;
+    const toggle = $("#answer-explanation-toggle");
+    const panel = $("#answer-explanation-panel");
+    if (!toggle || !panel) return;
+    explanationPanelOpen = !explanationPanelOpen;
+    panel.classList.toggle("is-hidden", !explanationPanelOpen);
+    toggle.setAttribute("aria-expanded", String(explanationPanelOpen));
+    toggle.textContent = explanationPanelOpen ? "ⓘ Erklärung ausblenden" : "ⓘ Erklärung anzeigen";
+    if (explanationPanelOpen) panel.focus({ preventScroll: true });
   }
 
   // Quizstart: verbindet Buttons mit Start, Wechsel und Neustart.
@@ -385,15 +462,21 @@
     const nextButton = $("#next-question");
     const restartButton = $("#restart-quiz");
     const changeButton = $("#change-category");
+    const explanationButton = $("#answer-explanation-toggle");
 
     if (startButton) startButton.addEventListener("click", () => startQuiz());
     if (nextButton) {
       nextButton.addEventListener("click", () => {
-        if (quizAnswered < activeQuestions.length) renderQuiz();
+        if (quizAnswered < activeQuestions.length) {
+          renderQuiz();
+          return;
+        }
+        showResultsModal();
       });
     }
     if (restartButton) restartButton.addEventListener("click", () => startQuiz());
     if (changeButton) changeButton.addEventListener("click", () => showQuizStartPanel());
+    if (explanationButton) explanationButton.addEventListener("click", () => toggleAnswerExplanation());
   }
 
   // Reset-Funktionen: wechseln zwischen Quizkarte und Auswahlbereich.
@@ -405,6 +488,8 @@
     if (startPanel) startPanel.classList.remove("is-hidden");
     setText("#quiz-feedback", "");
     setText("#quiz-question", "");
+    resetAnswerExplanation();
+    updateQuizProgressBar();
     if (options) options.innerHTML = "";
     updateSelectedCategorySummary();
   }
