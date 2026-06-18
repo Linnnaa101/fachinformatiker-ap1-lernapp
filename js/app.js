@@ -36,8 +36,10 @@
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
-  // Quiz-Konfiguration: Jeder Durchlauf nutzt maximal 40 zufällige Fragen aus dem gewählten Pool.
-  const QUIZ_QUESTION_COUNT = 40;
+  // Quiz-Konfiguration: Jeder Durchlauf nutzt den auswählbaren Umfang aus dem gewählten Pool.
+  const QUIZ_QUESTION_COUNT_OPTIONS = [10, 25, 40];
+  const DEFAULT_QUIZ_QUESTION_COUNT = 40;
+  const QUIZ_QUESTION_COUNT_KEY = "ap1QuizQuestionCount";
   const LEARNING_PROGRESS_KEY = "ap1LearningProgress";
   const DEFAULT_LEARNING_PROGRESS = {
     quizSessions: 0,
@@ -50,6 +52,7 @@
 
   // Quiz-State: speichert Auswahl, aktive Fragen und Antwortverlauf für die Statistik.
   let selectedCategory = storage.get("ap1SelectedQuizCategory", "alle");
+  let selectedQuizQuestionCount = getStoredQuizQuestionCount();
   let activeQuestions = [];
   let quizAnswers = [];
   let quizAnswered = 0;
@@ -67,6 +70,7 @@
     renderChapters(data.chapters);
     initSearch();
     initQuizCategorySelection();
+    initQuizLengthSelection();
     initQuizControls();
     renderLearningProgressDashboard();
     initLearningProgressReset();
@@ -198,6 +202,32 @@
     updateSelectedCategorySummary();
   }
 
+  function getStoredQuizQuestionCount() {
+    const storedValue = Number(storage.get(QUIZ_QUESTION_COUNT_KEY, DEFAULT_QUIZ_QUESTION_COUNT));
+    return QUIZ_QUESTION_COUNT_OPTIONS.includes(storedValue) ? storedValue : DEFAULT_QUIZ_QUESTION_COUNT;
+  }
+
+  function initQuizLengthSelection() {
+    selectedQuizQuestionCount = getStoredQuizQuestionCount();
+    const inputs = $$('input[name="quiz-length"]');
+    inputs.forEach((input) => {
+      input.checked = Number(input.value) === selectedQuizQuestionCount;
+      input.addEventListener("change", () => {
+        const nextCount = Number(input.value);
+        if (!input.checked || !QUIZ_QUESTION_COUNT_OPTIONS.includes(nextCount)) return;
+        selectedQuizQuestionCount = nextCount;
+        storage.set(QUIZ_QUESTION_COUNT_KEY, selectedQuizQuestionCount);
+        updateSelectedQuizLengthSummary();
+      });
+    });
+    storage.set(QUIZ_QUESTION_COUNT_KEY, selectedQuizQuestionCount);
+    updateSelectedQuizLengthSummary();
+  }
+
+  function updateSelectedQuizLengthSummary() {
+    setText("#selected-quiz-length-summary", `Ausgewählt: ${selectedQuizQuestionCount} Fragen`);
+  }
+
   function getCategoryIcon(categoryId) {
     const icons = {
       alle: "🎯",
@@ -290,7 +320,8 @@
   // Quizstart: setzt die Session zurück und zeigt die erste Frage an.
   function startQuiz() {
     const questionPool = getQuestionsForCategory(selectedCategory);
-    activeQuestions = prepareQuizQuestions(questionPool, QUIZ_QUESTION_COUNT);
+    selectedQuizQuestionCount = getStoredQuizQuestionCount();
+    activeQuestions = prepareQuizQuestions(questionPool, selectedQuizQuestionCount);
     quizAnswers = [];
     quizAnswered = 0;
     quizScore = 0;
