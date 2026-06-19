@@ -944,6 +944,56 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   background: rgba(255, 255, 255, 0.24);
 }
 
+.onboarding-card {
+  display: grid;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: clamp(1rem, 3vw, 1.35rem);
+  border: 1px solid color-mix(in srgb, var(--primary) 26%, var(--border));
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--primary) 10%, transparent), transparent),
+    var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.onboarding-heading {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.onboarding-heading .eyebrow,
+.onboarding-heading h2 {
+  margin: 0;
+}
+
+.onboarding-heading .eyebrow {
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.onboarding-heading h2 {
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+}
+
+.onboarding-steps {
+  display: grid;
+  gap: 0.55rem 1.25rem;
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--muted);
+}
+
+.onboarding-steps li {
+  padding-left: 0.15rem;
+}
+
+.onboarding-steps li::marker {
+  color: var(--accent);
+  font-weight: 900;
+}
+
 .hero-dashboard {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1182,6 +1232,15 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   .hero {
     grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
     align-items: center;
+  }
+
+  .onboarding-card {
+    grid-template-columns: minmax(13rem, 0.38fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .onboarding-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .quiz-category-options {
