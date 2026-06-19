@@ -692,9 +692,29 @@
     answers.forEach((answer) => {
       const topic = typeof answer.topic === "string" && answer.topic.trim() ? answer.topic.trim() : "unbekannt";
       if (!topicMap.has(topic)) {
-        topicMap.set(topic, { topic, title: formatTopicTitle(topic), total: 0, wrong: 0, correct: 0, accuracy: 0 });
+        topicMap.set(topic, {
+          topic,
+          title: formatTopicTitle(topic),
+          category: "",
+          categoryTitle: "",
+          total: 0,
+          wrong: 0,
+          correct: 0,
+          accuracy: 0,
+          categoryStats: new Map()
+        });
       }
       const entry = topicMap.get(topic);
+      const categoryId = typeof answer.category === "string" && answer.category.trim() ? answer.category.trim() : "";
+      if (categoryId) {
+        const category = getCategoryById(categoryId) || { id: categoryId, title: formatTopicTitle(categoryId) };
+        if (!entry.categoryStats.has(categoryId)) {
+          entry.categoryStats.set(categoryId, { id: categoryId, title: category.title, wrong: 0, total: 0 });
+        }
+        const categoryStats = entry.categoryStats.get(categoryId);
+        categoryStats.total += 1;
+        if (!answer.correct) categoryStats.wrong += 1;
+      }
       entry.total += 1;
       if (answer.correct) {
         entry.correct += 1;
@@ -706,6 +726,20 @@
 
     return Array.from(topicMap.values())
       .filter((topic) => topic.wrong > 0)
+      .map((topic) => {
+        const category = Array.from(topic.categoryStats.values())
+          .sort((a, b) => b.wrong - a.wrong || b.total - a.total || a.title.localeCompare(b.title, "de"))[0];
+        return {
+          topic: topic.topic,
+          title: topic.title,
+          category: category?.id || "",
+          categoryTitle: category?.title || "",
+          total: topic.total,
+          wrong: topic.wrong,
+          correct: topic.correct,
+          accuracy: topic.accuracy
+        };
+      })
       .sort((a, b) => b.wrong - a.wrong || a.accuracy - b.accuracy || a.title.localeCompare(b.title, "de"))
       .slice(0, 3);
   }
@@ -949,13 +983,52 @@
       titleElement.textContent = topic.title || topic.topic || "Unbekannt";
 
       const detail = document.createElement("span");
-      detail.textContent = `${topic.wrong} Fehler bei ${topic.total} Fragen`;
+      detail.textContent = topic.categoryTitle
+        ? `${topic.categoryTitle} · ${topic.wrong} Fehler bei ${topic.total} Fragen`
+        : `${topic.wrong} Fehler bei ${topic.total} Fragen`;
 
-      item.append(titleElement, detail);
+      const practiceButton = document.createElement("button");
+      practiceButton.type = "button";
+      practiceButton.className = "button button-secondary weak-topic-practice-button";
+      practiceButton.textContent = "Bereich üben";
+      practiceButton.disabled = !topic.category || !getCategoryById(topic.category);
+      if (topic.categoryTitle) {
+        practiceButton.setAttribute("aria-label", `Bereich ${topic.categoryTitle} für Thema ${topic.title || topic.topic || "Unbekannt"} üben`);
+      }
+      practiceButton.addEventListener("click", () => practiceWeakTopicCategory(topic.category));
+
+      item.append(titleElement, detail, practiceButton);
       list.appendChild(item);
     });
 
     section.appendChild(list);
+  }
+
+  function practiceWeakTopicCategory(categoryId) {
+    if (!categoryId || !getCategoryById(categoryId)) return;
+
+    selectedCategory = categoryId;
+    storage.set("ap1SelectedQuizCategory", selectedCategory);
+
+    hideResultsModal();
+    showQuizStartPanel();
+    renderQuizCategoryOptions();
+    updateSelectedCategorySummary();
+    updateIncorrectQuestionStatus();
+    focusQuizStartArea();
+  }
+
+  function focusQuizStartArea() {
+    const startPanel = $("#quiz-start-panel");
+    const startButton = $("#start-quiz");
+    scrollElementIntoView(startPanel || startButton, "start");
+    requestAnimationFrame(() => {
+      if (startButton) startButton.focus({ preventScroll: true });
+      else if (startPanel) {
+        startPanel.setAttribute("tabindex", "-1");
+        startPanel.focus({ preventScroll: true });
+      }
+    });
   }
 
   function renderIncorrectAnswerReview(results) {
