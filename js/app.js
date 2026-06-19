@@ -41,6 +41,7 @@
   const DEFAULT_QUIZ_QUESTION_COUNT = 40;
   const QUIZ_QUESTION_COUNT_KEY = "ap1QuizQuestionCount";
   const LEARNING_PROGRESS_KEY = "ap1LearningProgress";
+  const INCORRECT_QUESTION_IDS_KEY = "ap1IncorrectQuestionIds";
   const DEFAULT_LEARNING_PROGRESS = {
     quizSessions: 0,
     bestScore: 0,
@@ -441,6 +442,7 @@
       correctIndex: question.correctIndex
     });
     if (correct) quizScore = clamp(quizScore + 1, 0, activeQuestions.length);
+    else trackIncorrectQuestion(question);
     quizAnswered = clamp(quizAnswered + 1, 0, activeQuestions.length);
     currentQuestionAnswered = true;
     setText("#quiz-score", `Punkte: ${quizScore}`);
@@ -650,6 +652,26 @@
   function saveLearningProgress(progress) {
     storage.set(LEARNING_PROGRESS_KEY, { ...DEFAULT_LEARNING_PROGRESS, ...progress });
     renderLearningProgressDashboard();
+  }
+
+  function getIncorrectQuestionIds() {
+    const storedIds = storage.get(INCORRECT_QUESTION_IDS_KEY, []);
+    if (!Array.isArray(storedIds)) return [];
+    return storedIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+  }
+
+  function saveIncorrectQuestionIds(questionIds) {
+    const uniqueIds = Array.from(new Set(
+      questionIds.filter((id) => typeof id === "string" && id.trim().length > 0)
+    ));
+    storage.set(INCORRECT_QUESTION_IDS_KEY, uniqueIds);
+  }
+
+  function trackIncorrectQuestion(question) {
+    if (!question || typeof question.id !== "string") return;
+    const incorrectQuestionIds = getIncorrectQuestionIds();
+    if (incorrectQuestionIds.includes(question.id)) return;
+    saveIncorrectQuestionIds([...incorrectQuestionIds, question.id]);
   }
 
   function saveQuizProgress(results) {
