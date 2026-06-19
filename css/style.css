@@ -932,6 +932,42 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   box-shadow: var(--shadow);
 }
 
+.retry-category-button {
+  position: relative;
+  border-style: dashed;
+  background: linear-gradient(145deg, color-mix(in srgb, #f59e0b 12%, var(--surface)), var(--surface));
+}
+
+.retry-category-button::before {
+  content: "Spezialmodus";
+  justify-self: start;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, #f59e0b 18%, var(--surface));
+  color: #fbbf24;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.retry-category-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+  transform: none;
+}
+
+.retry-category-button:disabled:hover {
+  border-color: var(--border);
+  box-shadow: 0 8px 22px rgba(0, 8, 20, 0.18);
+}
+
+.retry-category-icon,
+.retry-category-button .category-count {
+  background: color-mix(in srgb, #f59e0b 16%, var(--surface));
+  color: #fbbf24;
+}
+
 .category-card-button.selected {
   background: linear-gradient(145deg, color-mix(in srgb, var(--primary) 16%, var(--surface)), var(--surface));
   border-color: var(--primary);

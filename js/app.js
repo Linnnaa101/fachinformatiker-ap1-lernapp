@@ -42,6 +42,7 @@
   const QUIZ_QUESTION_COUNT_KEY = "ap1QuizQuestionCount";
   const LEARNING_PROGRESS_KEY = "ap1LearningProgress";
   const INCORRECT_QUESTION_IDS_KEY = "ap1IncorrectQuestionIds";
+  const RETRY_INCORRECT_CATEGORY_ID = "fehler-wiederholen";
   const DEFAULT_LEARNING_PROGRESS = {
     quizSessions: 0,
     bestScore: 0,
@@ -147,7 +148,7 @@
   function initQuizCategorySelection() {
     const options = $("#quiz-category-options");
     if (!options) return;
-    if (selectedCategory !== "alle" && !getCategoryById(selectedCategory)) selectedCategory = "alle";
+    validateStoredQuizCategory();
     renderQuizCategoryOptions();
     updateSelectedCategorySummary();
   }
@@ -170,6 +171,32 @@
       },
       ...data.quizCategories.filter((category) => category.id !== "alle")
     ];
+
+    const retryQuestionCount = getRetryIncorrectQuestions().length;
+    const retryAvailable = retryQuestionCount > 0;
+    const retrySelected = selectedCategory === RETRY_INCORRECT_CATEGORY_ID;
+    const retryButton = document.createElement("button");
+    retryButton.type = "button";
+    retryButton.className = "category-button category-card-button retry-category-button";
+    if (retrySelected) retryButton.classList.add("selected");
+    retryButton.disabled = !retryAvailable;
+    retryButton.setAttribute("aria-pressed", String(retrySelected));
+    retryButton.setAttribute("aria-describedby", "retry-category-status");
+    retryButton.addEventListener("click", () => {
+      if (!retryAvailable) return;
+      selectQuizCategory(RETRY_INCORRECT_CATEGORY_ID);
+    });
+    retryButton.innerHTML = `
+      <span class="category-card-top">
+        <span class="category-icon retry-category-icon" aria-hidden="true">↻</span>
+        <span class="category-count">${retryQuestionCount} gespeichert</span>
+      </span>
+      <span class="category-title">Fehler wiederholen</span>
+      <span id="retry-category-status" class="category-description">${retryAvailable
+        ? "Trainiere nur die Fragen, die du zuvor falsch beantwortet hast."
+        : "Noch keine Fehler gespeichert. Beantworte zuerst einige Fragen falsch, um sie später gezielt zu wiederholen."}</span>
+    `;
+    options.appendChild(retryButton);
 
     categoryCards.forEach((category) => {
       const isSelected = category.id === selectedCategory;
@@ -197,6 +224,13 @@
 
   // Kategorieauswahl: speichert die gewählte Kategorie und führt zum nächsten Schritt.
   function selectQuizCategory(categoryId) {
+    if (categoryId === RETRY_INCORRECT_CATEGORY_ID && getRetryIncorrectQuestions().length === 0) {
+      selectedCategory = "alle";
+      storage.set("ap1SelectedQuizCategory", selectedCategory);
+      renderQuizCategoryOptions();
+      updateSelectedCategorySummary();
+      return;
+    }
     selectedCategory = categoryId;
     storage.set("ap1SelectedQuizCategory", selectedCategory);
     renderQuizCategoryOptions();
@@ -253,6 +287,7 @@
     const icons = {
       alle: "🎯",
       "hardware-os": "🖥️",
+      [RETRY_INCORRECT_CATEGORY_ID]: "↻",
       netzwerke: "🌐",
       "it-sicherheit": "🔐",
       "datenbanken-sql": "🗄️",
@@ -273,19 +308,26 @@
     const category = data.quizCategories.find((item) => item.id === categoryId);
     if (category) return category;
     if (categoryId === "alle") return { id: "alle", title: "Alle Themen", description: "Gemischtes Quiz mit allen Fragen." };
+    if (categoryId === RETRY_INCORRECT_CATEGORY_ID) return { id: RETRY_INCORRECT_CATEGORY_ID, title: "Fehler wiederholen", description: "Wiederholung lokal gespeicherter Fehler." };
     return null;
   }
 
   // Kategorieauswahl: filtert Fragen nach Auswahl.
   function getQuestionsForCategory(categoryId) {
     if (categoryId === "alle") return data.quiz;
+    if (categoryId === RETRY_INCORRECT_CATEGORY_ID) return getRetryIncorrectQuestions();
     return data.quiz.filter((question) => question.category === categoryId);
   }
 
   // Kategorieauswahl: aktualisiert den Auswahlhinweis.
   function updateSelectedCategorySummary() {
+    validateStoredQuizCategory();
     const category = getCategoryById(selectedCategory);
     const questions = getQuestionsForCategory(selectedCategory);
+    if (selectedCategory === RETRY_INCORRECT_CATEGORY_ID) {
+      setText("#selected-category-summary", `Ausgewählt: Fehler wiederholen – ${questions.length} gespeicherte Fragen verfügbar.`);
+      return;
+    }
     if (category) {
       setText("#selected-category-summary", `Ausgewählt: ${category.title} – ${questions.length} Fragen verfügbar.`);
       return;
@@ -340,6 +382,7 @@
 
   // Quizstart: setzt die Session zurück und zeigt die erste Frage an.
   function startQuiz() {
+    validateStoredQuizCategory();
     const questionPool = getQuestionsForCategory(selectedCategory);
     selectedQuizQuestionCount = getStoredQuizQuestionCount();
     activeQuestions = prepareQuizQuestions(questionPool, selectedQuizQuestionCount);
@@ -354,7 +397,10 @@
     resetAnswerExplanation();
     updateQuizProgressBar();
     if (activeQuestions.length === 0) {
-      setText("#selected-category-summary", "Für diese Kategorie sind noch keine Fragen verfügbar.");
+      setText("#selected-category-summary", selectedCategory === RETRY_INCORRECT_CATEGORY_ID
+        ? "Noch keine Fehler gespeichert. Beantworte zuerst einige Fragen falsch, um sie später gezielt zu wiederholen."
+        : "Für diese Kategorie sind noch keine Fragen verfügbar.");
+      renderQuizCategoryOptions();
       return;
     }
     const startPanel = $("#quiz-start-panel");
@@ -441,8 +487,12 @@
       selectedIndex,
       correctIndex: question.correctIndex
     });
-    if (correct) quizScore = clamp(quizScore + 1, 0, activeQuestions.length);
-    else trackIncorrectQuestion(question);
+    if (correct) {
+      quizScore = clamp(quizScore + 1, 0, activeQuestions.length);
+      if (selectedCategory === RETRY_INCORRECT_CATEGORY_ID) removeIncorrectQuestion(question);
+    } else {
+      trackIncorrectQuestion(question);
+    }
     quizAnswered = clamp(quizAnswered + 1, 0, activeQuestions.length);
     currentQuestionAnswered = true;
     setText("#quiz-score", `Punkte: ${quizScore}`);
@@ -545,6 +595,7 @@
     resetAnswerExplanation();
     updateQuizProgressBar();
     if (options) options.innerHTML = "";
+    renderQuizCategoryOptions();
     updateSelectedCategorySummary();
   }
 
@@ -658,6 +709,29 @@
     const storedIds = storage.get(INCORRECT_QUESTION_IDS_KEY, []);
     if (!Array.isArray(storedIds)) return [];
     return storedIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+  }
+
+  function getRetryIncorrectQuestions() {
+    const retryIds = new Set(getIncorrectQuestionIds());
+    return data.quiz.filter((question) => typeof question.id === "string" && retryIds.has(question.id));
+  }
+
+  function removeIncorrectQuestion(question) {
+    if (!question || typeof question.id !== "string") return;
+    const incorrectQuestionIds = getIncorrectQuestionIds();
+    saveIncorrectQuestionIds(incorrectQuestionIds.filter((id) => id !== question.id));
+  }
+
+  function validateStoredQuizCategory() {
+    if (selectedCategory === RETRY_INCORRECT_CATEGORY_ID && getRetryIncorrectQuestions().length === 0) {
+      selectedCategory = "alle";
+      storage.set("ap1SelectedQuizCategory", selectedCategory);
+      return;
+    }
+    if (selectedCategory !== "alle" && !getCategoryById(selectedCategory)) {
+      selectedCategory = "alle";
+      storage.set("ap1SelectedQuizCategory", selectedCategory);
+    }
   }
 
   function saveIncorrectQuestionIds(questionIds) {
