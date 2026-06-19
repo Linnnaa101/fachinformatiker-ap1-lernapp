@@ -74,6 +74,7 @@
     initQuizCategorySelection();
     initQuizLengthSelection();
     initQuizControls();
+    initIncorrectQuestionReset();
     renderLearningProgressDashboard();
     initLearningProgressReset();
     renderFlashcard();
@@ -324,8 +325,10 @@
   // Kategorieauswahl: aktualisiert den Auswahlhinweis.
   function updateIncorrectQuestionStatus() {
     const statusElement = $("#incorrect-question-status");
-    if (!statusElement) return;
+    const resetButton = $("#reset-incorrect-questions");
     const retryQuestionCount = getRetryIncorrectQuestions().length;
+    if (resetButton) resetButton.disabled = retryQuestionCount === 0;
+    if (!statusElement) return;
     if (retryQuestionCount === 0) {
       statusElement.textContent = "Aktuell sind keine Fehler gespeichert.";
       return;
@@ -340,6 +343,27 @@
   function refreshIncorrectQuestionUi() {
     updateIncorrectQuestionStatus();
     renderQuizCategoryOptions();
+    updateSelectedCategorySummary();
+  }
+
+  function initIncorrectQuestionReset() {
+    const resetButton = $("#reset-incorrect-questions");
+    if (!resetButton) return;
+    resetButton.addEventListener("click", resetIncorrectQuestions);
+    updateIncorrectQuestionStatus();
+  }
+
+  function resetIncorrectQuestions() {
+    const confirmed = window.confirm("Möchtest du wirklich alle gespeicherten Fehlerfragen löschen?");
+    if (!confirmed) return;
+    saveIncorrectQuestionIds([]);
+    if (selectedCategory === RETRY_INCORRECT_CATEGORY_ID) {
+      selectedCategory = "alle";
+      storage.set("ap1SelectedQuizCategory", selectedCategory);
+    }
+    renderQuizCategoryOptions();
+    updateSelectedCategorySummary();
+    updateIncorrectQuestionStatus();
   }
 
   function updateSelectedCategorySummary() {
