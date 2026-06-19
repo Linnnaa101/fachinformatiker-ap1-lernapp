@@ -528,6 +528,12 @@ h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 7vw, 4.5rem); line-heig
   font-weight: 800;
 }
 
+.weak-topic-practice-button {
+  padding: 0.55rem 0.85rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 .incorrect-answer-review {
   display: grid;
   gap: 0.85rem;
