@@ -1485,3 +1485,259 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
     transform: none;
   }
 }
+
+/* Mobile polish: tighter spacing, safer wrapping and larger tap targets without changing behavior. */
+.hero-content,
+.hero-dashboard,
+.card,
+.modal-card,
+.quiz-question-block,
+.feedback,
+.answer-explanation-panel,
+.weak-topic-recommendations,
+.incorrect-answer-review,
+.flashcard-inner {
+  min-width: 0;
+}
+
+.hero,
+.onboarding-card,
+.learning-progress-dashboard,
+.quiz-start-panel,
+.quiz-card,
+.modal-card,
+.flashcard-panel {
+  overflow-wrap: break-word;
+}
+
+.category-title,
+.category-description,
+.category-count,
+.quiz-chip,
+.quiz-length-option,
+.stat-box,
+.category-result-name,
+.category-result-score,
+.incorrect-answer-card,
+.weak-topic-item,
+.recommendation-list dd,
+.flashcard strong {
+  overflow-wrap: anywhere;
+}
+
+.button,
+.nav-toggle,
+.category-button,
+.quiz-length-option,
+.option-button,
+.explanation-toggle,
+.dashboard-reset-button,
+.modal-close {
+  min-height: 44px;
+}
+
+.progress-chart,
+.chart-card,
+.progress-chart svg {
+  max-width: 100%;
+}
+
+@media (max-width: 759px) {
+  main {
+    padding: 0.8rem;
+  }
+
+  .hero {
+    margin: 1rem 0;
+    padding: clamp(1.25rem, 6vw, 2rem);
+    border-radius: 1.35rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 11vw, 3rem);
+    line-height: 1.08;
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+  .hero-actions,
+  .quiz-actions,
+  .results-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .button,
+  .quiz-actions .button,
+  .results-actions .button {
+    width: 100%;
+  }
+
+  .hero-dashboard,
+  .dashboard-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stat,
+  .dashboard-stat-card,
+  .card,
+  .modal-card {
+    padding: 1rem;
+  }
+
+  .onboarding-card {
+    gap: 0.85rem;
+    margin: 1rem 0;
+    border-radius: 1rem;
+  }
+
+  .onboarding-steps {
+    gap: 0.5rem;
+    padding-left: 1.1rem;
+  }
+
+  .dashboard-reset-button,
+  .reset-incorrect-questions-button,
+  .weak-topic-practice-button,
+  .explanation-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .incorrect-question-tools {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .incorrect-question-status {
+    width: 100%;
+    border-radius: 0.9rem;
+    text-align: center;
+  }
+
+  .category-card-button {
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .category-card-top,
+  .weak-topic-item,
+  .category-result-header {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .category-count,
+  .weak-topic-practice-button {
+    justify-self: start;
+  }
+
+  .quiz-length-selector {
+    padding: 0.85rem;
+  }
+
+  .quiz-card {
+    gap: 0.85rem;
+  }
+
+  .quiz-meta {
+    gap: 0.5rem;
+  }
+
+  .quiz-chip {
+    width: 100%;
+    border-radius: 0.85rem;
+  }
+
+  .quiz-question-block h3 {
+    font-size: clamp(1.15rem, 6vw, 1.45rem);
+  }
+
+  .option-button {
+    padding: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .option-button.correct::after,
+  .option-button.wrong::after {
+    display: block;
+    float: none;
+    margin: 0.35rem 0 0;
+  }
+
+  .modal-backdrop {
+    align-items: start;
+    padding: 0.6rem;
+  }
+
+  .modal-card {
+    width: 100%;
+    max-height: calc(100vh - 1.2rem);
+    gap: 0.85rem;
+    border-radius: 1rem;
+  }
+
+  .modal-close {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .results-summary,
+  .results-message {
+    padding-right: 2.4rem;
+  }
+
+  .quiz-result-actions,
+  .results-recommendation,
+  .weak-topic-recommendations,
+  .incorrect-answer-review,
+  .progress-chart {
+    padding: 0.85rem;
+  }
+
+  .weak-topic-item {
+    align-items: start;
+    border-radius: 0.85rem;
+  }
+
+  .incorrect-answer-card {
+    padding: 0.8rem;
+  }
+
+  .flashcard {
+    min-height: 220px;
+  }
+
+  .flashcard-inner {
+    min-height: 220px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  main {
+    padding: 0.65rem;
+  }
+
+  .hero,
+  .card,
+  .modal-card,
+  .quiz-length-selector,
+  .quiz-question-block,
+  .answer-explanation-panel {
+    border-radius: 0.95rem;
+  }
+
+  .button,
+  .category-card-button,
+  .quiz-length-option,
+  .option-button {
+    padding-inline: 0.85rem;
+  }
+
+  .progress-chart {
+    padding: 0.65rem;
+  }
+}
