@@ -68,6 +68,7 @@
   let flashcardBackVisible = false;
 
   function init() {
+    renderDataHealthStatus();
     initNavigation();
     renderChapters(data.chapters);
     initSearch();
@@ -80,6 +81,20 @@
     renderFlashcard();
     initFlashcardControls();
     initResultsModalControls();
+  }
+
+  function renderDataHealthStatus() {
+    const statusElement = $("#data-health-status");
+    if (!statusElement) return;
+
+    const questionCount = data.quiz.length;
+    const categoryCount = data.quizCategories.filter((category) => category.id !== "alle").length;
+    const isHealthy = questionCount === 800 && categoryCount === 8;
+
+    statusElement.textContent = isHealthy
+      ? `${questionCount} Fragen · ${categoryCount} Kategorien · Daten geladen`
+      : `Datenstatus prüfen · ${questionCount} Fragen · ${categoryCount} Kategorien`;
+    statusElement.classList.toggle("is-warning", !isHealthy);
   }
 
   function initNavigation() {
