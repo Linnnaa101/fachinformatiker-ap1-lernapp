@@ -471,6 +471,59 @@ h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 7vw, 4.5rem); line-heig
   font-weight: 700;
 }
 
+.incorrect-answer-review {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--border));
+  border-radius: 1rem;
+  background: rgba(2, 8, 23, 0.42);
+}
+
+.incorrect-answer-review h4,
+.incorrect-answer-review h5,
+.incorrect-answer-review p {
+  margin: 0;
+}
+
+.incorrect-answer-review h4 {
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+
+.incorrect-answer-review-empty {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.incorrect-answer-review-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.incorrect-answer-card {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  background: var(--surface);
+}
+
+.incorrect-answer-card h5 {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.incorrect-answer-review-text {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.incorrect-answer-review-text strong {
+  color: var(--text);
+}
+
 .category-stats {
   display: grid;
   gap: 0.85rem;

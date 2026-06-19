@@ -529,6 +529,10 @@
       questionId: question.id,
       poolQuestionId: question.id,
       category: question.category,
+      question: question.question,
+      selectedAnswer: question.options[selectedIndex] || "",
+      correctAnswer: question.options[question.correctIndex] || "",
+      explanation: question.explanation || "",
       correct,
       selectedIndex,
       correctIndex: question.correctIndex
@@ -669,7 +673,16 @@
       if (answer.correct) runningCorrect += 1;
       return formatPercent((runningCorrect / (index + 1)) * 100);
     });
-    return { total, correct, wrong, percent, categoryResults, strongestCategory, weakestCategory, history };
+    const incorrectAnswers = quizAnswers
+      .filter((answer) => !answer.correct)
+      .map((answer) => ({
+        question: answer.question || "",
+        selectedAnswer: answer.selectedAnswer || "",
+        correctAnswer: answer.correctAnswer || "",
+        explanation: answer.explanation || "",
+        correct: false
+      }));
+    return { total, correct, wrong, percent, categoryResults, strongestCategory, weakestCategory, history, incorrectAnswers };
   }
 
   // Ergebnis-Feedback: motivierende Texte passend zur Trefferquote.
@@ -858,6 +871,59 @@
     return "Dranbleiben lohnt sich: Wiederhole gezielt die schwächeren Themen und starte die nächste Runde.";
   }
 
+  function appendReviewText(container, label, value) {
+    const paragraph = document.createElement("p");
+    paragraph.className = "incorrect-answer-review-text";
+
+    const labelElement = document.createElement("strong");
+    labelElement.textContent = label;
+    paragraph.appendChild(labelElement);
+    paragraph.append(" ", value);
+    container.appendChild(paragraph);
+  }
+
+  function renderIncorrectAnswerReview(results) {
+    const review = $("#incorrect-answer-review");
+    if (!review) return;
+
+    review.innerHTML = "";
+
+    const title = document.createElement("h4");
+    title.id = "incorrect-answer-review-title";
+    title.textContent = "Deine Fehler im Überblick";
+    review.appendChild(title);
+
+    const incorrectAnswers = Array.isArray(results.incorrectAnswers) ? results.incorrectAnswers : [];
+    if (!incorrectAnswers.length) {
+      const emptyMessage = document.createElement("p");
+      emptyMessage.className = "incorrect-answer-review-empty";
+      emptyMessage.textContent = "Stark! Du hast keine Frage falsch beantwortet.";
+      review.appendChild(emptyMessage);
+      return;
+    }
+
+    const list = document.createElement("div");
+    list.className = "incorrect-answer-review-list";
+
+    incorrectAnswers.forEach((answer, index) => {
+      const card = document.createElement("article");
+      card.className = "incorrect-answer-card";
+      card.setAttribute("aria-label", `Fehler ${index + 1} von ${incorrectAnswers.length}`);
+
+      const question = document.createElement("h5");
+      question.textContent = answer.question || "Frage ohne Text";
+      card.appendChild(question);
+
+      appendReviewText(card, "Deine Antwort:", answer.selectedAnswer || "Keine Antwort ausgewählt");
+      appendReviewText(card, "Richtige Antwort:", answer.correctAnswer || "Keine richtige Antwort hinterlegt");
+      appendReviewText(card, "Erklärung:", answer.explanation || "Zu dieser Frage ist keine Erklärung hinterlegt.");
+
+      list.appendChild(card);
+    });
+
+    review.appendChild(list);
+  }
+
   // Ergebnis-Modal: rendert Zusammenfassung und Kategorieauswertung.
   function renderResultsModal(results) {
     const feedback = getResultFeedback(results.percent);
@@ -893,6 +959,7 @@
       note.textContent = `Stärkster Bereich: ${results.strongestCategory?.title || "Keine"}. Wiederholen: ${results.weakestCategory?.title || "Keine"}.`;
       categoryStats.appendChild(note);
     }
+    renderIncorrectAnswerReview(results);
     renderProgressChart(results.history);
   }
 
