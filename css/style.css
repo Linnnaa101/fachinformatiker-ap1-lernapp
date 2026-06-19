@@ -471,6 +471,63 @@ h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 7vw, 4.5rem); line-heig
   font-weight: 700;
 }
 
+
+.weak-topic-recommendations {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, var(--border));
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent),
+    rgba(2, 8, 23, 0.42);
+}
+
+.weak-topic-recommendations h4,
+.weak-topic-recommendations p {
+  margin: 0;
+}
+
+.weak-topic-recommendations h4 {
+  color: var(--primary);
+  font-size: 1.05rem;
+}
+
+.weak-topic-success {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.weak-topic-list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.weak-topic-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: var(--surface);
+}
+
+.weak-topic-item strong {
+  color: var(--text);
+}
+
+.weak-topic-item span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
 .incorrect-answer-review {
   display: grid;
   gap: 0.85rem;

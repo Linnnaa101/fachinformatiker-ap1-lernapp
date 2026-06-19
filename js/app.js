@@ -529,6 +529,7 @@
       questionId: question.id,
       poolQuestionId: question.id,
       category: question.category,
+      topic: question.topic,
       question: question.question,
       selectedAnswer: question.options[selectedIndex] || "",
       correctAnswer: question.options[question.correctIndex] || "",
@@ -666,6 +667,7 @@
       entry.percent = formatPercent((entry.correct / entry.total) * 100);
     });
     const categoryResults = Array.from(categoryMap.values());
+    const weakTopics = calculateWeakTopics(quizAnswers);
     const strongestCategory = categoryResults.reduce((best, item) => (!best || item.percent > best.percent ? item : best), null);
     const weakestCategory = categoryResults.reduce((worst, item) => (!worst || item.percent < worst.percent ? item : worst), null);
     let runningCorrect = 0;
@@ -682,7 +684,38 @@
         explanation: answer.explanation || "",
         correct: false
       }));
-    return { total, correct, wrong, percent, categoryResults, strongestCategory, weakestCategory, history, incorrectAnswers };
+    return { total, correct, wrong, percent, categoryResults, strongestCategory, weakestCategory, history, incorrectAnswers, weakTopics };
+  }
+
+  function calculateWeakTopics(answers) {
+    const topicMap = new Map();
+    answers.forEach((answer) => {
+      const topic = typeof answer.topic === "string" && answer.topic.trim() ? answer.topic.trim() : "unbekannt";
+      if (!topicMap.has(topic)) {
+        topicMap.set(topic, { topic, title: formatTopicTitle(topic), total: 0, wrong: 0, correct: 0, accuracy: 0 });
+      }
+      const entry = topicMap.get(topic);
+      entry.total += 1;
+      if (answer.correct) {
+        entry.correct += 1;
+      } else {
+        entry.wrong += 1;
+      }
+      entry.accuracy = formatPercent((entry.correct / entry.total) * 100);
+    });
+
+    return Array.from(topicMap.values())
+      .filter((topic) => topic.wrong > 0)
+      .sort((a, b) => b.wrong - a.wrong || a.accuracy - b.accuracy || a.title.localeCompare(b.title, "de"))
+      .slice(0, 3);
+  }
+
+  function formatTopicTitle(topic) {
+    return String(topic)
+      .replace(/-/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/\b\S/g, (char) => char.toLocaleUpperCase("de-DE")) || "Unbekannt";
   }
 
   // Ergebnis-Feedback: motivierende Texte passend zur Trefferquote.
@@ -882,6 +915,49 @@
     container.appendChild(paragraph);
   }
 
+  function renderWeakTopicRecommendations(results) {
+    const section = $("#weak-topic-recommendations");
+    if (!section) return;
+
+    section.innerHTML = "";
+
+    const title = document.createElement("h4");
+    title.textContent = "Empfohlene Wiederholung";
+    section.appendChild(title);
+
+    const weakTopics = Array.isArray(results.weakTopics) ? results.weakTopics : [];
+    if (!weakTopics.length) {
+      const emptyMessage = document.createElement("p");
+      emptyMessage.className = "weak-topic-success";
+      emptyMessage.textContent = "Keine Schwachstellen erkannt – sehr stark!";
+      section.appendChild(emptyMessage);
+      return;
+    }
+
+    const intro = document.createElement("p");
+    intro.textContent = "Wiederhole besonders:";
+    section.appendChild(intro);
+
+    const list = document.createElement("ul");
+    list.className = "weak-topic-list";
+
+    weakTopics.forEach((topic) => {
+      const item = document.createElement("li");
+      item.className = "weak-topic-item";
+
+      const titleElement = document.createElement("strong");
+      titleElement.textContent = topic.title || topic.topic || "Unbekannt";
+
+      const detail = document.createElement("span");
+      detail.textContent = `${topic.wrong} Fehler bei ${topic.total} Fragen`;
+
+      item.append(titleElement, detail);
+      list.appendChild(item);
+    });
+
+    section.appendChild(list);
+  }
+
   function renderIncorrectAnswerReview(results) {
     const review = $("#incorrect-answer-review");
     if (!review) return;
@@ -959,6 +1035,7 @@
       note.textContent = `Stärkster Bereich: ${results.strongestCategory?.title || "Keine"}. Wiederholen: ${results.weakestCategory?.title || "Keine"}.`;
       categoryStats.appendChild(note);
     }
+    renderWeakTopicRecommendations(results);
     renderIncorrectAnswerReview(results);
     renderProgressChart(results.history);
   }
