@@ -151,6 +151,7 @@
     validateStoredQuizCategory();
     renderQuizCategoryOptions();
     updateSelectedCategorySummary();
+    updateIncorrectQuestionStatus();
   }
 
   // Kategorieauswahl: rendert moderne Karten für alle Quizbereiche.
@@ -158,6 +159,7 @@
     const options = $("#quiz-category-options");
     if (!options) return;
     options.innerHTML = "";
+    updateIncorrectQuestionStatus();
     if (!data.quizCategories.length) {
       options.appendChild(createMessage("Keine Quiz-Kategorien verfügbar."));
       return;
@@ -320,6 +322,26 @@
   }
 
   // Kategorieauswahl: aktualisiert den Auswahlhinweis.
+  function updateIncorrectQuestionStatus() {
+    const statusElement = $("#incorrect-question-status");
+    if (!statusElement) return;
+    const retryQuestionCount = getRetryIncorrectQuestions().length;
+    if (retryQuestionCount === 0) {
+      statusElement.textContent = "Aktuell sind keine Fehler gespeichert.";
+      return;
+    }
+    if (retryQuestionCount === 1) {
+      statusElement.textContent = "1 Fehlerfrage gespeichert.";
+      return;
+    }
+    statusElement.textContent = `${retryQuestionCount} Fehlerfragen gespeichert.`;
+  }
+
+  function refreshIncorrectQuestionUi() {
+    updateIncorrectQuestionStatus();
+    renderQuizCategoryOptions();
+  }
+
   function updateSelectedCategorySummary() {
     validateStoredQuizCategory();
     const category = getCategoryById(selectedCategory);
@@ -493,6 +515,7 @@
     } else {
       trackIncorrectQuestion(question);
     }
+    updateIncorrectQuestionStatus();
     quizAnswered = clamp(quizAnswered + 1, 0, activeQuestions.length);
     currentQuestionAnswered = true;
     setText("#quiz-score", `Punkte: ${quizScore}`);
@@ -720,6 +743,7 @@
     if (!question || typeof question.id !== "string") return;
     const incorrectQuestionIds = getIncorrectQuestionIds();
     saveIncorrectQuestionIds(incorrectQuestionIds.filter((id) => id !== question.id));
+    refreshIncorrectQuestionUi();
   }
 
   function validateStoredQuizCategory() {
@@ -746,6 +770,7 @@
     const incorrectQuestionIds = getIncorrectQuestionIds();
     if (incorrectQuestionIds.includes(question.id)) return;
     saveIncorrectQuestionIds([...incorrectQuestionIds, question.id]);
+    refreshIncorrectQuestionUi();
   }
 
   function saveQuizProgress(results) {
