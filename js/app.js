@@ -832,21 +832,37 @@
     renderLearningProgressDashboard();
   }
 
+  function getQuestionStorageId(question) {
+    if (!question || typeof question.category !== "string" || typeof question.id !== "string") return null;
+    const category = question.category.trim();
+    const id = question.id.trim();
+    if (!category || !id) return null;
+    return `${category}-${id}`;
+  }
+
+  function isQualifiedQuestionStorageId(value) {
+    return typeof value === "string" && /^[a-z0-9-]+-\d{3}$/.test(value);
+  }
+
   function getIncorrectQuestionIds() {
     const storedIds = storage.get(INCORRECT_QUESTION_IDS_KEY, []);
     if (!Array.isArray(storedIds)) return [];
-    return storedIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+    return storedIds.map((id) => (typeof id === "string" ? id.trim() : "")).filter(isQualifiedQuestionStorageId);
   }
 
   function getRetryIncorrectQuestions() {
     const retryIds = new Set(getIncorrectQuestionIds());
-    return data.quiz.filter((question) => typeof question.id === "string" && retryIds.has(question.id));
+    return data.quiz.filter((question) => {
+      const storageId = getQuestionStorageId(question);
+      return storageId !== null && retryIds.has(storageId);
+    });
   }
 
   function removeIncorrectQuestion(question) {
-    if (!question || typeof question.id !== "string") return;
+    const storageId = getQuestionStorageId(question);
+    if (storageId === null) return;
     const incorrectQuestionIds = getIncorrectQuestionIds();
-    saveIncorrectQuestionIds(incorrectQuestionIds.filter((id) => id !== question.id));
+    saveIncorrectQuestionIds(incorrectQuestionIds.filter((id) => id !== storageId));
     refreshIncorrectQuestionUi();
   }
 
@@ -863,17 +879,18 @@
   }
 
   function saveIncorrectQuestionIds(questionIds) {
-    const uniqueIds = Array.from(new Set(
-      questionIds.filter((id) => typeof id === "string" && id.trim().length > 0)
-    ));
-    storage.set(INCORRECT_QUESTION_IDS_KEY, uniqueIds);
+    const sanitizedIds = Array.isArray(questionIds)
+      ? questionIds.map((id) => (typeof id === "string" ? id.trim() : "")).filter(isQualifiedQuestionStorageId)
+      : [];
+    storage.set(INCORRECT_QUESTION_IDS_KEY, Array.from(new Set(sanitizedIds)));
   }
 
   function trackIncorrectQuestion(question) {
-    if (!question || typeof question.id !== "string") return;
+    const storageId = getQuestionStorageId(question);
+    if (storageId === null) return;
     const incorrectQuestionIds = getIncorrectQuestionIds();
-    if (incorrectQuestionIds.includes(question.id)) return;
-    saveIncorrectQuestionIds([...incorrectQuestionIds, question.id]);
+    if (incorrectQuestionIds.includes(storageId)) return;
+    saveIncorrectQuestionIds([...incorrectQuestionIds, storageId]);
     refreshIncorrectQuestionUi();
   }
 
