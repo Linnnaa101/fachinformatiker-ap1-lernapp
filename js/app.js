@@ -1007,15 +1007,8 @@
   function practiceWeakTopicCategory(categoryId) {
     if (!categoryId || !getCategoryById(categoryId)) return;
 
-    selectedCategory = categoryId;
-    storage.set("ap1SelectedQuizCategory", selectedCategory);
-
-    hideResultsModal();
-    showQuizStartPanel();
-    renderQuizCategoryOptions();
-    updateSelectedCategorySummary();
-    updateIncorrectQuestionStatus();
-    focusQuizStartArea();
+    selectQuizCategoryForNextRun(categoryId);
+    returnToQuizSelection();
   }
 
   function focusQuizStartArea() {
@@ -1029,6 +1022,64 @@
         startPanel.focus({ preventScroll: true });
       }
     });
+  }
+
+  function selectQuizCategoryForNextRun(categoryId) {
+    if (!categoryId || !getCategoryById(categoryId)) return false;
+    if (categoryId === RETRY_INCORRECT_CATEGORY_ID && getRetryIncorrectQuestions().length === 0) return false;
+    selectedCategory = categoryId;
+    storage.set("ap1SelectedQuizCategory", selectedCategory);
+    renderQuizCategoryOptions();
+    updateSelectedCategorySummary();
+    updateIncorrectQuestionStatus();
+    return true;
+  }
+
+  function selectRetryMode() {
+    return selectQuizCategoryForNextRun(RETRY_INCORRECT_CATEGORY_ID);
+  }
+
+  function returnToQuizSelection() {
+    hideResultsModal();
+    showQuizStartPanel();
+    focusQuizStartArea();
+  }
+
+  function restartCurrentQuiz() {
+    hideResultsModal();
+    startQuiz();
+  }
+
+  function createResultActionButton(label, onClick, { primary = false, disabled = false } = {}) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = primary ? "button" : "button button-secondary";
+    button.textContent = label;
+    button.disabled = disabled;
+    button.addEventListener("click", onClick);
+    return button;
+  }
+
+  function renderQuizResultActions(results) {
+    const actions = $("#quiz-result-actions");
+    if (!actions) return;
+
+    actions.innerHTML = "";
+
+    const weakestCategoryId = results.weakestCategory?.id || "";
+    const hasWeakestCategory = Boolean(weakestCategoryId && getCategoryById(weakestCategoryId));
+    const hasRetryQuestions = getRetryIncorrectQuestions().length > 0;
+
+    actions.append(
+      createResultActionButton("Fehler wiederholen", () => {
+        if (selectRetryMode()) returnToQuizSelection();
+      }, { primary: true, disabled: !hasRetryQuestions }),
+      createResultActionButton("Bereich weiter üben", () => {
+        if (selectQuizCategoryForNextRun(weakestCategoryId)) returnToQuizSelection();
+      }, { disabled: !hasWeakestCategory }),
+      createResultActionButton("Quiz nochmal starten", () => restartCurrentQuiz()),
+      createResultActionButton("Zur Auswahl", () => returnToQuizSelection())
+    );
   }
 
   function renderIncorrectAnswerReview(results) {
@@ -1108,6 +1159,7 @@
       note.textContent = `Stärkster Bereich: ${results.strongestCategory?.title || "Keine"}. Wiederholen: ${results.weakestCategory?.title || "Keine"}.`;
       categoryStats.appendChild(note);
     }
+    renderQuizResultActions(results);
     renderWeakTopicRecommendations(results);
     renderIncorrectAnswerReview(results);
     renderProgressChart(results.history);
@@ -1134,8 +1186,6 @@
   function initResultsModalControls() {
     const modal = $("#quiz-results-modal");
     const closeButton = $("#close-results");
-    const retryButton = $("#retry-same-quiz");
-    const chooseButton = $("#choose-new-category");
     if (closeButton) closeButton.addEventListener("click", () => hideResultsModal());
     if (modal) {
       modal.addEventListener("click", (event) => {
@@ -1145,8 +1195,6 @@
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") hideResultsModal();
     });
-    if (retryButton) retryButton.addEventListener("click", () => { hideResultsModal(); startQuiz(); });
-    if (chooseButton) chooseButton.addEventListener("click", () => { hideResultsModal(); showQuizStartPanel(); });
   }
 
   // Chart-Rendering: zeichnet den Antwortverlauf als lokales SVG.

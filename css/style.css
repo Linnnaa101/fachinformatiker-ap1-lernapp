@@ -444,6 +444,22 @@ h1 { max-width: 850px; margin: 0; font-size: clamp(2rem, 7vw, 4.5rem); line-heig
   margin: 0;
 }
 
+.quiz-result-actions {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent),
+    var(--surface);
+}
+
+.quiz-result-actions .button {
+  width: 100%;
+  justify-content: center;
+}
+
 .stat-box {
   display: grid;
   gap: 0.25rem;
@@ -842,6 +858,7 @@ pre { overflow-x: auto; padding: 1rem; border-radius: 0.8rem; background: var(--
   .main-nav { position: static; display: flex; flex-direction: row; margin-left: auto; padding: 0; border: 0; box-shadow: none; background: transparent; }
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .results-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .quiz-result-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .recommendation-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .category-result-header { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; }
   .category-result-percent { grid-column: auto; }
