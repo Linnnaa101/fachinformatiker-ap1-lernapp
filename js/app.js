@@ -19,6 +19,7 @@
     set(key, value) {
       try {
         window.localStorage.setItem(key, JSON.stringify(value));
+        notifySqlFundamentalsProgressChanged(key);
       } catch (error) {
         console.warn("localStorage konnte nicht gespeichert werden:", error);
       }
@@ -26,6 +27,7 @@
     remove(key) {
       try {
         window.localStorage.removeItem(key);
+        notifySqlFundamentalsProgressChanged(key);
       } catch (error) {
         console.warn("localStorage konnte nicht gelöscht werden:", error);
       }
@@ -115,6 +117,19 @@
       ],
       examples: ["SELECT name, punkte\nFROM kunden\nWHERE punkte >= 80\nORDER BY punkte DESC\nLIMIT 2;"]
     }
+  ];
+
+  const SQL_FUNDAMENTALS_PROGRESS_KEYS = [
+    "sqlQuestSolvedBeginnerLevels",
+    "solvedBeginnerLevels",
+    "beginnerSolvedLevels",
+    "completedBeginnerLevels",
+    "completedLevels",
+    "solvedLevels",
+    "levelProgress",
+    "sqlQuestProgress",
+    "ap1SqlQuestProgress",
+    LEARNING_PROGRESS_KEY
   ];
 
   const DEFAULT_LEARNING_PROGRESS = {
@@ -1339,6 +1354,14 @@
     return Math.round(value);
   }
 
+
+
+  function notifySqlFundamentalsProgressChanged(key) {
+    if (!SQL_FUNDAMENTALS_PROGRESS_KEYS.includes(key)) return;
+    if (!document.getElementById("sql-fundamentals-container")) return;
+
+    renderSqlFundamentals();
+  }
 
   function renderSqlFundamentals() {
     const container = $("#sql-fundamentals-container");
