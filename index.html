@@ -17,6 +17,7 @@
         <a href="#kapitel">Kapitel</a>
         <a href="#quiz">Quiz</a>
         <a href="#karteikarten">Karteikarten</a>
+        <a href="#sql-grundlagen">SQL-Grundlagen</a>
       </nav>
     </div>
   </header>
@@ -30,6 +31,7 @@
         <div class="hero-actions" aria-label="Schnellnavigation">
           <a class="button" href="#quiz">Quiz starten</a>
           <a class="button button-secondary" href="#kapitel">Themen ansehen</a>
+          <a class="button button-secondary" href="#sql-grundlagen">SQL-Grundlagen</a>
         </div>
       </div>
       <div class="hero-dashboard" aria-label="Lernapp-Highlights">
@@ -147,7 +149,10 @@
           <p id="incorrect-question-status" class="incorrect-question-status" aria-live="polite">Aktuell sind keine Fehler gespeichert.</p>
           <button id="reset-incorrect-questions" class="button button-secondary reset-incorrect-questions-button" type="button">Fehlerliste zurücksetzen</button>
         </div>
-        <button id="start-quiz" class="button" type="button">Quiz starten</button>
+        <div class="quiz-start-actions">
+          <button id="start-quiz" class="button" type="button">Quiz starten</button>
+          <a class="button button-secondary" href="#sql-grundlagen">SQL-Grundlagen</a>
+        </div>
       </article>
 
       <article id="quiz-card" class="quiz-card card is-hidden" aria-live="polite">
@@ -178,6 +183,7 @@
           <button id="next-question" class="button" type="button">Nächste Frage</button>
           <button id="restart-quiz" class="button button-secondary" type="button">Quiz neu starten</button>
           <button id="change-category" class="button button-secondary" type="button">Andere Kategorie wählen</button>
+          <a class="button button-secondary" href="#sql-grundlagen">SQL-Grundlagen</a>
         </div>
       </article>
 
@@ -205,6 +211,17 @@
 
       <!-- Zurück-nach-oben-Link für den Quizbereich -->
       <a class="button back-to-top-link" href="#top" aria-label="Zurück zum Seitenanfang">↑ Zurück nach oben</a>
+    </section>
+
+
+    <section id="sql-grundlagen" class="section sql-fundamentals-section" aria-labelledby="sql-fundamentals-title">
+      <div class="section-heading sql-fundamentals-heading">
+        <p class="eyebrow">Lernfortschritt</p>
+        <h2 id="sql-fundamentals-title">SQL-Grundlagen</h2>
+        <p id="sql-fundamentals-progress" class="sql-fundamentals-progress" aria-live="polite">Dein aktueller Lernstand: Kapitel 1 von 5</p>
+        <a class="button button-secondary" href="#quiz">← Zurück</a>
+      </div>
+      <div id="sql-fundamentals-container" class="sql-fundamentals-grid" aria-label="SQL-Grundlagen nach Lernfortschritt"></div>
     </section>
 
     <section id="karteikarten" class="section" aria-labelledby="flashcards-title">
