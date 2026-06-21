@@ -43,6 +43,80 @@
   const LEARNING_PROGRESS_KEY = "ap1LearningProgress";
   const INCORRECT_QUESTION_IDS_KEY = "ap1IncorrectQuestionIds";
   const RETRY_INCORRECT_CATEGORY_ID = "fehler-wiederholen";
+
+  const SQL_FUNDAMENTALS_CHAPTERS = [
+    {
+      title: "Grundlagen",
+      unlockLevel: 0,
+      paragraphs: [
+        "SQL ist eine Sprache, mit der du Daten aus Datenbanken abfragen kannst.",
+        "Eine Datenbank besteht aus Tabellen.",
+        "Eine Tabelle besteht aus Spalten und Zeilen.",
+        "In SQL Quest arbeitest du zuerst mit der Tabelle kunden.",
+        "SELECT sagt dir, welche Daten du sehen möchtest.",
+        "FROM sagt dir, aus welcher Tabelle die Daten kommen.",
+        "Das Sternchen * bedeutet: Zeige alle Spalten."
+      ],
+      examples: ["SELECT name\nFROM kunden;", "SELECT *\nFROM kunden;"]
+    },
+    {
+      title: "Filtern und Begrenzen",
+      unlockLevel: 5,
+      paragraphs: [
+        "WHERE filtert Daten.",
+        "Mit WHERE kannst du festlegen, welche Zeilen angezeigt werden sollen.",
+        "ORDER BY sortiert Ergebnisse.",
+        "LIMIT begrenzt die Anzahl der angezeigten Zeilen."
+      ],
+      examples: ["SELECT *\nFROM kunden\nWHERE stadt = 'Berlin';", "SELECT *\nFROM kunden\nORDER BY punkte DESC\nLIMIT 3;"]
+    },
+    {
+      title: "Bedingungen erweitern",
+      unlockLevel: 10,
+      paragraphs: [
+        "Mit Vergleichsoperatoren kannst du Werte vergleichen.",
+        "= bedeutet gleich.",
+        "> bedeutet größer als.",
+        "< bedeutet kleiner als.",
+        ">= bedeutet größer oder gleich.",
+        "<= bedeutet kleiner oder gleich.",
+        "AND bedeutet: Beide Bedingungen müssen erfüllt sein.",
+        "OR bedeutet: Mindestens eine Bedingung muss erfüllt sein.",
+        "NOT schließt bestimmte Werte aus."
+      ],
+      examples: ["SELECT *\nFROM kunden\nWHERE stadt = 'Berlin' AND punkte >= 100;", "SELECT *\nFROM kunden\nWHERE stadt = 'Berlin' OR stadt = 'Hamburg';"]
+    },
+    {
+      title: "Funktionen und eindeutige Werte",
+      unlockLevel: 15,
+      paragraphs: [
+        "SQL kann Daten auch zusammenfassen und berechnen.",
+        "COUNT zählt Zeilen.",
+        "SUM addiert Werte.",
+        "AVG berechnet einen Durchschnitt.",
+        "MIN sucht den kleinsten Wert.",
+        "MAX sucht den größten Wert.",
+        "DISTINCT entfernt doppelte Werte."
+      ],
+      examples: ["SELECT COUNT(*)\nFROM kunden;", "SELECT AVG(alter_jahre)\nFROM kunden;", "SELECT DISTINCT stadt\nFROM kunden;"]
+    },
+    {
+      title: "Abfragen kombinieren",
+      unlockLevel: 20,
+      paragraphs: [
+        "Du kannst mehrere SQL-Bausteine in einer Abfrage kombinieren.",
+        "Typischer Aufbau:",
+        "SELECT",
+        "FROM",
+        "WHERE",
+        "ORDER BY",
+        "LIMIT",
+        "Diese Abfrage wählt bestimmte Spalten aus, filtert Ergebnisse, sortiert sie und begrenzt die Ausgabe."
+      ],
+      examples: ["SELECT name, punkte\nFROM kunden\nWHERE punkte >= 80\nORDER BY punkte DESC\nLIMIT 2;"]
+    }
+  ];
+
   const DEFAULT_LEARNING_PROGRESS = {
     quizSessions: 0,
     bestScore: 0,
@@ -81,6 +155,8 @@
     renderFlashcard();
     initFlashcardControls();
     initResultsModalControls();
+    renderSqlFundamentals();
+    window.addEventListener("storage", renderSqlFundamentals);
   }
 
   function renderDataHealthStatus() {
@@ -1261,6 +1337,81 @@
   // Ergebnisberechnung: formatiert Prozentwerte ganzzahlig.
   function formatPercent(value) {
     return Math.round(value);
+  }
+
+
+  function renderSqlFundamentals() {
+    const container = $("#sql-fundamentals-container");
+    if (!container) return;
+
+    const unlockedChapter = getUnlockedSqlFundamentalsChapter();
+    setText("#sql-fundamentals-progress", `Dein aktueller Lernstand: Kapitel ${unlockedChapter} von ${SQL_FUNDAMENTALS_CHAPTERS.length}`);
+    container.innerHTML = "";
+
+    SQL_FUNDAMENTALS_CHAPTERS.forEach((chapter, index) => {
+      const chapterNumber = index + 1;
+      const isUnlocked = chapterNumber <= unlockedChapter;
+      const article = document.createElement("article");
+      article.className = `card sql-fundamentals-card${isUnlocked ? "" : " is-locked"}`;
+      article.setAttribute("aria-disabled", String(!isUnlocked));
+
+      if (!isUnlocked) {
+        article.innerHTML = `
+          <h3>Kapitel ${chapterNumber}: ${escapeHtml(chapter.title)}</h3>
+          <p class="sql-lock-note" aria-label="Gesperrt">🔒 Wird nach Level ${chapter.unlockLevel} freigeschaltet</p>
+        `;
+      } else {
+        article.innerHTML = `
+          <h3>Kapitel ${chapterNumber}: ${escapeHtml(chapter.title)}</h3>
+          <div class="sql-chapter-content">
+            ${chapter.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+            ${chapter.examples.map((example) => `<pre class="sql-example"><code>${escapeHtml(example)}</code></pre>`).join("")}
+          </div>
+        `;
+      }
+
+      container.appendChild(article);
+    });
+  }
+
+  function getUnlockedSqlFundamentalsChapter() {
+    const highestSolvedLevel = getHighestSolvedBeginnerLevel();
+    if (highestSolvedLevel >= 20) return 5;
+    if (highestSolvedLevel >= 15) return 4;
+    if (highestSolvedLevel >= 10) return 3;
+    if (highestSolvedLevel >= 5) return 2;
+    return 1;
+  }
+
+  function getHighestSolvedBeginnerLevel() {
+    const candidates = [
+      storage.get("sqlQuestSolvedBeginnerLevels", []),
+      storage.get("solvedBeginnerLevels", []),
+      storage.get("beginnerSolvedLevels", []),
+      storage.get("completedBeginnerLevels", []),
+      storage.get("completedLevels", []),
+      storage.get("solvedLevels", []),
+      storage.get("levelProgress", {}),
+      storage.get("sqlQuestProgress", {}),
+      storage.get("ap1SqlQuestProgress", {})
+    ];
+
+    return candidates.reduce((highestLevel, candidate) => Math.max(highestLevel, extractHighestSolvedLevel(candidate)), 0);
+  }
+
+  function extractHighestSolvedLevel(value) {
+    if (Array.isArray(value)) {
+      return value.reduce((highestLevel, item) => Math.max(highestLevel, extractHighestSolvedLevel(item)), 0);
+    }
+    if (value && typeof value === "object") {
+      return Object.entries(value).reduce((highestLevel, [key, entry]) => {
+        const solved = entry === true || entry === "solved" || entry === "completed" || (entry && typeof entry === "object" && (entry.solved || entry.completed || entry.isSolved));
+        const levelFromEntry = entry && typeof entry === "object" ? Number(entry.level || entry.levelNumber || entry.id || key) : Number(key);
+        return solved && Number.isFinite(levelFromEntry) ? Math.max(highestLevel, levelFromEntry) : highestLevel;
+      }, 0);
+    }
+    const numericLevel = Number(value);
+    return Number.isFinite(numericLevel) ? numericLevel : 0;
   }
 
   function renderFlashcard() {
